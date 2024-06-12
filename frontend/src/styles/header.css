@@ -1,0 +1,48 @@
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 0;
+}
+
+.header-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+}
+
+.button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+.button.logout {
+  background-color: #dc3545;
+}
+
+.navigation {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 20px;
+}
+
+.navigation a {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 15px;
+}
+
+.right-buttons {
+  display: flex;
+}

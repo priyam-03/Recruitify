@@ -1,0 +1,53 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "proxy": "http://localhost:4000",
+  "dependencies": {
+    "@emotion/react": "^11.10.8",
+    "@emotion/styled": "^11.10.8",
+    "@hookform/resolvers": "^2.9.11",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.12.2",
+    "@reduxjs/toolkit": "^1.9.3",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^0.27.2",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-hook-form": "^7.43.5",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.8.2",
+    "react-scripts": "5.0.1",
+    "redux-persist": "^6.0.0",
+    "simple-peer": "^9.11.1",
+    "socket.io-client": "^4.6.1",
+    "web-vitals": "^2.1.4",
+    "yup": "^1.0.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

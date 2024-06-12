@@ -1,0 +1,94 @@
+/* App.css */
+
+/* Global styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #1a1a1a; /* Black background */
+  color: #fff; /* White text */
+}
+
+.container {
+  /* max-width: 1200px; */
+  margin: 0 auto;
+  /* padding: 0 20px; */
+}
+
+.content {
+  /* padding-top: 20px; */
+}
+
+/* Header styles */
+header {
+  background-color: #333; /* Dark gray header background */
+  color: #fff; /* White text */
+  /* padding: 10px 0; */
+}
+
+.header-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* padding: 0 20px; */
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+}
+
+.button {
+  background-color: transparent;
+  color: #fff;
+  border: 2px solid #fff; /* White border */
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  margin-right: 10px;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.button:hover {
+  background-color: #fff; /* White background on hover */
+  color: #333; /* Dark gray text on hover */
+}
+
+.navigation {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 20px;
+}
+
+.navigation a {
+  color: #fff; /* White text for navigation links */
+  text-decoration: none;
+  padding: 10px 15px;
+  transition: color 0.3s;
+}
+
+.navigation a:hover {
+  color: #ccc; /* Light gray text on hover */
+}
+
+.right-buttons {
+  display: flex;
+}
+
+/* AlertNotification styles */
+.alert {
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.alert-success {
+  background-color: #28a745; /* Green background for success alert */
+  color: #fff; /* White text */
+}
+
+.alert-error {
+  background-color: #dc3545; /* Red background for error alert */
+  color: #fff; /* White text */
+}
