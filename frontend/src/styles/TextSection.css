@@ -1,0 +1,54 @@
+.text-box {
+    padding: 5px;
+}
+
+.written-text {
+    margin: 2px;
+    width: 100%;
+    color: white;
+    background-color: #1e1d1d;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+    min-height: 200px;
+    max-height: 200px;
+    min-width: 500px;
+    max-width: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-color: #111;
+    resize: none;
+}
+
+.input-bar {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    width: 100%;
+    width: 510px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.create-post-form input[type="text"] {
+    width: 100%;
+    color: white;
+    background-color: #0c0c0c;
+    padding: 10px;
+    margin-right: 2px;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+    min-height: 20px;
+    max-height: 40px;
+    width: 470px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-color: #111;
+    resize: none;
+}
+
+.create-post-form input[type="text"]::placeholder {
+    color: #999;
+}

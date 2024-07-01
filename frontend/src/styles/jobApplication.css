@@ -1,0 +1,120 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.job-container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    height: 100vh;
+    width: 100vw;
+    overflow:auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.job-container ::-webkit-scrollbar {
+    display: none;
+    /* Hide scrollbar for WebKit-based browsers */
+}
+
+
+.job-left-column,
+.job-right-column {
+    padding: 20px;
+    overflow-y: auto;
+    /* Ensures content can scroll if it overflows the viewport */
+}
+
+.job-left-column {
+    width: 25%;
+    background-color: #202020;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* Space between buttons */
+}
+
+.job-right-column {
+    width: 75%;
+    background-color: #242323;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.job-button {
+    display: block;
+    margin: 10px 0;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+
+.job-header {
+    margin-bottom: 20px;
+}
+
+.job-welcome {
+    margin: 0;
+}
+
+.job-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.job-info {
+    margin-bottom: 20px;
+}
+
+.job-content {
+    padding: 20px;
+    background-color: #202020;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.job-left-column-buttons {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(45deg, #007bff, #00d4ff);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.job-left-column-buttons:hover {
+    background: linear-gradient(45deg, #0056b3, #009acd);
+    color: rgb(174, 168, 168);
+    transform: translateY(-2px);
+}
+
+/* .profile-left-column-buttons:active {
+    transform: translateY(1px);
+    color:rgb(174, 168, 168);
+    background-color: linear-gradient(45deg, #004690, #00d4ff);;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  } */
+
+/* Active button style */
+.job-left-column-buttons.active {
+    background: linear-gradient(45deg, #013368, #00d4ff);
+    color: #ffffff;
+}

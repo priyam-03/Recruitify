@@ -152,3 +152,9 @@ export const getGroup = async () => {
 //     responseCode === 401 || responseCode === 403;
 //   }
 // };
+
+const api = axios.create({
+  baseURL: '/api', 
+});
+
+export default api;

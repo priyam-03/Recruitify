@@ -14,11 +14,13 @@ import * as roomHandler from "./roomHandler";
 import * as webRTCHandler from "./webRTCHandler";
 
 let socket = null;
+
 export const connectWithSocketServer = (userInfo) => {
   const jwtToken = userInfo.token;
-
+  const connection_url = "http://192.168.29.143:4000/" || "http://127.0.0.1:4000/"
+  // Update this URL with your server's local network IP
   socket = io(
-    "http://localhost:4000/",
+    connection_url,
     {
       auth: {
         token: jwtToken,
@@ -28,9 +30,11 @@ export const connectWithSocketServer = (userInfo) => {
       autoConnect: false,
     }
   );
+
   console.log("called__new user added clientside");
+
   socket.on("connect", () => {
-    console.log("succesfully connected with socket.io server");
+    console.log("successfully connected with socket.io server");
     console.log(socket.id);
   });
 
@@ -42,7 +46,6 @@ export const connectWithSocketServer = (userInfo) => {
 
   socket.on("online-users", (data) => {
     const { onlineUsers } = data;
-
     store.dispatch(setOnlineUsers(onlineUsers));
   });
 
@@ -50,14 +53,17 @@ export const connectWithSocketServer = (userInfo) => {
     console.log(data);
     UpdateDirectChatHistoryIfActive(data);
   });
+
   socket.on("group-chat-history", (data) => {
     console.log(data);
     UpdateGroupChatHistoryIfActive(data);
   });
+
   socket.on("friends-invitations", (data) => {
     const { pendingInvitations } = data;
     store.dispatch(setPendingFriendsInvitations(pendingInvitations));
   });
+
   socket.on("room-create", (data) => {
     roomHandler.newRoomCreated(data);
   });
@@ -93,6 +99,7 @@ export const sendDirectMessage = (data) => {
     socket.emit("direct-message", data);
   }
 };
+
 export const sendGroupMessage = (data) => {
   if (socket) {
     console.log(data);
@@ -106,6 +113,7 @@ export const getDirectChatHistory = (data) => {
     socket.emit("direct-chat-history", data);
   }
 };
+
 export const getGroupChatHistory = (data) => {
   if (socket) {
     socket.emit("group-chat-history", data);
@@ -117,18 +125,27 @@ export const disconnect = () => {
     socket.disconnect();
   }
 };
+
 export const createNewRoom = () => {
-  socket.emit("room-create");
+  if (socket) {
+    socket.emit("room-create");
+  }
 };
 
 export const joinRoom = (data) => {
-  socket.emit("room-join", data);
+  if (socket) {
+    socket.emit("room-join", data);
+  }
 };
 
 export const leaveRoom = (data) => {
-  socket.emit("room-leave", data);
+  if (socket) {
+    socket.emit("room-leave", data);
+  }
 };
 
 export const signalPeerData = (data) => {
-  socket.emit("conn-signal", data);
+  if (socket) {
+    socket.emit("conn-signal", data);
+  }
 };

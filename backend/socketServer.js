@@ -15,11 +15,13 @@ const serverStore = require("./serverStore");
 const registerSocketServer = (server) => {
   const io = require("socket.io")(server, {
     cors: {
-      origin: "http://localhost:3000",
+      origin: process.env.CLIENT_URL || "http://localhost:3000",
       credentials: true,
       methods: ["GET", "POST"],
     },
   });
+  const temp = process.env.CLIENT_URL || "http://localhost:3000";
+  console.log("client URl == "+ temp);
 
   serverStore.setSocketServerInstance(io);
 
@@ -56,11 +58,13 @@ const registerSocketServer = (server) => {
       console.log(data);
       groupMessageHandler(socket, data);
     });
+
     socket.on("group-chat-history", (data) => {
       console.log("object4");
       console.log(data);
       groupChatHistoryHandler(socket, data);
     });
+
     socket.on("room-create", () => {
       roomCreateHandler(socket);
     });
@@ -80,6 +84,7 @@ const registerSocketServer = (server) => {
     socket.on("conn-signal", (data) => {
       roomSignalingDataHandler(socket, data);
     });
+
     socket.on("disconnect", () => {
       disconnectHandler(socket);
     });
@@ -87,7 +92,7 @@ const registerSocketServer = (server) => {
 
   setInterval(() => {
     emitOnlineUsers();
-  }, [1000 * 8]);
+  }, 1000 * 8);
 };
 
 module.exports = {

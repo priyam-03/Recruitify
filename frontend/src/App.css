@@ -7,7 +7,16 @@ body {
   padding: 0;
   background-color: #1a1a1a; /* Black background */
   color: #fff; /* White text */
+  overflow-y: auto;
 }
+html{
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar {
+  display: none;
+}
+
 
 .container {
   /* max-width: 1200px; */

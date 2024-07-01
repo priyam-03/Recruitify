@@ -87,6 +87,7 @@ export const profile = createAsyncThunk(
     }
   }
 );
+
 export const updateProfile = createAsyncThunk(
   "user/updateprofile",
   async ({ name, email, password, file }, { rejectWithValue }) => {

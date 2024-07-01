@@ -1,0 +1,108 @@
+.jobform-page {
+    padding: 10px;
+}
+
+.job-forms-heading {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.jobform-container {
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.job-form-box {
+    margin-bottom: 1rem;
+    background-color: #080e1b;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.avatar-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    margin-right: 0.5rem;
+}
+
+.owner-name {
+    color: white;
+}
+
+.job-role,
+.job-description {
+    color: white;
+    margin-bottom: 0.5rem;
+    display: flex;
+}
+
+.job-label {
+    width: 30%;
+}
+
+.job-texts {
+    background-color: #1d4293;
+    width: 60%;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.user-details-section {
+    margin-top: 1rem;
+}
+
+.user-details-heading {
+    color: white;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.details-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.detail-label {
+    color: white;
+    width: 30%;
+}
+
+.detail-value {
+    width: 60%;
+    font-size: 1rem;
+    padding: 0.5rem;
+    background-color: #1d4293;
+    border: none;
+    border-radius: 5px;
+    color: rgb(255, 253, 253); /* Adjust text color as needed */
+}
+.no-more-jobs {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.show-applicant-box{
+    padding: 4px;
+}
+.applicant{
+    margin-top: 5px;
+    padding: 10px;
+    border-radius: 7px;
+    background-color: #0e1c3b;
+}
