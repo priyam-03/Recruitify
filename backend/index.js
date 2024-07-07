@@ -25,7 +25,9 @@ app.use(
 );
 // app.set("trust proxy", 10);
 // Route Imports
-
+app.get('/',(req,res)=>{
+  res.send("Recruitify Api is working");
+})
 const user = require("./routes/userRoute");
 const friendInvitationRoutes = require("./routes/friendInvitationRoutes");
 app.use("/api/v1", user);
