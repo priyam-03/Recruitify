@@ -29,7 +29,7 @@ app.use(
 const user = require("./routes/userRoute");
 const group = require("./routes/groupRoutes");
 const friendInvitationRoutes = require("./routes/friendInvitationRoutes");
-const posts = require("./routes/postsRouter");
+const posts = require("./routes/postRouter");
 const jobs = require('./routes/jobsRouter');
 
 app.use("/api/v1", user);

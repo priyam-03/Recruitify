@@ -58,7 +58,7 @@ import SkillForm from "../User/skillsForm";
 import LinkForm from "../User/linkForm";
 
 const ProfileScreen = () => {
-  const [activeSection, setActiveSection] = useState('posts');
+  const [activeSection, setActiveSection] = useState('education');
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
 

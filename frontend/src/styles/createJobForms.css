@@ -1,0 +1,125 @@
+.create-form-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.create-select, .create-desc-form-control, .create-form-control, .create-skills-form-control {
+    margin-bottom: 15px;
+}
+
+.create-desc-form-control{
+    width: 90%;
+    padding: 10px;
+}
+
+.create-form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: white;
+}
+.create-preview-label{
+    color: #fafafa;
+}
+
+.create-role-loc-form, .create-form-select, .create-desc-form-textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.create-desc-form-textarea{
+    padding: 5px;
+    height: 200px;
+    resize: none;
+}
+
+.create-requiredskills-flex {
+    display: flex;
+    align-items: center;
+}
+
+.create-add-skill-button {
+    cursor: pointer;
+    color: #f6f6f6;
+    margin-left: 10px;
+}
+
+.create-form-selectedSkills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.create-form-selected-skill {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+
+.create-form-selected-skill-text {
+    margin-right: 10px;
+    color: #000000;
+
+}
+
+.create-remove-skill {
+    cursor: pointer;
+    color: rgb(7, 6, 6);
+}
+
+.create-button-container {
+    display: flex;
+    gap: 10px;
+}
+
+.create-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.create-button:hover {
+    background-color: #0056b3;
+}
+
+.create-preview-container {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #0c2760;
+}
+
+.create-preview-heading {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+.create-preview-value{
+    color: #f1f5f9;
+}
+
+.create-preview-field {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ccc;
+}
+
+.create-preview-label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.create-preview-value {
+    display: block;
+    font-size: 16px;
+}

@@ -1,0 +1,222 @@
+.formbyidPage {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.avatarSection,
+.jobDescSection,
+.applicantsSection {
+    padding: 10px;
+}
+
+.avatarSection {
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.jobDescSection {
+    flex-grow: 1;
+    background-color: rgb(37, 37, 38);
+    padding: 10px;
+    color: white;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.applicantsSection {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 5%;
+    object-fit: cover;
+}
+
+.ownerName,
+.ownerEmail {
+    display: block;
+    margin-top: 10px;
+    font-size: 1.2em;
+    color: white;
+    text-align: center;
+    background-color: rgb(31, 31, 32);
+    padding: 5px;
+    border-radius: 3px;
+    width: calc(100% - 20px);
+    text-align: center;
+}
+
+.ownerEmail {
+    font-size: 1em;
+}
+
+.jobRole,
+.jobCompany,
+.jobLocation,
+.jobLocationType,
+.workingHours {
+    width: 95%;
+    height: 60px;
+    padding: 10px;
+    background-color: rgb(33, 33, 33);
+    margin-bottom: 10px;
+    align-items: center;
+    display: flex;
+    border-radius: 3px;
+}
+
+.jobRole {
+    font-size: 1.5rem;
+}
+
+.jobMislanious {
+    width: 95%;
+    padding: 10px;
+    background-color: rgb(33, 33, 33);
+    margin-bottom: 10px;
+    align-items: center;
+    display: flex;
+    border-radius: 3px;
+}
+
+.jobDescription {
+    width: 95%;
+    height: 250px;
+    padding: 10px;
+    background-color: rgb(33, 33, 33);
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 3px;
+}
+
+.jobDescHeading {
+    font-size: 1.2rem;
+}
+
+.jobTexts {
+    margin-left: 5px;
+    margin-top: 5px;
+    padding: 5px;
+    font-size: 1.1rem;
+
+}
+
+.jobDescTexts {
+    font-size: 15px;
+    padding: 10px;
+    background-color: rgba(24, 24, 24, 0.36);
+    border: none;
+    border-radius: 5px;
+    resize: none;
+    height: 100%;
+    color: white;
+    overflow-y: auto;
+}
+
+.jobSkills {
+    background-color: rgb(33, 33, 33);
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    width: 95%;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.arrowLeft,
+.arrowRight {
+    position: absolute;
+    color: white;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.arrowLeft {
+    left: 10px;
+}
+
+.arrowRight {
+    right: 10px;
+}
+
+.skillsContainer {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+}
+
+.jobSkill {
+    background-color: rgb(72, 70, 70);
+    color: rgb(255, 255, 255);
+    width: 100px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    margin: 3px;
+    border-radius: 3px;
+}
+
+.applyButton {
+    background-color: rgb(5, 37, 152);
+    padding: 15px;
+    color: rgb(255, 255, 255);
+    width: 100px;
+    margin: 0px 20px 10px 20px;
+    border: none;
+    border-radius: 5px;
+}
+
+.applicantsSection {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.applicantAvatarSection {
+    display: flex;
+    align-items: center;
+    width: 95%;
+    background-color: rgb(50, 50, 50);
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5), 0px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+
+.applicantAvatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    
+}
+
+.applicantsSection .applicantOwnerName {
+    margin: 5px;
+    font-size: 1.3rem;
+    width:95%;
+    cursor: pointer;
+}
+
+.applicantsSection .jobFormDropdown {
+    cursor: pointer;
+}

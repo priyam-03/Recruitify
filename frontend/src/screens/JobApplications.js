@@ -5,14 +5,14 @@ import CreateJob from '../Jobs/CreateJobs';
 import JobForms from '../Jobs/JobForm';
 import { useSelector } from 'react-redux';
 const JobApplicationPage = () => {
-    const [activeSection, setActiveSection] = useState('');
+    const [activeSection, setActiveSection] = useState('my-jobs');
     const { userInfo } = useSelector((state) => state.auth);
     const renderContent = () => {
         switch (activeSection) {
             case 'create-job':
                 return <CreateJob/>;
             case 'my-jobs':
-                return <JobForms id={userInfo.user._id} type=''/>;
+                return <JobForms type={'my'}/>;
             case 'all-jobs':
                 return  <JobForms type={'all'}/>;
             default:
@@ -52,6 +52,7 @@ const JobApplicationPage = () => {
                             {renderContent()}
                         </div>
                     </div>
+
                 </>
             }
         </div>

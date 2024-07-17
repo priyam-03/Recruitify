@@ -20,6 +20,7 @@ import Cluster from "./Cluster/Cluster";
 import Group from "./Group/Group";
 import "./App.css";
 import JobApplicationPage from "./screens/JobApplications";
+import FormById from "./Jobs/FormById";
 
 function App() {
   return (
@@ -44,11 +45,13 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/cluster" element={<Cluster />} />
               <Route path="/group" element={<Group />} />
+              <Route path="/Jobs/:formId" element={<FormById/>}/>
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
       </Router>
+
       <AlertNotification />
     </>
   );

@@ -1,128 +1,227 @@
-import { useState } from 'react';
-import {
-    Box,
-    Button,
-    FormControl,
-    FormLabel,
-    Input,
-    Stack,
-    Textarea,
-    Heading,
-    Flex,
-} from '@chakra-ui/react';
-import '../styles/education.css'; // Import the CSS file
+import React, { useState } from 'react';
+import styles from '../styles/education.module.css';
+import { useDispatch } from 'react-redux';
+import { updateEducation } from '../store/slices/profileSlices';
+import Checkbox from '@mui/material/Checkbox';
+import FreeSolo from '../shared/components/FreeSolo'; 
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+
+const top10Universities = [
+    'Indian Institute of Technology Kharagpur',
+    'Jadavpur University',
+    'University of Calcutta',
+    'Visva-Bharati University',
+    'West Bengal University of Technology',
+    'Presidency University',
+    'Bengal Engineering and Science University',
+    'University of Burdwan',
+    'North Bengal University',
+    'Rabindra Bharati University',
+];
+
+const specializationList = [
+    'Computer Science and Engineering',
+    'Mechanical Engineering',
+    'Electrical Engineering',
+    'Civil Engineering',
+    'Aerospace Engineering',
+    'Biomedical Engineering',
+    'Chemical Engineering',
+    'Environmental Engineering',
+    'Industrial Engineering',
+    'Materials Science and Engineering',
+];
+
+const yearList = [
+    '2012',
+    '2013',
+    '2014',
+    '2015',
+    '2016',
+    '2017',
+    '2018',
+    '2019',
+    '2020',
+    '2021',
+];
+
+const designationList = [
+    'School Student',
+    'Bachelor Student',
+    'Masters Student',
+    'PHD Student',
+];
 
 const EducationForm = () => {
-    const [educationInfo, setEducationInfo] = useState({
-        school: 'BMHS',
-        college: 'JU',
-        specialization: 'CSE',
-        cgpa: '7.7',
-        otherInfo: 'N/A',
-    });
+    const dispatch = useDispatch();
 
-    const [activeEdit,setActiveEdit] = useState(false);
-    const toogleEditButton = () =>{
-        setActiveEdit(!activeEdit);
-    }
-
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setEducationInfo((prevInfo) => ({
-            ...prevInfo,
-            [name]: value,
-        }));
+    const initialEducationInfo = {
+        institution: '',
+        specialization: '',
+        designation: '',
+        gpa: '',
+        otherInfo: '',
+        timestrap: {
+            isCurrent: false,
+            start_year: '',
+            end_year: '',
+        },
     };
 
+    const [educationInfo, setEducationInfo] = useState({ ...initialEducationInfo });
+    const [active, setActive] = useState(false);
+
+   
+
+    // Handle input changes
+    const handleChange = ({ name, value, checked }) => {
+        if (name === 'isCurrent') {
+            setEducationInfo((prevInfo) => ({
+                ...prevInfo,
+                timestrap: {
+                    ...prevInfo.timestrap,
+                    isCurrent: checked,
+                },
+            }));
+        } else if (name === 'start_year' || name === 'end_year') {
+            setEducationInfo((prevInfo) => ({
+                ...prevInfo,
+                timestrap: {
+                    ...prevInfo.timestrap,
+                    [name]: value,
+                },
+            }));
+        } else {
+            setEducationInfo((prevInfo) => ({
+                ...prevInfo,
+                [name]: value,
+            }));
+        }
+    };
+
+    // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(educationInfo);
-        setEducationInfo({
-            school: '',
-            college: '',
-            specialization: '',
-            cgpa: '',
-            otherInfo: '',
-        });
+
+        // Dispatch action to update education info in Redux store
+        dispatch(updateEducation(educationInfo));
+
+        // Reset form fields and toggle edit mode
+        setEducationInfo({ ...initialEducationInfo });
+        setActive(!active);
     };
 
     return (
-        <Box p={4} padding={5}>
-            <Heading as="h2" size="lg" mb={4}>
-                Education Information
-            </Heading>
-            <form onSubmit={handleSubmit} className='form'>
-                <Stack spacing={4}>
-                <Flex className='flex-container'> {!activeEdit && <button onClick={toogleEditButton} className='edit-button'>Edit</button>}</Flex>
-                    <FormControl className='formcontrol'>
-                        <Flex className='form-flex' flexDir={'row'}>
-                            <FormLabel className='formlabel' >School</FormLabel>
-                            <Input
-                                className='input-box'
-                                type="text"
-                                placeholder="Enter Your School"
-                                name="school"
-                                value={educationInfo.school}
-                                onChange={handleChange}
+        <div className={styles.container}>
+            <h2 className={styles.heading}>Education Information</h2>
+            {active===true ?
+                (<form  className={styles.form}>
+                    <div className={styles.formControl}>
+                        <div className={styles.formFlex}>
+                            <FreeSolo
+                                options={top10Universities}
+                                label={'Institutions'}
+                                value={educationInfo.institution}
+                                name="institution"
+                                handleChange={handleChange}
                             />
-                        </Flex>
-                    </FormControl>
-                    <FormControl className='formcontrol'>
-                        <Flex className='form-flex' flexDir={'row'}>
-                            <FormLabel className='formlabel' >College</FormLabel>
-                            <Input
-                                className='input-box'
-                                type="text"
-                                placeholder="Enter Your College"
-                                name="college"
-                                value={educationInfo.college}
-                                onChange={handleChange}
-                            />
-                        </Flex>
-                    </FormControl>
-                    <FormControl className='formcontrol'>
-                        <Flex className='form-flex' flexDir={'row'}>
-                            <FormLabel className='formlabel' >Specialization</FormLabel>
-                            <Input
-                                className='input-box'
-                                type="text"
-                                placeholder="Enter Your Specialization"
-                                name="specialization"
+                        </div>
+                    </div>
+                    <div className={styles.formControl}>
+                        <div className={styles.formFlex}>
+                            <FreeSolo
+                                options={specializationList}
+                                label={'Specialization'}
                                 value={educationInfo.specialization}
-                                onChange={handleChange}
+                                name="specialization"
+                                handleChange={handleChange}
                             />
-                        </Flex>
-                    </FormControl>
-                    <FormControl className='formcontrol'>
-                        <Flex className='form-flex' flexDir={'row'}>
-                            <FormLabel className='formlabel'>CGPA/Percentage</FormLabel>
-                            <Input
-                                className='input-box'
+                        </div>
+                    </div>
+                    <div className={styles.formControl}>
+                        <div className={styles.formFlex}>
+                            <FreeSolo
+                                options={designationList}
+                                label={'Designation'}
+                                value={educationInfo.designation}
+                                name="designation"
+                                handleChange={handleChange}
+                            />
+                        </div>
+                    </div>
+                    <div className={styles.formControl}>
+                        <div className={styles.formFlex}>
+                            <label className={styles.formLabel}>CGPA/Percentage</label>
+                            <input
+                                className={styles.inputBox}
                                 type="text"
                                 placeholder="Enter Your CGPA/Percentage"
-                                name="cgpa"
-                                value={educationInfo.cgpa}
-                                onChange={handleChange}
+                                name="gpa"
+                                value={educationInfo.gpa}
+                                onChange={(e) => handleChange({ name: e.target.name, value: e.target.value })}
                             />
-                        </Flex>
-                    </FormControl>
-                    <FormControl className='formcontrol'>
-                        <Flex className='form-flex' flexDir={'row'}>
-                            <FormLabel className='formlabel'>Other Information</FormLabel>
-                            <Textarea
-                                className='input-box'
+                        </div>
+                    </div>
+                    <div className={styles.formControl}>
+                        <div className={styles.formFlex}>
+                            <label className={styles.formLabel}>Other Information</label>
+                            <input
+                                className={styles.inputBox}
                                 placeholder="Enter any other information"
                                 name="otherInfo"
                                 value={educationInfo.otherInfo}
-                                onChange={handleChange}
+                                onChange={(e) => handleChange({ name: e.target.name, value: e.target.value })}
                             />
-                        </Flex>
-                    </FormControl>
-                    <Flex className='flex-container'>{activeEdit && <button onClick={toogleEditButton} className='save-button'>Apply Changes</button>}</Flex>
-                </Stack>
-            </form>
-        </Box>
+                        </div>
+                    </div>
+                    <div className={styles.timestrap}>
+                        <div className={styles.years_start_end}>
+                            <div className={styles.formFlex}>
+                                <FreeSolo
+                                    options={yearList}
+                                    label={'Year Start'}
+                                    value={educationInfo.timestrap.start_year}
+                                    name="start_year"
+                                    handleChange={handleChange}
+                                />
+                            </div>
+                        </div>
+                        <div className={styles.years_start_end}>
+                            <div className={styles.formFlex}>
+                                <FreeSolo
+                                    options={yearList}
+                                    label={'Year End'}
+                                    value={educationInfo.timestrap.end_year}
+                                    name="end_year"
+                                    handleChange={handleChange}
+                                />
+                            </div>
+                        </div>
+                        <div className={styles.years_start_end}>
+                            <div className={styles.formFlex}>
+                                <Checkbox
+                                    checked={educationInfo.timestrap.isCurrent}
+                                    onChange={(e) => handleChange({ name: e.target.name, checked: e.target.checked })}
+                                    name="isCurrent"
+                                />
+                                <span>Current?</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={styles.flexContainer}>
+                        <button type="cancel" className={styles.button} onClick={()=>setActive(!active)}>
+                            Cancel
+                        </button>
+                        <button type="submit" className={styles.button} onClick={handleSubmit}>
+                            Apply Changes
+                        </button>
+                    </div>
+                </form>) :
+                (<div className={styles.addEducation}>
+                    <AddCircleOutlineIcon className ={styles.addCircleOutlineIcon} onClick={()=>setActive(!active)}/> <text className={styles.addEducationText}>Add new Education Information</text>
+                </div>)
+            }
+        </div>
     );
 };
 

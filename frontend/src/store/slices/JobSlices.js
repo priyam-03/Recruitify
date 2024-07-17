@@ -5,35 +5,59 @@ const config = {
     headers: {
         "content-type": "application/json",
     },
+    withCredentials: true,
 };
 
 export const createJobForms = createAsyncThunk('jobs/createJobForms', async (content, { rejectWithValue }) => {
     try {
-        const response = await axios.post('/api/jobs/createJobForm', content, { withCredentials: true }, config);
+        const response = await axios.post('/api/jobs/createJobForm', content, config);
         return response.data;
     } catch (exception) {
-        return rejectWithValue(exception.response.data || exception.message);
+        return rejectWithValue(exception.response?.data || exception.message);
     }
 });
 
-export const fetchJobForms = createAsyncThunk("jobs/fetchJobForms", async (id, { rejectWithValue }) => {
+export const fetchMyJobForms = createAsyncThunk("jobs/fetchMyJobForms", async (_, { rejectWithValue }) => {
     try {
-        const response = await axios.get(`/api/jobs/fetchJobForms/${id}`, { withCredentials: true }, config);
+        const response = await axios.get(`/api/jobs/fetchMyJobForms`, config);
         if (response.data.error === "Forms not found") {
             return rejectWithValue('No Jobs available.');
         }
         return response.data;
     } catch (exception) {
-        return rejectWithValue(exception.response.data || exception.message);
+        return rejectWithValue(exception.response?.data || exception.message);
     }
 });
 
-export const applyForJob = createAsyncThunk("jobs/applyForJob", async ({ userId, formId, userDetails }, { rejectWithValue }) => {
+export const fetchAllJobForms = createAsyncThunk("jobs/fetchAllJobForms",async(_,{rejectWithValue})=>{
     try {
-        const response = await axios.post('/api/jobs/applyForJob', { userId, formId, userDetails }, { withCredentials: true }, config);
+        const response = await axios.get(`/api/jobs/fetchAllJobForms`, config);
+        if (response.data.error === "Forms not found") {
+            return rejectWithValue('No Jobs available.');
+        }
         return response.data;
     } catch (exception) {
-        return rejectWithValue(exception.response.data || exception.message);
+        return rejectWithValue(exception.response?.data || exception.message);
+    }
+})
+
+
+export const fetchJobById = createAsyncThunk('jobs/fetchJobById',async (formId, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(`/api/jobs/fetchJobById/${formId}`,config);
+            return response.data;
+        } catch (exception) {
+            return rejectWithValue(exception.response?.data || exception.message);
+        }
+    }
+);
+
+export const applyForJob = createAsyncThunk("jobs/applyForJob", async (formId, { rejectWithValue }) => {
+    try {
+        const response = await axios.put(`/api/jobs/applyForJob`,{formId:formId},config);
+        return response.data;
+    } catch (exception) {
+        return rejectWithValue(exception.response?.data || exception.message);
     }
 });
 
@@ -41,9 +65,11 @@ const JobSlice = createSlice({
     name: 'jobs',
     initialState: {
         isLoading: false,
-        data: [],
+        allJobForms: [],
+        myJobForms:[],
+        jobFormById: {},
         isError: false,
-        message:'',
+        message: '',
         errorMessage: '',
     },
     reducers: {},
@@ -54,21 +80,45 @@ const JobSlice = createSlice({
             })
             .addCase(createJobForms.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.data = action.payload;
+                state.myJobForms.push(action.payload);
             })
             .addCase(createJobForms.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.errorMessage = action.payload;
             })
-            .addCase(fetchJobForms.pending, (state) => {
+            .addCase(fetchMyJobForms.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(fetchJobForms.fulfilled, (state, action) => {
+            .addCase(fetchMyJobForms.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.data = action.payload;
+                state.myJobForms = action.payload;
             })
-            .addCase(fetchJobForms.rejected, (state, action) => {
+            .addCase(fetchMyJobForms.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.errorMessage = action.payload;
+            })
+            .addCase(fetchAllJobForms.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(fetchAllJobForms.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.allJobForms = action.payload;
+            })
+            .addCase(fetchAllJobForms.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.errorMessage = action.payload;
+            })
+            .addCase(fetchJobById.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(fetchJobById.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.jobFormById = action.payload;
+            })
+            .addCase(fetchJobById.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.errorMessage = action.payload;
@@ -78,8 +128,7 @@ const JobSlice = createSlice({
             })
             .addCase(applyForJob.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.data = action.payload;
-                state.message = "Successfully Applied.."
+                state.message = "Successfully Applied..";
             })
             .addCase(applyForJob.rejected, (state, action) => {
                 state.isLoading = false;
