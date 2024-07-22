@@ -7,12 +7,13 @@
 /frontend/.pnp
 /frontend/.pnp.js
 
+
 # testing
 /frontend/coverage
 
 # production
 
-
+/backend/uploads
 # misc
 /secret.env
 /frontend/.DS_Store
