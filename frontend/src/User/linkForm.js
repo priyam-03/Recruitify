@@ -1,14 +1,21 @@
 import { FormControl, FormLabel, Input, Select, Flex, Box, Button, Text, Image } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import '../styles/links.css';
+import { useDispatch, useSelector } from "react-redux";
+import { addLink, fetchLinks } from "../store/slices/profileSlices";
 
 const LinkForm = () => {
-    const fields = ['git-hub', 'linked-in'];
-    const [links, setLinks] = useState([]);
+    const fields = ['github', 'linkedIn'];
+    const links = useSelector((state) => state.profile.links);
+    const dispatch = useDispatch();
     const [newLink, setNewLink] = useState({
         field: '',
         link: '',
     });
+
+    useEffect(() => {
+        dispatch(fetchLinks()); // Fetch links instead of skills
+    }, [dispatch]);
 
     const handleFieldChange = (event) => {
         const newField = event.target.value;
@@ -27,7 +34,7 @@ const LinkForm = () => {
     };
 
     const handleAddLink = () => {
-        setLinks((prevLinks) => [...prevLinks, newLink]);
+        dispatch(addLink(newLink));
         setNewLink({ field: '', link: '' });
     };
 
@@ -71,11 +78,11 @@ const LinkForm = () => {
 
             <Box mt="6">
                 <Flex flexDir="row" justifyContent="center" cursor={"pointer"}>
-                    {links.map((linkItem, index) => (
+                    {links.length > 0 && links.map((linkItem, index) => (
                         <Box key={index} width="40px" height="40px" margin={"20px"}>
                             <a href={linkItem.link} target="_blank" rel="noopener noreferrer">
-                                <Image 
-                                    src={linkItem.field === 'git-hub' ? 'https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_1280.png' : 'https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png'}
+                                <Image
+                                    src={linkItem.field === 'github' ? 'https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_1280.png' : 'https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png'}
                                     width="60px"
                                     height="60px"
                                     borderRadius={"30px"}

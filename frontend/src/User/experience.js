@@ -1,222 +1,246 @@
-import { useState } from 'react';
-import {
-    Box,
-    Button,
-    FormControl,
-    FormLabel,
-    Input,
-    Stack,
-    Heading,
-    Flex,
-    VStack
-} from '@chakra-ui/react';
-import '../styles/experience.css'; // Import the CSS file
+import { useEffect, useState } from 'react';
+import styles from '../styles/experience.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { addExperience, fetchExperiences } from '../store/slices/profileSlices';
+import Checkbox from '@mui/material/Checkbox';
+import FreeSolo from '../shared/components/FreeSolo';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import WorkIcon from '@mui/icons-material/Work';
+import IconButton from '@mui/material/IconButton';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+
+const top10Universities = [
+    'Indian Institute of Technology Kharagpur',
+    'Jadavpur University',
+    'University of Calcutta',
+    'Visva-Bharati University',
+    'West Bengal University of Technology',
+    'Presidency University',
+    'Bengal Engineering and Science University',
+    'University of Burdwan',
+    'North Bengal University',
+    'Rabindra Bharati University',
+];
+
+const specializationList = [
+    'Computer Science and Engineering',
+    'Mechanical Engineering',
+    'Electrical Engineering',
+    'Civil Engineering',
+    'Aerospace Engineering',
+    'Biomedical Engineering',
+    'Chemical Engineering',
+    'Environmental Engineering',
+    'Industrial Engineering',
+    'Materials Science and Engineering',
+];
+
+const yearList = [
+    '2012',
+    '2013',
+    '2014',
+    '2015',
+    '2016',
+    '2017',
+    '2018',
+    '2019',
+    '2020',
+    '2021',
+];
+
+const designationList = [
+    'School Student',
+    'Bachelor Student',
+    'Masters Student',
+    'PHD Student',
+];
 
 const ExperienceForm = () => {
-    const [experiences, setExperiences] = useState([{
-        company: 'JU',
-        role: 'student',
-        yearOfExperience: '3'
-    }]);
-    const [newExperience, setNewExperience] = useState({
-        company: '',
-        role: '',
-        yearOfExperience: ''
-    });
+    const dispatch = useDispatch();
+    const experiences = useSelector((state) => state.profile.experiences);
 
-    const [editIndex, setEditIndex] = useState(null);
-    const [editedExperience, setEditedExperience] = useState({
-        company: '',
-        role: '',
-        yearOfExperience: ''
-    });
+    useEffect(() => {
+        dispatch(fetchExperiences());
+    }, [dispatch]);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setNewExperience({
-            ...newExperience,
-            [name]: value,
-        });
+    const initialExperience = {
+        organization: '',
+        role: '',
+        otherInfo: '',
+        timeStrap: {
+            isCurrent: false,
+            start_year: '',
+            end_year: '',
+        },
     };
 
-    const handleEditChange = (e) => {
-        const { name, value } = e.target;
-        setEditedExperience({
-            ...editedExperience,
-            [name]: value,
-        });
+    const [experienceInfo, setExperienceInfo] = useState({ ...initialExperience });
+    const [active, setActive] = useState(false);
+    const [errors, setErrors] = useState({});
+
+    const handleChange = ({ name, value, checked }) => {
+        if (name === 'isCurrent') {
+            setExperienceInfo((prevInfo) => ({
+                ...prevInfo,
+                timeStrap: {
+                    ...prevInfo.timeStrap,
+                    isCurrent: checked,
+                },
+            }));
+        } else if (name === 'start_year' || name === 'end_year') {
+            setExperienceInfo((prevInfo) => ({
+                ...prevInfo,
+                timeStrap: {
+                    ...prevInfo.timeStrap,
+                    [name]: value,
+                },
+            }));
+        } else {
+            setExperienceInfo((prevInfo) => ({
+                ...prevInfo,
+                [name]: value,
+            }));
+        }
+    };
+
+    const validate = () => {
+        const newErrors = {};
+        if (!experienceInfo.organization) newErrors.organization = 'Organization is required';
+        if (!experienceInfo.role) newErrors.role = 'Role is required';
+        if (!experienceInfo.timeStrap.start_year) newErrors.start_year = 'Start year is required';
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setExperiences([...experiences, newExperience]);
-        setNewExperience({ company: '', role: '', yearOfExperience: '' });
-    };
+        if (!validate()) return;
 
-    const handleEditClick = (index) => {
-        setEditIndex(index);
-        setEditedExperience(experiences[index]);
-    };
-
-    const handleSaveClick = (index) => {
-        const updatedExperiences = experiences.map((exp, i) =>
-            i === index ? editedExperience : exp
-        );
-        setExperiences(updatedExperiences);
-        setEditIndex(null);
+        dispatch(addExperience(experienceInfo));
+        setExperienceInfo({ ...initialExperience });
+        setActive(!active);
     };
 
     return (
-        <Box p={4}>
-            <Heading as="h2" size="lg" mb={4}>
-                Add New Experience
-            </Heading>
-            <form onSubmit={handleSubmit} className="form">
-                <VStack spacing={4}>
-                    <FormControl className='formcontrol'>
-                        <Flex className='form-flex' flexDir="row">
-                            <FormLabel className='formlabel'>Company</FormLabel>
-                            <Input
-                                className='input-box'
-                                type="text"
-                                isRequired="true"
-                                placeholder="Enter Company"
-                                name="company"
-                                value={newExperience.company}
-                                onChange={handleChange}
+        <div className={styles.container}>
+            <h2 className={styles.heading}>Experience Information</h2>
+            {active ? (
+                <form className={styles.form} onSubmit={handleSubmit}>
+                    <div className={styles.formControl}>
+                        <div className={styles.formFlex}>
+                            <FreeSolo
+                                options={top10Universities}
+                                label={'Organization'}
+                                value={experienceInfo.organization}
+                                name="organization"
+                                handleChange={handleChange}
                             />
-                        </Flex>
-                    </FormControl>
-                    <FormControl className='formcontrol'>
-                        <Flex className='form-flex' flexDir="row">
-                            <FormLabel className='formlabel'>Role</FormLabel>
-                            <Input
-                                className='input-box'
-                                type="text"
-                                isRequired="true"
-                                placeholder="Enter Role"
+                        </div>
+                        {errors.organization && <p className={styles.error}>{errors.organization}</p>}
+                    </div>
+
+                    <div className={styles.formControl}>
+                        <div className={styles.formFlex}>
+                            <FreeSolo
+                                options={specializationList}
+                                label={'Role'}
+                                value={experienceInfo.role}
                                 name="role"
-                                value={newExperience.role}
-                                onChange={handleChange}
+                                handleChange={handleChange}
                             />
-                        </Flex>
-                    </FormControl>
-                    <FormControl className='formcontrol'>
-                        <Flex className='form-flex' flexDir="row">
-                            <FormLabel className='formlabel'>Year of Experience</FormLabel>
-                            <Input
-                                className='input-box'
-                                type="text"
-                                isRequired="true"
-                                placeholder="Enter Years of Experience"
-                                name="yearOfExperience"
-                                value={newExperience.yearOfExperience}
-                                onChange={handleChange}
+                        </div>
+                        {errors.role && <p className={styles.error}>{errors.role}</p>}
+                    </div>
+
+                    <div className={styles.formControl}>
+                        <div className={styles.formFlex}>
+                            <label className={styles.formLabel}>Other Information</label>
+                            <input
+                                className={styles.inputBox}
+                                placeholder="Enter any other information"
+                                name="otherInfo"
+                                value={experienceInfo.otherInfo}
+                                onChange={(e) => handleChange({ name: e.target.name, value: e.target.value })}
                             />
-                        </Flex>
-                    </FormControl>
-                    <Button type="submit" className="submit-button">
-                        Add Experience
-                    </Button>
-                </VStack>
-            </form>
-            <Heading as="h3" size="md" mt={8} mb={4}>
-                Experience List
-            </Heading>
-            {experiences.map((experience, index) => (
-                <Box key={index} className="experience-box">
-                    {editIndex === index ? (
-                        <>
-                            <FormControl className='formcontrol'>
-                                <Flex className='form-flex' flexDir="row">
-                                    <FormLabel className='formlabel'>Company</FormLabel>
-                                    <Input
-                                        className='input-box'
-                                        type="text"
-                                        isRequired="true"
-                                        name="company"
-                                        value={editedExperience.company}
-                                        onChange={handleEditChange}
-                                    />
-                                </Flex>
-                            </FormControl>
-                            <FormControl className='formcontrol'>
-                                <Flex className='form-flex' flexDir="row">
-                                    <FormLabel className='formlabel'>Role</FormLabel>
-                                    <Input
-                                        className='input-box'
-                                        type="text"
-                                        isRequired="true"
-                                        name="role"
-                                        value={editedExperience.role}
-                                        onChange={handleEditChange}
-                                    />
-                                </Flex>
-                            </FormControl>
-                            <FormControl className='formcontrol'>
-                                <Flex className='form-flex' flexDir="row">
-                                    <FormLabel className='formlabel'>Year of Experience</FormLabel>
-                                    <Input
-                                        className='input-box'
-                                        type="text"
-                                        isRequired="true"
-                                        name="yearOfExperience"
-                                        value={editedExperience.yearOfExperience}
-                                        onChange={handleEditChange}
-                                    />
-                                </Flex>
-                            </FormControl>
-                            <Flex className='flex-container'>
-                                <Button onClick={() => handleSaveClick(index)} className='save-button'>
-                                    Save
-                                </Button>
-                            </Flex>
-                        </>
-                    ) : (
-                        <>
-                            <Flex className='flex-container'>
-                                <Button onClick={() => handleEditClick(index)} className='edit-button'>
-                                    Edit
-                                </Button>
-                            </Flex>
-                            <FormControl className='formcontrol'>
-                                <Flex className='form-flex' flexDir="row">
-                                    <FormLabel className='formlabel'>Company</FormLabel>
-                                    <Input
-                                        className='input-box'
-                                        type="text"
-                                        value={experience.company}
-                                        isReadOnly
-                                    />
-                                </Flex>
-                            </FormControl>
-                            <FormControl className='formcontrol'>
-                                <Flex className='form-flex' flexDir="row">
-                                    <FormLabel className='formlabel'>Role</FormLabel>
-                                    <Input
-                                        className='input-box'
-                                        type="text"
-                                        value={experience.role}
-                                        isReadOnly
-                                    />
-                                </Flex>
-                            </FormControl>
-                            <FormControl className='formcontrol'>
-                                <Flex className='form-flex' flexDir="row">
-                                    <FormLabel className='formlabel'>Year of Experience</FormLabel>
-                                    <Input
-                                        className='input-box'
-                                        type="text"
-                                        value={experience.yearOfExperience}
-                                        isReadOnly
-                                    />
-                                </Flex>
-                            </FormControl>
-                        </>
-                    )}
-                </Box>
-            ))}
-        </Box>
+                        </div>
+                    </div>
+
+                    <div className={styles.timestrap}>
+                        <div className={styles.years_start_end}>
+                            <div className={styles.formFlex}>
+                                <FreeSolo
+                                    options={yearList}
+                                    label={'Year Start'}
+                                    value={experienceInfo.timeStrap.start_year}
+                                    name="start_year"
+                                    handleChange={handleChange}
+                                />
+                            </div>
+                            {errors.start_year && <p className={styles.error}>{errors.start_year}</p>}
+                        </div>
+                        <div className={styles.years_start_end}>
+                            <div className={styles.formFlex}>
+                                <FreeSolo
+                                    options={yearList}
+                                    label={'Year End'}
+                                    value={experienceInfo.timeStrap.end_year}
+                                    name="end_year"
+                                    handleChange={handleChange}
+                                    disabled={experienceInfo.timeStrap.isCurrent}
+                                />
+                            </div>
+                        </div>
+                        <div className={styles.years_start_end}>
+                            <div className={styles.formFlex}>
+                                <Checkbox
+                                    checked={experienceInfo.timeStrap.isCurrent}
+                                    onChange={(e) => handleChange({ name: e.target.name, checked: e.target.checked })}
+                                    name="isCurrent"
+                                />
+                                <span>Current?</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className={styles.flexContainer}>
+                        <button type="button" className={styles.button} onClick={() => setActive(!active)}>
+                            Cancel
+                        </button>
+                        <button type="submit" className={styles.button}>
+                            Apply Changes
+                        </button>
+                    </div>
+                </form>
+            ) : (
+                <div className={styles.addExperience}>
+                    <div className={styles.addExperienceHeader}>
+                        <AddCircleOutlineIcon className={styles.addCircleOutlineIcon} onClick={() => setActive(!active)} />
+                        <span className={styles.addExperienceText}>Add new Experience</span>
+                    </div>
+                    <div className={styles.experienceList}>
+                        {experiences.length > 0 &&
+                            experiences.map((experience) => (
+                                <div key={experience._id} className={styles.experienceContainer}>
+                                    <WorkIcon className={styles.schoolIcon} />
+                                    <div className={styles.experienceDetails}>
+                                        <div className={styles.experienceHeader}>
+                                            <span>
+                                                {experience.timeStrap.isCurrent ? 'Works' : 'Worked'} as {experience.role} at {experience.organization}
+                                            </span>
+                                        </div>
+                                        <div className={styles.experienceBody}>
+                                            from {experience.timeStrap.start_year} to {experience.timeStrap.end_year}
+                                        </div>
+                                    </div>
+                                    <IconButton aria-label="Example" className={styles.iconButton}>
+                                        <MoreHorizIcon className={styles.morevert} />
+                                    </IconButton>
+                                </div>
+                            ))}
+                    </div>
+                </div>
+            )}
+        </div>
     );
 };
 

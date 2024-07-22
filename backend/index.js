@@ -31,12 +31,14 @@ const group = require("./routes/groupRoutes");
 const friendInvitationRoutes = require("./routes/friendInvitationRoutes");
 const posts = require("./routes/postRouter");
 const jobs = require('./routes/jobsRouter');
+const profile = require('./routes/profileRouter');
 
 app.use("/api/v1", user);
 app.use("/api/v1", group);
 app.use("/api/friend-invitation", friendInvitationRoutes);
 app.use("/api/posts", posts);
 app.use("/api/jobs",jobs);
+app.use("/api/profile",profile);
 
 // Static files
 // Uncomment the following lines if you have a build directory for your frontend

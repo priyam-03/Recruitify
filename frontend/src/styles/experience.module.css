@@ -112,7 +112,7 @@ textarea.inputBox {
     color: #2b6cb0;
 }
 
-.addEducation {
+.addExperience {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -122,7 +122,7 @@ textarea.inputBox {
     padding: 20px;
     /* background-color: #232323;  */
 }
-.addEducationHeader {
+.addExperienceHeader {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
@@ -134,20 +134,20 @@ textarea.inputBox {
     font-size: 2rem;
 }
 
-.addEducationText {
+.addExperienceText {
     font-size: 1.3rem;
     color: #ffffff; 
     margin-left: 20px;
 }
 
-.educationList {
+.experienceList {
     display: flex;
     flex-direction: column;
     gap: 20px;
     width: 100%;
 }
 
-.educationContainer {
+.experienceContainer {
     display: flex;
     flex-direction: row;
     max-width: 90%;
@@ -166,16 +166,16 @@ textarea.inputBox {
     font-size: 2rem;
 }
 
-.educationDetails {
+.experienceDetails {
     flex: 1;
 }
 
-.educationHeader {
+.experienceHeader {
     font-weight: bold;
     color: #ffffff; /* White font color */
 }
 
-.educationBody {
+.experienceBody {
     color: #cccccc; /* Light gray for readability */
     margin-top: 5px;
 }

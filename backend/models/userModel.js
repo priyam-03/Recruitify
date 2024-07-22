@@ -4,6 +4,14 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const Schema = mongoose.Schema;
+
+const yearValidator = {
+  validator: function (value) {
+    return validator.isInt(String(value), { min: 1900, max: new Date().getFullYear() + 10 });
+  },
+  message: "Please enter a valid year"
+};
+
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -24,11 +32,11 @@ const userSchema = new mongoose.Schema(
       minLength: [8, "Password should be greater than 8 characters"],
       select: false,
     },
-    friends: [{ type: Schema.Types.Object, ref: "Userauth" }],
+    friends: [{ type: Schema.Types.ObjectId, ref: "Userauth" }],
     clusters: [
       {
         name: { type: String },
-        friendlist: [{ type: Schema.Types.Object, ref: "Userauth" }],
+        friendlist: [{ type: Schema.Types.ObjectId, ref: "Userauth" }],
       },
     ],
     avatar: {
@@ -53,6 +61,86 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "user",
     },
+    educations: [
+      {
+        institution: {
+          type: String,
+          default: '',
+          maxLength: [100, "Institution Name cannot exceed 100 characters"],
+        },
+        specialization: {
+          type: String,
+          default: '',
+          maxLength: [100, "Specialization cannot exceed 100 characters"],
+        },
+        gpa: {
+          type: Number,
+        },
+        otherInfo: {
+          type: String,
+          default: '',
+          maxLength: [200, "Other information cannot exceed 200 characters"],
+        },
+        timeStrap: {
+          isCurrent: { type: Boolean, default: false },
+          start_year: { type: Number, default: new Date().getFullYear(), validate: yearValidator },
+          end_year: { type: Number, validate: yearValidator }
+        }
+      }
+    ],
+    experiences: [
+      {
+        organization: {
+          type: String,
+          default: '',
+          maxLength: [100, "Organization name cannot exceed 100 characters"],
+        },
+        role: {
+          type: String,
+          default: '',
+          maxLength: [100, "Role cannot exceed 100 characters"],
+        },
+        otherInfo: {
+          type: String,
+          default: '',
+          maxLength: [200, "Other information cannot exceed 200 characters"],
+        },
+        timeStrap: {
+          isCurrent: { type: Boolean, default: false },
+          start_year: { type: Number, default: new Date().getFullYear(), validate: yearValidator },
+          end_year: { type: Number, validate: yearValidator }
+        }
+      }
+    ],
+    skills: [
+      {
+        skill_name: {
+          type: String,
+          maxLength: [100, "Skill name cannot exceed 100 characters"],
+          required:true,
+          unique:true,
+        },
+        level: {
+          type: Number,
+          enum: [1, 2, 3, 4, 5],
+          required:true,
+        }
+      }
+    ],
+    links: [
+      {
+        field: {
+          type: String,
+          enum: ['github', 'linkedIn'],
+          default: '',
+        },
+        link: {
+          type: String,
+          default: '',
+        },
+      }
+    ],
+
     createdAt: {
       type: Date,
       default: Date.now,
@@ -70,31 +158,25 @@ userSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, 10);
 });
 
-// JWT TOKEN
 userSchema.methods.getJWTToken = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE,
   });
 };
 
-// Compare Password
-
 userSchema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-// Generating Password Reset Token
 userSchema.methods.getResetPasswordToken = function () {
-  // Generating Token
   const resetToken = crypto.randomBytes(20).toString("hex");
 
-  // Hashing and adding resetPasswordToken to userSchema
   this.resetPasswordToken = crypto
     .createHash("sha256")
     .update(resetToken)
     .digest("hex");
 
-  this.resetPasswordExpire = Date.now() + 15 * 60 * 10000;
+  this.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
 
   return resetToken;
 };

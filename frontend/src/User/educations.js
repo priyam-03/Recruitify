@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from '../styles/education.module.css';
-import { useDispatch } from 'react-redux';
-import { updateEducation } from '../store/slices/profileSlices';
+import { useDispatch, useSelector } from 'react-redux';
+import { addEducation, fetchEducations } from '../store/slices/profileSlices';
 import Checkbox from '@mui/material/Checkbox';
-import FreeSolo from '../shared/components/FreeSolo'; 
+import FreeSolo from '../shared/components/FreeSolo';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import SchoolIcon from '@mui/icons-material/School';
+import IconButton from '@mui/material/IconButton';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 const top10Universities = [
     'Indian Institute of Technology Kharagpur',
@@ -54,6 +57,11 @@ const designationList = [
 
 const EducationForm = () => {
     const dispatch = useDispatch();
+    const educations = useSelector((state) => state.profile.educations);
+
+    useEffect(() => {
+        dispatch(fetchEducations());
+    }, [dispatch]);
 
     const initialEducationInfo = {
         institution: '',
@@ -61,7 +69,7 @@ const EducationForm = () => {
         designation: '',
         gpa: '',
         otherInfo: '',
-        timestrap: {
+        timeStrap: {
             isCurrent: false,
             start_year: '',
             end_year: '',
@@ -70,24 +78,22 @@ const EducationForm = () => {
 
     const [educationInfo, setEducationInfo] = useState({ ...initialEducationInfo });
     const [active, setActive] = useState(false);
+    const [errors, setErrors] = useState({});
 
-   
-
-    // Handle input changes
     const handleChange = ({ name, value, checked }) => {
         if (name === 'isCurrent') {
             setEducationInfo((prevInfo) => ({
                 ...prevInfo,
-                timestrap: {
-                    ...prevInfo.timestrap,
+                timeStrap: {
+                    ...prevInfo.timeStrap,
                     isCurrent: checked,
                 },
             }));
         } else if (name === 'start_year' || name === 'end_year') {
             setEducationInfo((prevInfo) => ({
                 ...prevInfo,
-                timestrap: {
-                    ...prevInfo.timestrap,
+                timeStrap: {
+                    ...prevInfo.timeStrap,
                     [name]: value,
                 },
             }));
@@ -99,14 +105,20 @@ const EducationForm = () => {
         }
     };
 
-    // Handle form submission
+    const validate = () => {
+        const newErrors = {};
+        if (!educationInfo.institution) newErrors.institution = 'Institution is required';
+        if (!educationInfo.designation) newErrors.designation = 'Designation is required';
+        if (!educationInfo.timeStrap.start_year) newErrors.start_year = 'Start year is required';
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (!validate()) return;
 
-        // Dispatch action to update education info in Redux store
-        dispatch(updateEducation(educationInfo));
-
-        // Reset form fields and toggle edit mode
+        dispatch(addEducation(educationInfo));
         setEducationInfo({ ...initialEducationInfo });
         setActive(!active);
     };
@@ -114,8 +126,8 @@ const EducationForm = () => {
     return (
         <div className={styles.container}>
             <h2 className={styles.heading}>Education Information</h2>
-            {active===true ?
-                (<form  className={styles.form}>
+            {active ? (
+                <form className={styles.form}>
                     <div className={styles.formControl}>
                         <div className={styles.formFlex}>
                             <FreeSolo
@@ -125,6 +137,7 @@ const EducationForm = () => {
                                 name="institution"
                                 handleChange={handleChange}
                             />
+                            {errors.institution && <span className={styles.error}>{errors.institution}</span>}
                         </div>
                     </div>
                     <div className={styles.formControl}>
@@ -136,6 +149,7 @@ const EducationForm = () => {
                                 name="specialization"
                                 handleChange={handleChange}
                             />
+                            {errors.specialization && <span className={styles.error}>{errors.specialization}</span>}
                         </div>
                     </div>
                     <div className={styles.formControl}>
@@ -147,6 +161,7 @@ const EducationForm = () => {
                                 name="designation"
                                 handleChange={handleChange}
                             />
+                            {errors.designation && <span className={styles.error}>{errors.designation}</span>}
                         </div>
                     </div>
                     <div className={styles.formControl}>
@@ -180,10 +195,11 @@ const EducationForm = () => {
                                 <FreeSolo
                                     options={yearList}
                                     label={'Year Start'}
-                                    value={educationInfo.timestrap.start_year}
+                                    value={educationInfo.timeStrap.start_year}
                                     name="start_year"
                                     handleChange={handleChange}
                                 />
+                                {errors.start_year && <span className={styles.error}>{errors.start_year}</span>}
                             </div>
                         </div>
                         <div className={styles.years_start_end}>
@@ -191,16 +207,18 @@ const EducationForm = () => {
                                 <FreeSolo
                                     options={yearList}
                                     label={'Year End'}
-                                    value={educationInfo.timestrap.end_year}
+                                    value={educationInfo.timeStrap.end_year}
                                     name="end_year"
                                     handleChange={handleChange}
+                                    disabled={educationInfo.timeStrap.isCurrent}
                                 />
+                                {errors.end_year && <span className={styles.error}>{errors.end_year}</span>}
                             </div>
                         </div>
                         <div className={styles.years_start_end}>
                             <div className={styles.formFlex}>
                                 <Checkbox
-                                    checked={educationInfo.timestrap.isCurrent}
+                                    checked={educationInfo.timeStrap.isCurrent}
                                     onChange={(e) => handleChange({ name: e.target.name, checked: e.target.checked })}
                                     name="isCurrent"
                                 />
@@ -209,18 +227,44 @@ const EducationForm = () => {
                         </div>
                     </div>
                     <div className={styles.flexContainer}>
-                        <button type="cancel" className={styles.button} onClick={()=>setActive(!active)}>
+                        <button type="button" className={styles.button} onClick={() => setActive(!active)}>
                             Cancel
                         </button>
                         <button type="submit" className={styles.button} onClick={handleSubmit}>
                             Apply Changes
                         </button>
                     </div>
-                </form>) :
-                (<div className={styles.addEducation}>
-                    <AddCircleOutlineIcon className ={styles.addCircleOutlineIcon} onClick={()=>setActive(!active)}/> <text className={styles.addEducationText}>Add new Education Information</text>
-                </div>)
-            }
+                </form>
+            ) : (
+                <div className={styles.addEducation}>
+                    <div className={styles.addEducationHeader}>
+                        <AddCircleOutlineIcon className={styles.addCircleOutlineIcon} onClick={() => setActive(!active)} />
+                        <span className={styles.addEducationText}>Add new Education Information</span>
+                    </div>
+                    <div className={styles.educationList}>
+                        {educations.length > 0 &&
+                            educations.map((education) => (
+                                <div key={education._id} className={styles.educationContainer}>
+                                    <SchoolIcon className={styles.schoolIcon} />
+                                    <div className={styles.educationDetails}>
+                                        <div className={styles.educationHeader}>
+                                            <span>
+                                                {education.timeStrap.isCurrent ? 'Studies' : 'Studied'} {education.specialization} at {education.institution}
+                                            </span>
+                                        </div>
+                                        <div className={styles.educationBody}>
+                                            from {education.timeStrap.start_year} to {education.timeStrap.end_year}
+                                        </div>
+                                    </div>
+                                    <IconButton aria-label="Example" className={styles.iconButton}>
+                                        <MoreHorizIcon className={styles.morevert}/>
+                                    </IconButton>
+                                </div>
+                            ))}
+                    </div>
+                </div>
+
+            )}
         </div>
     );
 };

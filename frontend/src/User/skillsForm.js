@@ -1,115 +1,144 @@
-import React, { useState } from 'react';
-import {
-  Box,
-  Checkbox,
-  CheckboxGroup,
-  FormControl,
-  FormLabel,
-  Select,
-  Stack,
-  Heading,
-  Button,
-} from '@chakra-ui/react';
-import '../styles/skills.css';
+import React, { useState, useEffect } from 'react';
+import styles from '../styles/skills.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { addSkill, fetchSkills } from '../store/slices/profileSlices';
+import { Button, Slider, Typography } from '@mui/material';
+import FreeSolo from '../shared/components/FreeSolo';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import IconButton from '@mui/material/IconButton';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
-const fields = {
-  Science: ['Physics', 'Chemistry', 'Biology'],
-  Arts: ['Painting', 'Sculpture', 'Music', 'Theatre', 'Film'],
-  Sports: ['Football', 'Basketball', 'Tennis', 'Swimming', 'Athletics'],
-  Technology: ['Programming', 'Networking', 'Cybersecurity', 'Data Science', 'AI & Machine Learning'],
-  Engineering: ['Mechanical Engineering', 'Electrical Engineering', 'Civil Engineering', 'Software Engineering', 'Chemical Engineering'],
-  Pharmacy: ['Pharmacology', 'Medicinal Chemistry', 'Clinical Pharmacy', 'Pharmaceutical Technology', 'Pharmacognosy'],
-  Business: ['Marketing', 'Finance', 'Human Resources', 'Operations Management', 'Entrepreneurship'],
-  Law: ['Corporate Law', 'Criminal Law', 'Family Law', 'Intellectual Property Law', 'Environmental Law'],
-  Education: ['Curriculum Development', 'Instructional Design', 'Special Education', 'Educational Psychology', 'Education Technology'],
-  Healthcare: ['Nursing', 'Public Health', 'Health Administration', 'Clinical Research', 'Medical Imaging']
-};
+const skillsList = [
+  "Reactjs", "Nodejs", "JavaScript", "HTML", "CSS", "Python", "Java", "C++",
+  "C#", "Ruby", "PHP", "Swift", "Kotlin", "TypeScript", "SQL", "NoSQL",
+  "MongoDB", "PostgreSQL", "MySQL", "SQLite", "Django", "Flask", "Spring",
+  "Express.js", "Laravel", "Angular", "Vue.js", "Svelte", "Gatsby", "Next.js",
+  "Nuxt.js", "GraphQL", "RESTful APIs", "AWS", "Azure", "Google Cloud",
+  "Docker", "Kubernetes", "Terraform", "Ansible", "Git", "GitHub", "GitLab",
+  "Bitbucket", "Jenkins", "CI/CD", "Webpack", "Babel", "Sass", "Less",
+  "Bootstrap", "Tailwind CSS", "Material-UI", "Ant Design", "Chakra UI",
+  "Redux", "MobX", "Recoil", "RxJS", "Jest", "Mocha", "Chai", "Enzyme",
+  "Cypress", "Puppeteer", "Playwright", "Selenium", "Photoshop", "Illustrator",
+  "Figma", "Sketch", "InDesign", "XD", "Blender", "Unity", "Unreal Engine",
+  "MATLAB", "AutoCAD", "SolidWorks", "Excel", "Word", "PowerPoint", "Outlook",
+  "Slack", "Trello", "JIRA", "Asana", "Notion", "Confluence", "Salesforce",
+  "SAP", "Tableau", "Power BI", "QlikView", "R", "SPSS", "Stata", "Hadoop",
+  "Spark", "Kafka", "Elasticsearch", "Logstash", "Kibana", "TensorFlow",
+  "Keras", "PyTorch", "Scikit-learn", "Pandas", "NumPy", "SciPy"
+];
 
 const SkillForm = () => {
-  const [selectedField, setSelectedField] = useState({
-    field: '',
-    skills: [],
-  });
-  const [mySkills, setMyskills] = useState({})
+  const dispatch = useDispatch();
+  const skills = useSelector((state) => state.profile.skills);
 
-  const handleApply = () => {
-    setMyskills((prev) => ({
-      ...prev,
-      [selectedField.field]: [
-        ...new Set([...(prev[selectedField.field] ||[]),...selectedField.skills])
-      ],
-    }));
-  }
+  useEffect(() => {
 
-  const handleFieldChange = (event) => {
-    const newField = event.target.value;
-    setSelectedField((prev)=>(
-      {
-        field: newField,
-        skills: prev.field===newField?prev.skills:[],
-      }
-    ));
+    dispatch(fetchSkills());
+  }, [dispatch]);
+
+  const initialSkill = {
+    skill_name: '',
+    level: 1,
   };
 
-  const handleSkillChange = (skills) => {
-    setSelectedField((prev) => ({
-      ...prev,
-      skills,
+  const [skillInfo, setSkillInfo] = useState({ ...initialSkill });
+  const [active, setActive] = useState(false);
+
+  const handleChange = ({ name, value, checked }) => {
+    console.log(`handleChange called with name: ${name}, value: ${value}`);
+    setSkillInfo((prevInfo) => ({
+      ...prevInfo,
+      [name]: value,
     }));
+  };
+
+  const handleSliderChange = (event, newValue) => {
+    setSkillInfo((prevInfo) => ({
+      ...prevInfo,
+      level: newValue,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Submitting skillInfo:', skillInfo);
+    dispatch(addSkill(skillInfo));
+    setSkillInfo({ ...initialSkill });
+    setActive(false);
   };
 
   return (
-    <Box className="skill-form">
-      <Heading as="h1" size="lg" mb={6} textAlign="center" color="white">Select Student Skills</Heading>
+    <div className={styles.container}>
+      <h2 className={styles.heading}>Your Skills</h2>
+      {active ? (
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <div className={styles.formControl}>
+            <div className={styles.formFlex}>
+              <FreeSolo
+                options={skillsList}
+                label={'Skill'}
+                value={skillInfo.skill_name}
+                name="skill_name"
+                handleChange={handleChange}
+              />
+            </div>
+          </div>
+          <div className={styles.formControl}>
+            <Typography gutterBottom>Skill Level</Typography>
+            <Slider
+              aria-label="Skill Level"
+              value={skillInfo.level}
+              onChange={handleSliderChange}
+              valueLabelDisplay="auto"
+              step={1}
+              marks
+              min={1}
+              max={5}
+            />
+          </div>
+          <div className={styles.flexContainer}>
+            <button type="button" className={styles.button} onClick={() => setActive(!active)}>
+              Cancel
+            </button>
+            <button type="submit" className={styles.button} onClick={handleSubmit}>
+              Apply Changes
+            </button>
+          </div>
+        </form>
+      ) : (
+        <div className={styles.addSkill}>
+          <div className={styles.addSkillButton}>
+            <AddCircleOutlineIcon className={styles.addCircleOutlineIcon} onClick={() => setActive(true)} />
 
-      <FormControl mb={6}>
-        <FormLabel htmlFor="field" color="white" fontWeight="bold">Choose a field:</FormLabel>
-        <Select id="field" placeholder="Select a field" value={selectedField.field} onChange={handleFieldChange} color="white" bg="white" borderColor="white">
-          {Object.keys(fields).map(field => (
-            <option key={field} value={field} style={{ color: 'black' }}>{field}</option>
-          ))}
-        </Select>
-      </FormControl>
+            <span className={styles.addSkillText}>Add new Skill</span>
+          </div>
+          <div className={styles.skillList}>
+            {skills.length > 0 && skills.map((skill) => (
+              <div key={skill._id} className={styles.skillItem}>
+                <div className={styles.skillName}>{skill.skill_name}</div>
+                <div className={styles.space}></div>
+                <Slider
+                  className={styles.skillLevelSlider}
+                  value={skill.level}
+                  aria-labelledby="skill-level-slider"
+                  step={1}
+                  marks
+                  min={0}
+                  max={5}
+                  valueLabelDisplay="auto"
+                  disabled
+                />
+                <IconButton aria-label="Example" className={styles.iconButton}>
+                  <MoreHorizIcon className={styles.morevert} />
+                </IconButton>
+              </div>
+            ))}
+          </div>
 
-      {selectedField.field && (
-        <FormControl mb={6}>
-          <FormLabel color="white" fontWeight="bold">Choose skills from {selectedField.field}:</FormLabel>
-          <CheckboxGroup onChange={handleSkillChange} value={selectedField.skills}>
-            <Stack spacing={2} color={"white"}>
-              {fields[selectedField.field].map(skill => (
-                <Checkbox key={skill} value={skill} colorScheme="whiteAlpha" color="white">
-                  {skill}
-                </Checkbox>
-              ))}
-            </Stack>
-          </CheckboxGroup>
-        </FormControl>
+        </div>
+
       )}
-
-      <Box mt={6}>
-        <Heading as="h2" size="md" mb={2} color="white">Selected Skills:</Heading>
-        <ul className="selected-skills-list">
-          {selectedField.skills.map(skill => (
-            <li key={skill}>{skill}</li>
-          ))}
-        </ul>
-      </Box>
-      <Button className='apply-button' onClick={handleApply}>Add Skills</Button>
-
-      <Box mt={6}>
-        <Heading as="h2" size="md" mb={2} color="white">My Skills:</Heading>
-        {mySkills && Object.entries(mySkills).map(([field, skills]) => (
-          <Box key={field} mb={4}>
-            <Heading as="h3" size="sm" color="white">{field}</Heading>
-            <Box pl={4}>
-              {skills.map(skill => (
-                <Box key={skill} color="white">{skill}</Box>
-              ))}
-            </Box>
-          </Box>
-        ))}
-      </Box>
-    </Box>
+    </div>
   );
 };
 
