@@ -58,11 +58,6 @@ jobs:
           cd frontend
           docker push ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_FRONTEND_REPOSITORY_URI }}:${{ github.sha }}
 
-    #   - name: Run tests
-    #     run: |
-    #       cd frontend
-    #       npm test
-
   backend:
     runs-on: ubuntu-latest
 
@@ -83,7 +78,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd backend
-          npm ci
+          npm i
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -110,8 +105,3 @@ jobs:
         run: |
           cd backend
           docker push ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_BACKEND_REPOSITORY_URI }}:${{ github.sha }}
-
-    #   - name: Run tests
-    #     run: |
-    #       cd backend
-    #       npm test
