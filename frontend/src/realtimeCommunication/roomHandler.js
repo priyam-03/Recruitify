@@ -7,6 +7,7 @@ import {
   setRemoteStreams,
   setScreenSharingStream,
   setIsUserJoinedOnlyWithAudio,
+  setJoinRequest,
 } from "../store/actions/roomActions";
 import * as socketConnection from "./socketConnection";
 import * as webRTCHandler from "./webRTCHandler";
@@ -89,4 +90,9 @@ export const leaveRoom = () => {
   socketConnection.leaveRoom({ roomId });
   store.dispatch(setRoomDetails(null));
   store.dispatch(setOpenRoom(false, false));
+};
+
+export const handleJoinRequest = (data) => {
+  const { joinRequest } = data;
+  store.dispatch(setJoinRequest(joinRequest));
 };
