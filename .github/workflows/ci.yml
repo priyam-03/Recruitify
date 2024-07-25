@@ -51,7 +51,7 @@ jobs:
       - name: Tag Docker image
         run: |
           cd frontend
-          docker tag frontend:latest ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_FRONTEND_REPOSITORY_URI }}:${{ github.sha }}
+          docker tag frontend:${{ github.sha }} ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_FRONTEND_REPOSITORY_URI }}:${{ github.sha }}
 
       - name: Push Docker image to ECR
         run: |
