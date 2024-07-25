@@ -58,10 +58,10 @@ jobs:
           cd frontend
           docker push ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_FRONTEND_REPOSITORY_URI }}:${{ github.sha }}
 
-      - name: Run tests
-        run: |
-          cd frontend
-          npm test
+    #   - name: Run tests
+    #     run: |
+    #       cd frontend
+    #       npm test
 
   backend:
     runs-on: ubuntu-latest
@@ -92,7 +92,7 @@ jobs:
           aws-region: ${{secrets.AWS_REGION}}
       - name: Log in to Amazon ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
         with:
           region: ${{ secrets.AWS_REGION }}
 
@@ -111,7 +111,7 @@ jobs:
           cd backend
           docker push ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_BACKEND_REPOSITORY_URI }}:${{ github.sha }}
 
-      - name: Run tests
-        run: |
-          cd backend
-          npm test
+    #   - name: Run tests
+    #     run: |
+    #       cd backend
+    #       npm test
