@@ -84,8 +84,8 @@ jobs:
       - name: Log in to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
-        with:
-          region: ${{ secrets.AWS_REGION }}
+        # with:
+        #   region: ${{ secrets.AWS_REGION }}
 
       - name: Build Docker image
         run: |
@@ -103,7 +103,7 @@ jobs:
           docker push ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_BACKEND_REPOSITORY_URI }}:${{ github.sha }}
       - name: Update deployment image
         run: |
-          sed -i 's|<ECR_REGISTRY>/<ECR_BACKEND_REPOSITORY_URI>:<IMAGE_TAG>|${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_BACKEND_REPOSITORY_URI }}:${{ github.sha }}|g' backend/deployment.yaml
+          sed -i 's|<ECR_REGISTRY>/<ECR_BACKEND_REPOSITORY_URI>:<IMAGE_TAG>|${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_BACKEND_REPOSITORY_URI }}:${{ github.sha }}|g' deployment.yaml
 
       - name: Update kube config
         run: aws eks update-kubeconfig --name recruitify
