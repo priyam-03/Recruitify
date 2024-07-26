@@ -13,11 +13,6 @@ jobs:
   frontend:
     runs-on: ubuntu-latest
 
-    services:
-      docker:
-        image: docker:19.03.12
-        options: --privileged
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -67,11 +62,6 @@ jobs:
   backend:
     runs-on: ubuntu-latest
 
-    services:
-      docker:
-        image: docker:19.03.12
-        options: --privileged
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -111,3 +101,14 @@ jobs:
         run: |
           cd backend
           docker push ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_BACKEND_REPOSITORY_URI }}:${{ github.sha }}
+      - name: Update deployment image
+        run: |
+          sed -i 's|<ECR_REGISTRY>/<ECR_BACKEND_REPOSITORY_URI>:<IMAGE_TAG>|${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_BACKEND_REPOSITORY_URI }}:${{ github.sha }}|g' backend/deployment.yaml
+
+      - name: Update kube config
+        run: aws eks update-kubeconfig --name recruitify
+
+      - name: Deploy to EKS
+        run: |
+          kubectl apply -f deployment.yaml
+          kubectl apply -f service.yaml
