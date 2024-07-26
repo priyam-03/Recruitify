@@ -75,40 +75,40 @@ jobs:
         run: |
           cd backend
           npm i
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
-          aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
-          aws-region: ${{secrets.AWS_REGION}}
-      - name: Log in to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-        # with:
-        #   region: ${{ secrets.AWS_REGION }}
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+      #     aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+      #     aws-region: ${{secrets.AWS_REGION}}
+      # - name: Log in to Amazon ECR
+      #   id: login-ecr
+      #   uses: aws-actions/amazon-ecr-login@v2
+      #   # with:
+      #   #   region: ${{ secrets.AWS_REGION }}
 
-      - name: Build Docker image
-        run: |
-          cd backend
-          docker build -t backend:${{ github.sha }} .
+      # - name: Build Docker image
+      #   run: |
+      #     cd backend
+      #     docker build -t backend:${{ github.sha }} .
 
-      - name: Tag Docker image
-        run: |
-          cd backend
-          docker tag backend:${{ github.sha }} ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_BACKEND_REPOSITORY_URI }}:${{ github.sha }}
+      # - name: Tag Docker image
+      #   run: |
+      #     cd backend
+      #     docker tag backend:${{ github.sha }} ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_BACKEND_REPOSITORY_URI }}:${{ github.sha }}
 
-      - name: Push Docker image to ECR
-        run: |
-          cd backend
-          docker push ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_BACKEND_REPOSITORY_URI }}:${{ github.sha }}
-      - name: Update deployment image
-        run: |
-          sed -i 's|<ECR_REGISTRY>/<ECR_BACKEND_REPOSITORY_URI>:<IMAGE_TAG>|${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_BACKEND_REPOSITORY_URI }}:${{ github.sha }}|g' devops/deployment.yaml
+      # - name: Push Docker image to ECR
+      #   run: |
+      #     cd backend
+      #     docker push ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_BACKEND_REPOSITORY_URI }}:${{ github.sha }}
+      # - name: Update deployment image
+      #   run: |
+      #     sed -i 's|<ECR_REGISTRY>/<ECR_BACKEND_REPOSITORY_URI>:<IMAGE_TAG>|${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_BACKEND_REPOSITORY_URI }}:${{ github.sha }}|g' devops/deployment.yaml
 
-      - name: Update kube config
-        run: aws eks update-kubeconfig --name recruitify
+      # - name: Update kube config
+      #   run: aws eks update-kubeconfig --name recruitify
 
-      - name: Deploy to EKS
-        run: |
-          kubectl apply -f deployment.yaml
-          kubectl apply -f service.yaml
+      # - name: Deploy to EKS
+      #   run: |
+      #     kubectl apply -f deployment.yaml
+      #     kubectl apply -f service.yaml
