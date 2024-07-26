@@ -10,54 +10,54 @@ on:
       - main
 
 jobs:
-  frontend:
-    runs-on: ubuntu-latest
+  # frontend:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
+  #     - name: Set up Node.js
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 20
 
-      - name: Install dependencies
-        run: |
-          cd frontend
-          npm install
+  #     - name: Install dependencies
+  #       run: |
+  #         cd frontend
+  #         npm install
 
-      #   - name: Build frontend
-      #     run: |
-      #       cd frontend
-      #       npm run build
+  #     #   - name: Build frontend
+  #     #     run: |
+  #     #       cd frontend
+  #     #       npm run build
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
-          aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
-          aws-region: ${{secrets.AWS_REGION}}
-      - name: Log in to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-        with:
-          region: ${{ secrets.AWS_REGION }}
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+  #         aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+  #         aws-region: ${{secrets.AWS_REGION}}
+  #     - name: Log in to Amazon ECR
+  #       id: login-ecr
+  #       uses: aws-actions/amazon-ecr-login@v2
+  #       with:
+  #         region: ${{ secrets.AWS_REGION }}
 
-      - name: Build Docker image
-        run: |
-          cd frontend
-          docker build -t frontend:${{ github.sha }} .
+  #     - name: Build Docker image
+  #       run: |
+  #         cd frontend
+  #         docker build -t frontend:${{ github.sha }} .
 
-      - name: Tag Docker image
-        run: |
-          cd frontend
-          docker tag frontend:${{ github.sha }} ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_FRONTEND_REPOSITORY_URI }}:${{ github.sha }}
+  #     - name: Tag Docker image
+  #       run: |
+  #         cd frontend
+  #         docker tag frontend:${{ github.sha }} ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_FRONTEND_REPOSITORY_URI }}:${{ github.sha }}
 
-      - name: Push Docker image to ECR
-        run: |
-          cd frontend
-          docker push ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_FRONTEND_REPOSITORY_URI }}:${{ github.sha }}
+  #     - name: Push Docker image to ECR
+  #       run: |
+  #         cd frontend
+  #         docker push ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_FRONTEND_REPOSITORY_URI }}:${{ github.sha }}
 
   backend:
     runs-on: ubuntu-latest
