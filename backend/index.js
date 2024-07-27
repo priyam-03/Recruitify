@@ -26,6 +26,11 @@ app.use(
   })
 );
 // Route Imports
+
+app.get('/',(req,res)=>{
+  res.send("Recruitify Api is working fine");
+})
+
 const user = require("./routes/userRoute");
 const group = require("./routes/groupRoutes");
 const friendInvitationRoutes = require("./routes/friendInvitationRoutes");
