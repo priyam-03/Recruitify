@@ -30,7 +30,7 @@ const user = require("./routes/userRoute");
 const friendInvitationRoutes = require("./routes/friendInvitationRoutes");
 
 app.get("/", (req, res) => {
-  res.send("API is running....");
+  res.send("API is running in app runner....");
 });
 app.use("/api/v1", user);
 app.use("/api/v1", group);
