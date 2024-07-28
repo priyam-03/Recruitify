@@ -64,7 +64,7 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 connectDatabase();
 console.log(process.env.PORT);
 
-server.listen(process.env.port, () => {
+server.listen(process.env.PORT, () => {
   console.log(`Server is working on http://localhost:4000`);
 });
 
