@@ -1,0 +1,181 @@
+name: Deploy to App Runner - Image based # Name of the workflow
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main # Trigger workflow on git push to main branch
+  workflow_dispatch: # Allow manual invocation of the workflow
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Configure AWS credentials
+        id: aws-credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Install dependencies
+        run: |
+          cd backend
+          npm install
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ secrets.ECR_BACKEND_REPOSITORY_URI }}
+          IMAGE_TAG: latest
+        run: |
+          cd backend
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      # - name: Deploy to App Runner
+      #   id: deploy-apprunner
+      #   uses: awslabs/amazon-app-runner-deploy@main
+      #   with:
+      #     service: privacy-protect-app-runner
+      #     image: ${{ steps.build-image.outputs.image }}
+      #     access-role-arn: ${{ secrets.ROLE_ARN }}
+      #     region: ${{ secrets.AWS_REGION }}
+      #     cpu: 1
+      #     memory: 2
+      #     port: 80
+      #     wait-for-service-stability: true
+
+      # - name: App Runner ID
+      #   run: echo "App runner ID ${{ steps.deploy-apprunner.outputs.service-id }}"
+
+# .github/workflows/ci.yml
+# name: CI Pipeline
+
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+#     branches:
+#       - main
+
+# jobs:
+# frontend:
+#   runs-on: ubuntu-latest
+
+#   steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v3
+
+#     - name: Set up Node.js
+#       uses: actions/setup-node@v3
+#       with:
+#         node-version: 20
+
+#     - name: Install dependencies
+#       run: |
+#         cd frontend
+#         npm install
+
+#     #   - name: Build frontend
+#     #     run: |
+#     #       cd frontend
+#     #       npm run build
+
+#     - name: Configure AWS credentials
+#       uses: aws-actions/configure-aws-credentials@v1
+#       with:
+#         aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+#         aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+#         aws-region: ${{secrets.AWS_REGION}}
+#     - name: Log in to Amazon ECR
+#       id: login-ecr
+#       uses: aws-actions/amazon-ecr-login@v2
+#       with:
+#         region: ${{ secrets.AWS_REGION }}
+
+#     - name: Build Docker image
+#       run: |
+#         cd frontend
+#         docker build -t frontend:${{ github.sha }} .
+
+#     - name: Tag Docker image
+#       run: |
+#         cd frontend
+#         docker tag frontend:${{ github.sha }} ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_FRONTEND_REPOSITORY_URI }}:${{ github.sha }}
+
+#     - name: Push Docker image to ECR
+#       run: |
+#         cd frontend
+#         docker push ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_FRONTEND_REPOSITORY_URI }}:${{ github.sha }}
+
+# backend:
+#   runs-on: ubuntu-latest
+
+#   steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v3
+
+#     - name: Set up Node.js
+#       uses: actions/setup-node@v3
+#       with:
+#         node-version: 20
+
+#     - name: Install dependencies
+#       run: |
+#         cd backend
+#         npm i
+# - name: Configure AWS credentials
+#   uses: aws-actions/configure-aws-credentials@v1
+#   with:
+#     aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+#     aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+#     aws-region: ${{secrets.AWS_REGION}}
+# - name: Log in to Amazon ECR
+#   id: login-ecr
+#   uses: aws-actions/amazon-ecr-login@v2
+#   # with:
+#   #   region: ${{ secrets.AWS_REGION }}
+
+# - name: Build Docker image
+#   run: |
+#     cd backend
+#     docker build -t backend:${{ github.sha }} .
+
+# - name: Tag Docker image
+#   run: |
+#     cd backend
+#     docker tag backend:${{ github.sha }} ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_BACKEND_REPOSITORY_URI }}:${{ github.sha }}
+
+# - name: Push Docker image to ECR
+#   run: |
+#     cd backend
+#     docker push ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_BACKEND_REPOSITORY_URI }}:${{ github.sha }}
+# - name: Update deployment image
+#   run: |
+#     sed -i 's|<ECR_REGISTRY>/<ECR_BACKEND_REPOSITORY_URI>:<IMAGE_TAG>|${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_BACKEND_REPOSITORY_URI }}:${{ github.sha }}|g' devops/deployment.yaml
+
+# - name: Update kube config
+#   run: aws eks update-kubeconfig --name recruitify
+
+# - name: Deploy to EKS
+#   run: |
+#     kubectl apply -f deployment.yaml
+#     kubectl apply -f service.yaml
