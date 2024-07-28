@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recruitify
+  labels:
+    app: recruitify
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: recruitify
+  template:
+    metadata:
+      labels:
+        app: recruitify
+    spec:
+      containers:
+        - name: backend
+          image: <ECR_REGISTRY>/<ECR_BACKEND_REPOSITORY_URI>:<IMAGE_TAG>
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
