@@ -32,7 +32,7 @@ const user = require("./routes/userRoute");
 const friendInvitationRoutes = require("./routes/friendInvitationRoutes");
 
 app.get("/", (req, res) => {
-  res.send("API is running in app runner....");
+  res.send("API is running in ec2 instance....");
 });
 app.use("/api/v1", user);
 app.use("/api/v1", group);
@@ -64,7 +64,7 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 
 // Connecting to database
 connectDatabase();
-console.log(process.env.PORT);
+
 
 server.listen(process.env.PORT, () => {
   console.log(`Server is working on http://localhost:4000`);
