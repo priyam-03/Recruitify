@@ -6,48 +6,62 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
 const socketServer = require("./socketServer");
-const group = require("./routes/groupRoutes");
 const errorMiddleware = require("./middleware/error");
-
+const dotenv = require("dotenv");
 // Config
 if (process.env.NODE_ENV !== "PRODUCTION") {
   require("dotenv").config({ path: "./secret.env" });
 }
+
 console.log(process.env.SMPT_MAIL);
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
+const temp = process.env.CLIENT_URL ||   "http://localhost:3000";
 app.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
-// app.set("trust proxy", 10);
 // Route Imports
-app.get("/", (req, res) => {
-  res.send("Recruitify Api is working fine in app-runner....");
-});
+
+
+app.get('/',(req,res)=>{
+  res.send("Recruitify Api is working fine");
+})
+
+
 const user = require("./routes/userRoute");
+const group = require("./routes/groupRoutes");
 const friendInvitationRoutes = require("./routes/friendInvitationRoutes");
 
-app.get("/", (req, res) => {
-  res.send("API is running in ec2 instance....");
-});
+const posts = require("./routes/postRouter");
+const jobs = require('./routes/jobsRouter');
+const profile = require('./routes/profileRouter');
+
+
 app.use("/api/v1", user);
 app.use("/api/v1", group);
 app.use("/api/friend-invitation", friendInvitationRoutes);
-const server = http.createServer(app);
-socketServer.registerSocketServer(server);
+app.use("/api/posts", posts);
+app.use("/api/jobs",jobs);
+app.use("/api/profile",profile);
+
+// Static files
+// Uncomment the following lines if you have a build directory for your frontend
 // app.use(express.static(path.join(__dirname, "./frontend/build")));
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // app.get("*", (req, res) => {
 //   res.sendFile(path.join(__dirname, "./frontend/build/index.html"));
 // });
 
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 // Middleware for Errors
 app.use(errorMiddleware);
+
 const connectDatabase = require("./database/database");
 
 // Handling Uncaught Exception
@@ -66,9 +80,14 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 connectDatabase();
 
 
+const server = http.createServer(app);
+
+// Register Socket.IO server
+socketServer.registerSocketServer(server);
+
 server.listen(process.env.PORT, () => {
-  console.log(`Server is working on http://localhost:4000`);
-});
+  console.log(`Server is working on http://localhost:${process.env.PORT}`);
+
 
 // Unhandled Promise Rejection
 process.on("unhandledRejection", (err) => {

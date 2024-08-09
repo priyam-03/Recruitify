@@ -5,6 +5,9 @@ import friendsReducer from "./reducers/friendsReducer";
 import chatReducer from "./reducers/chatReducer";
 import roomReducer from "./reducers/roomReducer";
 import storage from "redux-persist/lib/storage";
+import postReducer from "./slices/postSlice";
+import jobReducer from "./slices/JobSlices";
+import profileReducer from "./slices/profileSlices";
 import { persistReducer, persistStore } from "redux-persist";
 import { combineReducers } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
@@ -21,6 +24,9 @@ const rootReducer = combineReducers({
   friends: friendsReducer,
   chat: chatReducer,
   room: roomReducer,
+  posts: postReducer,
+  jobs:jobReducer,
+  profile:profileReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

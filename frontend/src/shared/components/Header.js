@@ -105,17 +105,17 @@ const Header = () => {
         <div className="cta">
           {userInfo ? (
             <div>
-              <button
+              {/* <button
                 className="button logout"
                 onClick={() => dispatch(logout())}
               >
                 Logout
-              </button>
-              <img
+              </button> */}
+              {/* <img
                 className="profile-image"
                 src={`http://localhost:4000/${userInfo.user.avatar.filePath}`}
                 alt="Profile"
-              />
+              /> */}
             </div>
           ) : (
             <NavLink className="button login" to="/login">
@@ -134,6 +134,7 @@ const Header = () => {
           <div className="right-buttons">
             <NavLink to="/user-profile">Profile</NavLink>
             <NavLink to="/dashboard">Personal Chat</NavLink>
+            <NavLink to="/Jobs">Jobs</NavLink>
             <NavLink to="/cluster">Cluster Chat</NavLink>
             <NavLink to="/group">New Group</NavLink>
           </div>

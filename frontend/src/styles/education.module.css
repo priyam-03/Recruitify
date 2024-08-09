@@ -1,0 +1,200 @@
+.container {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for the container */
+    max-width: 800px; /* Limit the width of the form */
+    margin: 0 auto; /* Center the form on the page */
+    margin-bottom: 20px;
+}
+
+.heading {
+    font-size: 1.75em; /* Slightly larger heading */
+    color: #e6e8ed; /* Dark text color for the heading */
+    margin-bottom: 20px;
+    text-align: center; /* Center the heading */
+    font-weight: bold; /* Bold heading text */
+}
+
+.form {
+    background-color: #242525;
+    padding: 20px;
+    border:2px solid rgb(117, 118, 120);
+    border-radius: 8px; /* Rounded corners for the form */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.formControl,.timestrap {
+    background-color: #233a61; 
+    padding: 16px;
+    border-radius: 4px; /* Rounded corners for form controls */
+    margin-bottom: 16px; /* Space between form controls */
+    transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+.timestrap{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.years_start_end{
+    width: 50%;
+}
+
+.formControl:hover {
+    background-color: #272e3b; /* Slightly lighter on hover */
+}
+
+.formFlex {
+    display: flex;
+    align-items: center;
+}
+
+.formLabel {
+    margin: 0;
+    width: 30%; /* Increased width for labels */
+    color: #e2e8f0; /* Light text color */
+    font-weight: bold; /* Bold labels */
+    transition: color 0.3s ease; /* Smooth text color transition */
+}
+
+.inputBox {
+    width: 65%; /* Adjusted width for inputs */
+    border-radius: 4px; /* Rounded corners for inputs */
+    border: none;
+    background-color: #4a5568; /* Darker input background */
+    color: white;
+    padding: 10px; /* Increased padding for inputs */
+    resize: vertical;
+    font-size: 14px; /* Slightly larger font size */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth background and text color transitions */
+}
+
+.inputBox:focus {
+    background-color: #5a6778; /* Lighter background on focus */
+    outline: none; /* Remove default focus outline */
+}
+
+textarea.inputBox {
+    resize: vertical; /* Allow vertical resizing of the textarea */
+}
+
+.button {
+    align-items: center;
+    color: white;
+    margin-left: 5px;
+    background-color: #2b6cb0; /* Primary button color */
+    padding: 12px 24px; /* Padding for the button */
+    border: none;
+    border-radius: 4px; /* Rounded corners for the button */
+    font-size: 16px; /* Larger font size for the button */
+    cursor: pointer; /* Pointer cursor for button */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth background color and transform transitions */
+}
+
+.button:hover {
+    background-color: #2c5282; /* Darker hover color */
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.button:active {
+    transform: translateY(0); /* Return to original position on click */
+}
+
+.flexContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+}
+
+.addCircleOutlineIcon{
+    cursor: pointer;
+}
+.addCircleOutlineIcon:hover{
+    color: #2b6cb0;
+}
+
+.addEducation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 40px;
+    /* height: 100vh; */
+    border-radius: 8px;
+    padding: 20px;
+    /* background-color: #232323;  */
+}
+.addEducationHeader {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.addCircleOutlineIcon {
+    cursor: pointer;
+    color: #1976d2; 
+    font-size: 2rem;
+}
+
+.addEducationText {
+    font-size: 1.3rem;
+    color: #ffffff; 
+    margin-left: 20px;
+}
+
+.educationList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.educationContainer {
+    display: flex;
+    flex-direction: row;
+    max-width: 90%;
+    justify-content: center;
+    padding: 15px;
+    align-items: baseline;
+    border-radius: 8px;
+    box-shadow: 2px 2px 2px rgba(255, 255, 255, 0.393);
+    width: 100%;
+    background-color: #272728;
+}
+
+.schoolIcon {
+    margin-right: 15px;
+    color: #1976d2; /* Icon color */
+    font-size: 2rem;
+}
+
+.educationDetails {
+    flex: 1;
+}
+
+.educationHeader {
+    font-weight: bold;
+    color: #ffffff; /* White font color */
+}
+
+.educationBody {
+    color: #cccccc; /* Light gray for readability */
+    margin-top: 5px;
+}
+
+.morevert{
+    color: white;
+}
+.iconButton {
+    transition: color 0.3s ease, background-color 0.3s ease; /* Smooth transition for color and background */
+    color: #666; /* Default icon color */
+    background-color: transparent; /* Default background color */
+}
+
+.iconButton:hover {
+    color: #4f4f4f; /* Blue color on hover */
+    background-color: rgba(25, 118, 210, 0.1); /* Light blue background on hover */
+}
+
+.iconButton:active {
+    color: #555555; /* Blue color on click */
+    background-color: rgba(55, 151, 246, 0.2); /* Slightly darker blue background on click */
+}
