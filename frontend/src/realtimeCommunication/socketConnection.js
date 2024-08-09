@@ -71,7 +71,9 @@ export const connectWithSocketServer = (userInfo) => {
   socket.on("active-rooms", (data) => {
     roomHandler.updateActiveRooms(data);
   });
-
+  socket.on("joinRequest", (data) => {
+    roomHandler.handleJoinRequest(data);
+  });
   socket.on("conn-prepare", (data) => {
     const { connUserSocketId } = data;
     webRTCHandler.prepareNewPeerConnection(connUserSocketId, false);

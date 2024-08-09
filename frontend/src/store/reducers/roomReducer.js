@@ -11,10 +11,16 @@ const initState = {
   screenSharingStream: null,
   isScreenSharingActive: false,
   isUserJoinedWithOnlyAudio: false,
+  joinRequest: [],
 };
 
 const reducer = (state = initState, action) => {
   switch (action.type) {
+    case roomActions.SET_JOIN_REQUEST:
+      return {
+        ...state,
+        joinRequest: action.joinRequest,
+      };
     case roomActions.OPEN_ROOM:
       return {
         ...state,

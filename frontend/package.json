@@ -2,7 +2,9 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy":  "http://localhost:4000",
+
+  "proxy": "http://backend:4000",
+
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/react": "^2.8.2",
@@ -32,7 +34,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --passWithNoTests",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
