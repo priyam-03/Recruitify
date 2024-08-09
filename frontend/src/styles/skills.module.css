@@ -1,0 +1,191 @@
+.container {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+.heading {
+    font-size: 1.75em;
+    color: #e6e8ed;
+    margin-bottom: 10px; /* Reduced margin to minimize space below the heading */
+    text-align: center;
+    font-weight: bold;
+}
+
+.form {
+    background-color: #242525;
+    padding: 20px;
+    border: 2px solid rgb(117, 118, 120);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.formControl {
+    background-color: #233a61;
+    padding: 16px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.formControl:hover {
+    background-color: #272e3b;
+}
+
+.formFlex {
+    display: flex;
+    align-items: center;
+}
+
+.formLabel {
+    margin: 0;
+    width: 30%;
+    color: #e2e8f0;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.inputBox {
+    width: 65%;
+    border-radius: 4px;
+    border: none;
+    background-color: #4a5568;
+    color: white;
+    padding: 10px;
+    resize: vertical;
+    font-size: 14px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.inputBox:focus {
+    background-color: #5a6778;
+    outline: none;
+}
+
+textarea.inputBox {
+    resize: vertical;
+}
+
+.button {
+    align-items: center;
+    color: white;
+    margin-left: 5px;
+    background-color: #2b6cb0;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.button:hover {
+    background-color: #2c5282;
+    transform: translateY(-2px);
+}
+
+.button:active {
+    transform: translateY(0);
+}
+
+.flexContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+}
+
+.addCircleOutlineIcon {
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.addCircleOutlineIcon:hover {
+    color: #2b6cb0;
+}
+
+.addSkill {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px; /* Reduced margin to close the gap */
+    border: none;
+    height: auto; /* Adjust height as needed */
+    padding: 0; /* Removed padding */
+    background-color: transparent; /* Ensure no background color affecting the layout */
+}
+.addSkillButton{
+    display: flex;
+}
+
+.addSkillText {
+    font-size: 1.3rem;
+    color: white;
+    margin-left: 10px; /* Reduced margin */
+}
+
+.skillList {
+    display: flex;
+    flex-direction: column; /* Changed to column for better alignment */
+    max-width: 90%;
+    justify-content: center;
+    padding: 10px;
+    width: 100%;
+}
+
+.skillItem {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    color: #e2e8f0;
+    border-radius: 8px;
+    background-color: #272728;
+    box-shadow: 2px 2px 2px rgba(255, 255, 255, 0.393);
+}
+
+.skillName {
+    width: 25%;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #e6e8ed;
+    background-color: #3233347e;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.space{
+    width:10%;
+}
+
+.skillLevelSlider {
+    width: 50%;
+    margin-right: 2%;
+    color: #1a67b9;
+    color-scheme: blue;
+}
+
+
+.morevert{
+    color: white;
+}
+.iconButton {
+    margin-left: 5%;
+    transition: color 0.3s ease, background-color 0.3s ease; /* Smooth transition for color and background */
+    color: #666; /* Default icon color */
+    background-color: transparent; /* Default background color */
+}
+
+.iconButton:hover {
+    color: #4f4f4f; /* Blue color on hover */
+    background-color: rgba(25, 118, 210, 0.1); /* Light blue background on hover */
+}
+
+.iconButton:active {
+    color: #555555; /* Blue color on click */
+    background-color: rgba(55, 151, 246, 0.2); /* Slightly darker blue background on click */
+}

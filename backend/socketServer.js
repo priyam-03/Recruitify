@@ -20,6 +20,8 @@ const registerSocketServer = (server) => {
       methods: ["GET", "POST"],
     },
   });
+  const temp = process.env.CLIENT_URL || "http://localhost:3000";
+  console.log("client URl == "+ temp);
 
   serverStore.setSocketServerInstance(io);
 
@@ -56,10 +58,12 @@ const registerSocketServer = (server) => {
       console.log(data);
       groupMessageHandler(socket, data);
     });
+
     socket.on("group-chat-history", (data) => {
       console.log(data);
       groupChatHistoryHandler(socket, data);
     });
+
     socket.on("room-create", () => {
       roomCreateHandler(socket);
     });
@@ -79,6 +83,7 @@ const registerSocketServer = (server) => {
     socket.on("conn-signal", (data) => {
       roomSignalingDataHandler(socket, data);
     });
+
     socket.on("disconnect", () => {
       disconnectHandler(socket);
     });
@@ -86,7 +91,7 @@ const registerSocketServer = (server) => {
 
   setInterval(() => {
     emitOnlineUsers();
-  }, [1000 * 8]);
+  }, 1000 * 8);
 };
 
 module.exports = {

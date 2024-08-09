@@ -10,6 +10,9 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
   const { name, email, password } = req.body;
   // console.log(req);
   const { originalname, path, mimetype } = req.file;
+  console.log("file name : ",originalname);
+  console.log("file path: ",path);
+  console.log("file type: ",mimetype);
 
   const user = await User.create({
     name,
@@ -170,7 +173,6 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
 // Get User Detail
 exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.user.id);
-
   sendToken(user, 200, res);
 });
 
@@ -291,3 +293,5 @@ const fileSizeFormatter = (bytes, decimal) => {
     parseFloat((bytes / Math.pow(1000, index)).toFixed(dm)) + " " + sizes[index]
   );
 };
+
+

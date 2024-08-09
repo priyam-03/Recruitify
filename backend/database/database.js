@@ -1,3 +1,4 @@
+require('dotenv').config();
 const mongoose = require("mongoose");
 
 const connectDatabase = async () => {
@@ -11,6 +12,8 @@ const connectDatabase = async () => {
     .then((data) => {
       console.log(`Mongodb connected with server: ${data.connection.host}`);
       // console.log("mongodb connected");
+    }).catch((err) => {
+      console.log("The error is: - "+ err);
     });
 };
 
