@@ -12,6 +12,13 @@ const yearValidator = {
   message: "Please enter a valid year"
 };
 
+const resumeFileTypeValidator = {
+  validator: function (value) {
+    return value === 'application/pdf';
+  },
+  message: "Resume must be a PDF file"
+};
+
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -117,13 +124,13 @@ const userSchema = new mongoose.Schema(
         skill_name: {
           type: String,
           maxLength: [100, "Skill name cannot exceed 100 characters"],
-          required:true,
-          unique:true,
+          required: true,
+          unique: true,
         },
         level: {
           type: Number,
           enum: [1, 2, 3, 4, 5],
-          required:true,
+          required: true,
         }
       }
     ],
@@ -140,7 +147,25 @@ const userSchema = new mongoose.Schema(
         },
       }
     ],
-
+    resume: {
+      fileName: {
+        type: String,
+        required: true,
+      },
+      filePath: {
+        type: String,
+        required: true,
+      },
+      fileType: {
+        type: String,
+        required: true,
+        validate: resumeFileTypeValidator,
+      },
+      fileSize: {
+        type: String,
+        required: true,
+      },
+    },
     createdAt: {
       type: Date,
       default: Date.now,

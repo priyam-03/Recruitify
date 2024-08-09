@@ -73,6 +73,20 @@ body {
   height: 25px;
 }
 
+.profile-button.update-resume{
+  width: 200px;
+  height: 25px;
+}
+.profile-button.view-resume{
+  width: 200px;
+  height: 45px;
+}
+.resume-section{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 3px;
+}
 
 .profile-button.logout {
   background-color: #dc3545;

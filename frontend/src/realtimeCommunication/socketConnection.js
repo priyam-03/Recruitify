@@ -17,7 +17,7 @@ let socket = null;
 
 export const connectWithSocketServer = (userInfo) => {
   const jwtToken = userInfo.token;
-  const connection_url = "http://192.168.29.143:4000/" || "http://127.0.0.1:4000/"
+  const connection_url = "http://127.0.0.1:4000/"
   // Update this URL with your server's local network IP
   socket = io(
     connection_url,

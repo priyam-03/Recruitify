@@ -15,7 +15,7 @@ const serverStore = require("./serverStore");
 const registerSocketServer = (server) => {
   const io = require("socket.io")(server, {
     cors: {
-      origin: process.env.CLIENT_URL || "http://localhost:3000",
+      origin: "http://localhost:3000",
       credentials: true,
       methods: ["GET", "POST"],
     },

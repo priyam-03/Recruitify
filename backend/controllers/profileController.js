@@ -12,13 +12,13 @@ exports.addEducation = async (req, res) => {
             return res.status(400).json({ error: 'User not found' });
         }
 
-        if(!content.institution || !content.designation  || !content.timeStrap.start_year){
+        if (!content.institution || !content.designation || !content.timeStrap.start_year) {
             return res.status(400).json('p;lease fill all the fields');
         }
 
         const educationInfo = {
             institution: content.institution,
-            specialization: content.specialization||'',
+            specialization: content.specialization || '',
             designation: content.designation,
             gpa: content.gpa || '',
             otherInfo: content.otherInfo || '',
@@ -58,7 +58,7 @@ exports.addExperience = async (req, res) => {
     try {
         const userId = req.user._id;
         const content = req.body;
-        const { organization, role, otherInfo, timeStrap} = content;
+        const { organization, role, otherInfo, timeStrap } = content;
         if (!organization || !role) {
             return res.status(200).json({ error: 'Either oragnization or, role is empty' });
         }
@@ -198,7 +198,62 @@ exports.fetchLinks = async (req, res) => {
         return res.status(500).json({ error: 'Internal server error' });
     }
 };
+exports.uploadResume = async (req, res) => {
+    try {
+        const { originalname, path: filePath, mimetype, size } = req.file;
 
+        console.log("filename: = " + originalname);
+        console.log("filepath: = " + filePath);
+        console.log("filetype: = " + mimetype);
 
+        const userId = req.user._id;
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(400).json({ error: 'User not found' });
+        }
+
+        const newResume = {
+            fileName: originalname,
+            filePath: filePath,
+            fileType: mimetype,
+            fileSize: fileSizeFormatter(size, 2), 
+        };
+
+        user.resume = newResume;
+        await user.save();
+
+        res.json(user.resume.filePath);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+exports.fetchResume = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(400).json({ error: 'User not found' });
+        }
+        return res.json(user.resume.filePath);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+const fileSizeFormatter = (bytes, decimal) => {
+    if (bytes === 0) {
+        return "0 Bytes";
+    }
+    const dm = decimal || 2;
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "YB", "ZB"];
+    const index = Math.floor(Math.log(bytes) / Math.log(1000));
+    return (
+        parseFloat((bytes / Math.pow(1000, index)).toFixed(dm)) + " " + sizes[index]
+    );
+};
 
 
