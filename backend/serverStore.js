@@ -56,6 +56,12 @@ const addNewActiveRoom = (userId, socketId) => {
       userId,
       socketId,
     },
+    joinRequests: [
+      {
+        userId,
+        socketId,
+      },
+    ],
     participants: [
       {
         userId,
@@ -89,6 +95,19 @@ const getActiveRoom = (roomId) => {
   } else {
     return null;
   }
+};
+
+const joinRequestRomm = (roomId, participants) => {
+  const room = activeRooms.find((room) => room.roomId === roomId);
+
+  activeRooms = activeRooms.filter((room) => room.roomId !== roomId);
+
+  const updatedRoom = {
+    ...room,
+    joinRequests: [...room.joinRequests, ...participants],
+  };
+
+  activeRooms.push(updatedRoom);
 };
 
 const joinActiveRoom = (roomId, newParticipant) => {

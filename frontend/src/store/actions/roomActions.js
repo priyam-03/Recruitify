@@ -7,6 +7,7 @@ export const roomActions = {
   SET_AUDIO_ONLY: "ROOM.SET_AUDIO_ONLY",
   SET_SCREEN_SHARE_STREAM: "ROOM.SET_SCREEN_SHARE_STREAM",
   SET_IS_USER_JOINED_WITH_ONLY_AUDIO: "ROOM.SET_IS_USER_JOINED_WITH_ONLY_AUDIO",
+  SET_JOIN_REQUEST: "ROOM.SET_JOIN_REQUEST",
 };
 
 export const setOpenRoom = (
@@ -17,6 +18,12 @@ export const setOpenRoom = (
     type: roomActions.OPEN_ROOM,
     isUserRoomCreator,
     isUserInRoom,
+  };
+};
+export const setJoinRequest = (joinRequest) => {
+  return {
+    type: roomActions.SET_JOIN_REQUEST,
+    joinRequest,
   };
 };
 

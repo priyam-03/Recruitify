@@ -60,7 +60,6 @@ const registerSocketServer = (server) => {
     });
 
     socket.on("group-chat-history", (data) => {
-      console.log("object4");
       console.log(data);
       groupChatHistoryHandler(socket, data);
     });

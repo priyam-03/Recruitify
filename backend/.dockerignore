@@ -1,0 +1,18 @@
+# Node modules
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Logs
+logs
+*.log
+
+# Dependency directories
+build
+
+# dotenv environment variables file
+.env
+
+# Miscellaneous
+.DS_Store
+*.swp

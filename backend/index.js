@@ -27,16 +27,20 @@ app.use(
 );
 // Route Imports
 
+
 app.get('/',(req,res)=>{
   res.send("Recruitify Api is working fine");
 })
 
+
 const user = require("./routes/userRoute");
 const group = require("./routes/groupRoutes");
 const friendInvitationRoutes = require("./routes/friendInvitationRoutes");
+
 const posts = require("./routes/postRouter");
 const jobs = require('./routes/jobsRouter');
 const profile = require('./routes/profileRouter');
+
 
 app.use("/api/v1", user);
 app.use("/api/v1", group);
@@ -74,7 +78,7 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 
 // Connecting to database
 connectDatabase();
-console.log(process.env.PORT);
+
 
 const server = http.createServer(app);
 
@@ -83,9 +87,7 @@ socketServer.registerSocketServer(server);
 
 server.listen(process.env.PORT, () => {
   console.log(`Server is working on http://localhost:${process.env.PORT}`);
-});
 
-// Unhandled Promise Rejection
 process.on("unhandledRejection", (err) => {
   console.log(`Error: ${err.message}`);
   console.log(`Shutting down the server due to Unhandled Promise Rejection`);
@@ -93,4 +95,5 @@ process.on("unhandledRejection", (err) => {
   server.close(() => {
     process.exit(1);
   });
+})
 });
