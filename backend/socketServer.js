@@ -13,15 +13,19 @@ const groupChatHistoryHandler = require("./socketHandlers/groupChatHistoryHandle
 const serverStore = require("./serverStore");
 
 const registerSocketServer = (server) => {
+  let url;
+  if (process.env.NODE_ENV === "PRODUCTION") {
+    url = process.env.CLIENT_URL;
+  } else {
+    url = "http://localhost:3000";
+  }
   const io = require("socket.io")(server, {
     cors: {
-      origin: "http://localhost:3000",
+      origin: url,
       credentials: true,
       methods: ["GET", "POST"],
     },
   });
-  const temp = process.env.CLIENT_URL || "http://localhost:3000";
-  console.log("client URl == "+ temp);
 
   serverStore.setSocketServerInstance(io);
 

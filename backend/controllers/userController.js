@@ -10,9 +10,9 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
   const { name, email, password } = req.body;
   // console.log(req);
   const { originalname, path, mimetype } = req.file;
-  console.log("file name : ",originalname);
-  console.log("file path: ",path);
-  console.log("file type: ",mimetype);
+  console.log("file name : ", originalname);
+  console.log("file path: ", path);
+  console.log("file type: ", mimetype);
 
   const user = await User.create({
     name,
@@ -106,8 +106,13 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
   const resetToken = user.getResetPasswordToken();
 
   await user.save({ validateBeforeSave: false });
-
-  const resetPasswordUrl = `${req.protocol}://localhost:3000/resetpassword/${resetToken}`;
+  let url;
+  if (process.env.NODE_ENV !== "PRODUCTION") {
+    url = `${process.env.CLIENT_URL}/resetpassword/${resetToken}`;
+  } else {
+    url = `${req.protocol}://localhost:3000/resetpassword/${resetToken}`;
+  }
+  const resetPasswordUrl = url;
   // console.log(resetPasswordUrl);
   const text = `Your password reset token is :- \n\n ${resetPasswordUrl} \n\nIf you have not requested this email then, please ignore it.`;
   // console.log(user.email);
@@ -293,5 +298,3 @@ const fileSizeFormatter = (bytes, decimal) => {
     parseFloat((bytes / Math.pow(1000, index)).toFixed(dm)) + " " + sizes[index]
   );
 };
-
-
