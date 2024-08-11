@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 if (process.env.NODE_ENV === "PRODUCTION") {
   app.use(
     cors({
-      origin: "http://localhost:3000",
+      origin: "process.env.CLIENT_URL",
       credentials: true,
     })
   );
