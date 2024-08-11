@@ -15,7 +15,7 @@ const serverStore = require("./serverStore");
 const registerSocketServer = (server) => {
   let url;
   if (process.env.NODE_ENV === "PRODUCTION") {
-    url = process.env.CLIENT_URL;
+    url = "http://localhost:3000";
   } else {
     url = "http://localhost:3000";
   }

@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 if (process.env.NODE_ENV === "PRODUCTION") {
   app.use(
     cors({
-      origin: process.env.CLIENT_URL,
+      origin: "http://localhost:3000",
       credentials: true,
     })
   );
@@ -76,13 +76,10 @@ process.on("uncaughtException", (err) => {
   process.exit(1);
 });
 
-// Config
-if (process.env.NODE_ENV !== "PRODUCTION") {
-  require("dotenv").config({ path: "./config.env" });
-}
-
-// Connecting to database
-connectDatabase();
++(
+  // Connecting to database
+  connectDatabase()
+);
 
 const server = http.createServer(app);
 
