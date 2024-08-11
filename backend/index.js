@@ -9,9 +9,9 @@ const socketServer = require("./socketServer");
 const errorMiddleware = require("./middleware/error");
 const dotenv = require("dotenv");
 // Config
-if (process.env.NODE_ENV !== "PRODUCTION") {
-  require("dotenv").config({ path: "./secret.env" });
-}
+// if (process.env.NODE_ENV !== "PRODUCTION") {
+require("dotenv").config({ path: "./secret.env" });
+// }
 
 console.log(process.env.SMPT_MAIL);
 
