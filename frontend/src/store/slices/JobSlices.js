@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-axios.defaults.baseURL = "https://api.recruitingwebsite.online";
+axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
 const config = {
   headers: {
     "content-type": "application/json",

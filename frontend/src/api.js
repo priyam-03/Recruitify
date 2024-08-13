@@ -1,5 +1,5 @@
 import axios from "axios";
-axios.defaults.baseURL = "https://api.recruitingwebsite.online";
+axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
 // import { logout } from "./shared/utils/auth";
 
 // const apiClient = axios.create({
