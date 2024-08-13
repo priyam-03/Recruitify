@@ -1,10 +1,12 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
-const base_url =
-  process.env.NODE_ENV == "PRODUCTION"
-    ? process.env.BACKEND_URL
-    : "http://localhost:4000";
+let base_url;
+if (process.env.ENVIRONMENT == "PRODUCTION") {
+  base_url = process.env.BACKEND_URL;
+} else {
+  base_url = "http://localhost:4000";
+}
 export const userLogin = createAsyncThunk(
   "user/login",
   async ({ email, password }, { rejectWithValue }) => {
