@@ -13,7 +13,7 @@
 
 
 # misc
-/env
+/.env
 /frontend/.DS_Store
 /frontend/.env
 /frontend/.env.local
