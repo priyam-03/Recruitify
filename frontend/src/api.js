@@ -1,4 +1,5 @@
 import axios from "axios";
+axios.defaults.baseURL = "https://api.recruitingwebsite.online";
 // import { logout } from "./shared/utils/auth";
 
 // const apiClient = axios.create({
@@ -47,6 +48,8 @@ import axios from "axios";
 // };
 
 // secure routes
+
+const base_url = process.env.REACT_APP_BACKEND_URL;
 export const sendFriendInvitation = async (data) => {
   try {
     const config = {
@@ -154,7 +157,7 @@ export const getGroup = async () => {
 // };
 
 const api = axios.create({
-  baseURL: '/api', 
+  baseURL: "/api",
 });
 
 export default api;

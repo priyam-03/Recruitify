@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
-const base_url = process.env.BACKEND_URL;
+const base_url = process.env.REACT_APP_BACKEND_URL;
 
 export const userLogin = createAsyncThunk(
   "user/login",
