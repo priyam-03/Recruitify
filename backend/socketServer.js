@@ -14,14 +14,14 @@ const serverStore = require("./serverStore");
 
 const registerSocketServer = (server) => {
   let url;
-  if (process.env.NODE_ENV === "PRODUCTION") {
-    url = "process.env.CLIENT_URL";
-  } else {
-    url = "http://localhost:3000";
-  }
+
   const io = require("socket.io")(server, {
     cors: {
-      origin: url,
+      origin: [
+        "http://localhost:3000",
+        "https://recruitingwebsite.online",
+        "https://www.recruitingwebsite.online",
+      ],
       credentials: true,
       methods: ["GET", "POST"],
     },

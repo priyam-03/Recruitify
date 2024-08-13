@@ -17,7 +17,10 @@ let socket = null;
 
 export const connectWithSocketServer = (userInfo) => {
   const jwtToken = userInfo.token;
-  const connection_url = "https://api.recruitingwebsite.online/";
+  const connection_url =
+    process.env.ENVIRONMENT == "PRODUCTION"
+      ? process.env.BACKEND_URL
+      : "http://localhost:4000";
   // Update this URL with your server's local network IP
   socket = io(
     connection_url,

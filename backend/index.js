@@ -18,21 +18,18 @@ console.log(process.env.SMPT_MAIL);
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
-if (process.env.NODE_ENV === "PRODUCTION") {
-  app.use(
-    cors({
-      origin: "process.env.CLIENT_URL",
-      credentials: true,
-    })
-  );
-} else {
-  app.use(
-    cors({
-      origin: "http://localhost:3000",
-      credentials: true,
-    })
-  );
-}
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://recruitingwebsite.online",
+      "https://www.recruitingwebsite.online",
+    ],
+    credentials: true,
+  })
+);
+
 // Route Imports
 
 app.get("/", (req, res) => {

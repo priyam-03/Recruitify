@@ -1,7 +1,10 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
-
+const base_url =
+  process.env.NODE_ENV == "PRODUCTION"
+    ? process.env.BACKEND_URL
+    : "http://localhost:4000";
 export const userLogin = createAsyncThunk(
   "user/login",
   async ({ email, password }, { rejectWithValue }) => {
@@ -13,7 +16,7 @@ export const userLogin = createAsyncThunk(
       };
 
       const { data } = await axios.post(
-        `/api/v1/login`,
+        `${base_url}/api/v1/login`,
         { email, password },
         { withCredentials: true },
         config
@@ -42,7 +45,7 @@ export const registerUser = createAsyncThunk(
         },
       };
       const { data } = await axios.post(
-        `/api/v1/register`,
+        `${base_url}/api/v1/register`,
         { name, email, password, file },
         {
           headers: {
@@ -66,7 +69,7 @@ export const registerUser = createAsyncThunk(
 
 export const logout = createAsyncThunk("user/logout", async (thunkAPI) => {
   try {
-    await axios.get(`/api/v1/logout`);
+    await axios.get(`${base_url}/api/v1/logout`);
   } catch (error) {
     thunkAPI.dispatch({ payload: error.message });
   }
@@ -76,7 +79,9 @@ export const profile = createAsyncThunk(
   "user/profile",
   async (rejectWithValue) => {
     try {
-      const { data } = await axios.get(`/api/v1/me`, { withCredentials: true });
+      const { data } = await axios.get(`${base_url}/api/v1/me`, {
+        withCredentials: true,
+      });
       return data;
     } catch (error) {
       if (error.response && error.response.data.message) {
@@ -93,7 +98,7 @@ export const updateProfile = createAsyncThunk(
   async ({ name, email, password, file }, { rejectWithValue }) => {
     try {
       const success = await axios.put(
-        `/api/v1/me/update`,
+        `${base_url}/api/v1/me/update`,
         { name, email, password, file },
         {
           headers: {
@@ -126,7 +131,7 @@ export const passwordUpdate = createAsyncThunk(
         },
       };
       const { data } = await axios.put(
-        `/api/v1/password/update`,
+        `${base_url}/api/v1/password/update`,
         { oldPassword, confirmPassword, newPassword },
         { withCredentials: true },
         config
@@ -151,7 +156,7 @@ export const passwordForgot = createAsyncThunk(
         },
       };
       const { data } = await axios.post(
-        `/api/v1/password/forgot`,
+        `${base_url}/api/v1/password/forgot`,
         { email },
 
         { withCredentials: true },
@@ -177,7 +182,7 @@ export const passwordReset = createAsyncThunk(
         },
       };
       const { data } = await axios.put(
-        `/api/v1/password/reset/${token}`,
+        `${base_url}/api/v1/password/reset/${token}`,
         { newPassword, confirmPassword, token },
         { withCredentials: true },
         config
