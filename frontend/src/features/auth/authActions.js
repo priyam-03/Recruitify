@@ -3,9 +3,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 let base_url;
 if (process.env.ENVIRONMENT == "PRODUCTION") {
-  base_url = process.env.BACKEND_URL;
+  base_url = "https://api.recruitingwebsite.online";
 } else {
-  base_url = "http://localhost:4000";
+  base_url = "https://api.recruitingwebsite.online";
 }
 export const userLogin = createAsyncThunk(
   "user/login",
