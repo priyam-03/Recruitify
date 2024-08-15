@@ -5,14 +5,13 @@ import SaveIcon from '@mui/icons-material/Save';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useDispatch } from 'react-redux';
-import { deletePost, fetchPosts } from '../../store/slices/postSlice';
-import { useEffect } from 'react';
+import { deletePost, fetchMyPosts, fetchPosts } from '../../store/slices/postSlice';
 
-const DropdownMenu = ({ postId, userEmail, triggerChange }) => {
+const DropdownMenu = ({ postId, userEmail}) => {
     const dispatch = useDispatch();
     const handleDelete = () => {
         dispatch(deletePost(postId));
-        triggerChange();
+        dispatch(fetchMyPosts());
     }
     return (
         <Menu>
