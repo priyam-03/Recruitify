@@ -9,45 +9,47 @@ const socketServer = require("./socketServer");
 const errorMiddleware = require("./middleware/error");
 const dotenv = require("dotenv");
 // Config
-if (process.env.NODE_ENV !== "PRODUCTION") {
-  require("dotenv").config({ path: "./secret.env" });
-}
+// if (process.env.NODE_ENV !== "PRODUCTION") {
+require("dotenv").config({ path: "./secret.env" });
+// }
 
 console.log(process.env.SMPT_MAIL);
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
-const temp = process.env.CLIENT_URL ||   "http://localhost:3000";
+
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: [
+      "http://localhost:3000",
+      "https://recruitingwebsite.online",
+      "https://www.recruitingwebsite.online",
+    ],
     credentials: true,
   })
 );
+
 // Route Imports
 
-
-app.get('/',(req,res)=>{
+app.get("/", (req, res) => {
   res.send("Recruitify Api is working fine");
-})
-
+});
 
 const user = require("./routes/userRoute");
 const group = require("./routes/groupRoutes");
 const friendInvitationRoutes = require("./routes/friendInvitationRoutes");
 
 const posts = require("./routes/postRouter");
-const jobs = require('./routes/jobsRouter');
-const profile = require('./routes/profileRouter');
-
+const jobs = require("./routes/jobsRouter");
+const profile = require("./routes/profileRouter");
 
 app.use("/api/v1", user);
 app.use("/api/v1", group);
 app.use("/api/friend-invitation", friendInvitationRoutes);
 app.use("/api/posts", posts);
-app.use("/api/jobs",jobs);
-app.use("/api/profile",profile);
+app.use("/api/jobs", jobs);
+app.use("/api/profile", profile);
 
 // Static files
 // Uncomment the following lines if you have a build directory for your frontend
@@ -71,14 +73,10 @@ process.on("uncaughtException", (err) => {
   process.exit(1);
 });
 
-// Config
-if (process.env.NODE_ENV !== "PRODUCTION") {
-  require("dotenv").config({ path: "./config.env" });
-}
-
-// Connecting to database
-connectDatabase();
-
++(
+  // Connecting to database
+  connectDatabase()
+);
 
 const server = http.createServer(app);
 
@@ -87,8 +85,7 @@ socketServer.registerSocketServer(server);
 
 server.listen(process.env.PORT, () => {
   console.log(`Server is working on http://localhost:${process.env.PORT}`);
-
-process.on("unhandledRejection", (err) => {
+  process.on("unhandledRejection", (err) => {
   console.log(`Error: ${err.message}`);
   console.log(`Shutting down the server due to Unhandled Promise Rejection`);
 
