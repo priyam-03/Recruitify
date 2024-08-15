@@ -11,7 +11,7 @@ const sendToken = (user, statusCode, res) => {
     maxAge: 1000 * 60 * 60 * 24,
     httpOnly: true,
     sameSite: "lax",
-    secure: false,
+    secure: process.env.NODE_ENV === "PRODUCTION" ? true : false,
   };
 
   res.status(statusCode).cookie("token", token, options).json({
