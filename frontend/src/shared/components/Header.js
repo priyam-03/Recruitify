@@ -90,6 +90,7 @@ import { NavLink } from "react-router-dom";
 import { logout } from "../../features/auth/authActions";
 import { setGroup } from "../../store/actions/friendsActions";
 import "../../styles/header.css";
+import Avatar from "./Avatar";
 
 const Header = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -133,10 +134,12 @@ const Header = () => {
         ) : (
           <div className="right-buttons">
             <NavLink to="/user-profile">Profile</NavLink>
-            <NavLink to="/dashboard">Personal Chat</NavLink>
+            <NavLink to="/dashboard">Messages</NavLink>
             <NavLink to="/Jobs">Jobs</NavLink>
-            <NavLink to="/cluster">Cluster Chat</NavLink>
-            <NavLink to="/group">New Group</NavLink>
+            <Avatar/>
+            {/* <NavLink to = "/"><Avatar/></NavLink> */}
+            {/* <NavLink to="/cluster">Cluster Chat</NavLink> */}
+            {/* <NavLink to="/group">New Group</NavLink> */}
           </div>
         )}
       </nav>

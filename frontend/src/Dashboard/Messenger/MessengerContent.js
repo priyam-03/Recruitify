@@ -10,6 +10,7 @@ import {
 
 const Wrapper = styled("div")({
   flexGrow: 1,
+  height:'90vh'
 });
 
 const MessengerContent = (props) => {

@@ -18,7 +18,6 @@ let socket = null;
 export const connectWithSocketServer = (userInfo) => {
   const jwtToken = userInfo.token;
   const connection_url = "https://api.recruitingwebsite.online/"
-  // Update this URL with your server's local network IP
   socket = io(
     connection_url,
     {
