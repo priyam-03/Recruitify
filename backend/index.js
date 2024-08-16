@@ -18,6 +18,7 @@ console.log(process.env.SMPT_MAIL);
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(
   cors({
     origin: [
@@ -31,8 +32,7 @@ app.use(
 
 // Route Imports
 
-
-app.get('/',(req,res)=>{
+app.get("/", (req, res) => {
   res.send("Recruitify Api is working fine");
 });
 
@@ -85,13 +85,14 @@ socketServer.registerSocketServer(server);
 
 server.listen(process.env.PORT, () => {
   console.log(`Server is working on http://localhost:${process.env.PORT}`);
+});
 
+// Unhandled Promise Rejection
 process.on("unhandledRejection", (err) => {
   console.log(`Error: ${err.message}`);
   console.log(`Shutting down the server due to Unhandled Promise Rejection`);
 
-    server.close(() => {
-      process.exit(1);
-    });
-  })
+  server.close(() => {
+    process.exit(1);
+  });
 });
