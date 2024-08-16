@@ -1,0 +1,82 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100vw;
+    background-color: black;
+    height: 100vh; /* Ensures the container takes full viewport height */
+    overflow: hidden; /* Prevents scrollbars on the main container */
+}
+
+.leftColumn {
+    max-width: 20%; 
+    min-width: 15%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: black;
+    box-sizing: border-box; /* Includes padding in width calculation */
+}
+
+.middleColumn {
+    flex: 1; /* Takes the remaining space */
+    background-color: black;
+    padding: 20px;
+    overflow-y: auto; /* Allows vertical scrolling if needed */
+    box-sizing: border-box; /* Includes padding in width calculation */
+}
+
+.rightColumn {
+    width: 30%;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: black;
+    box-sizing: border-box; /* Includes padding in width calculation */
+}
+
+.profilePic {
+    width: 100%;
+    border-radius: 50%;
+}
+
+.createPostBtn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.posts, .jobs {
+    margin-top: 20px;
+}
+
+.post, .job {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    background-color: white; /* Ensure posts and jobs are visible */
+}
+
+.post h3, .job h3 {
+    margin-bottom: 10px;
+}
+
+/* Optional: Custom scrollbar styles (for WebKit browsers) */
+.middleColumn::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+}
+
+.middleColumn::-webkit-scrollbar-thumb {
+    background-color: #555; /* Scrollbar color */
+    border-radius: 10px; /* Rounded corners for the scrollbar */
+}
+
+.middleColumn::-webkit-scrollbar-track {
+    background: black; /* Track color */
+}
