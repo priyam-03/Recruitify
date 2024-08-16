@@ -10,7 +10,7 @@ import WorkIcon from '@mui/icons-material/Work';
 import BusinessIcon from '@mui/icons-material/Business';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import "../../styles/jobForms.css";
-import { useNavigate } from "react-router-dom";
+import { Navigate, redirect, useNavigate } from "react-router-dom";
 import { fetchAllJobForms } from '../../store/slices/JobSlices';
 import AllPost from './AllPosts';
 
@@ -96,8 +96,16 @@ const AllJobForms = () => {
 
 const HomePage = () => {
     const [createPostButtonOn, setCreatePostButtonOn] = useState(false);
+    const { userInfo } = useSelector((state) => state.auth);
+    const navigate = useNavigate();
+
     const [showModal, setShowModal] = useState(false);
     const handleShowCreatePost = () => {
+        if(!userInfo){
+            navigate("/login");
+            return;
+        }
+        
         setShowModal(!showModal);
     };
 
