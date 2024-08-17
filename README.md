@@ -30,8 +30,8 @@ To set up the project locally, follow these steps:
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/yourusername/recruiting-platform.git
-    cd recruiting-platform
+    git clone https://github.com/priyam-03/Recruitify.git
+    cd Recruiitfy
     ```
 
 2. **Install dependencies**:
@@ -47,13 +47,13 @@ To set up the project locally, follow these steps:
 
 3. **Set up environment variables**:
 
-   Create a `.env` file in both the `backend` and `frontend` directories and add the necessary environment variables as outlined in the `.env.example` files.
+   Create a `secret.env` file in both the `backend` and `frontend` directories and add the necessary environment variables as outlined in the `.env.example` files.
 
 4. **Start the development servers**:
     ```bash
     # Start backend server
     cd backend
-    npm run dev
+    npm start
 
     # Start frontend server
     cd ../frontend
@@ -83,12 +83,8 @@ We welcome contributions! To contribute:
 3. **Commit your changes** and push to your branch.
 4. **Submit a pull request** to the `main` branch.
 
-Please refer to the `CONTRIBUTING.md` file for more details.
-
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for more information.
 
----
 
-Feel free to customize the content to match your project's specific requirements.
