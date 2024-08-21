@@ -8,17 +8,10 @@ const path = require("path");
 const socketServer = require("./socketServer");
 const errorMiddleware = require("./middleware/error");
 const dotenv = require("dotenv");
-// Config
-// if (process.env.NODE_ENV !== "PRODUCTION") {
 require("dotenv").config({ path: "./secret.env" });
-// }
-
-console.log(process.env.SMPT_MAIL);
-
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(
   cors({
     origin: [
@@ -31,11 +24,9 @@ app.use(
 );
 
 // Route Imports
-
 app.get("/", (req, res) => {
   res.send("Recruitify Api is working fine");
 });
-
 const user = require("./routes/userRoute");
 const group = require("./routes/groupRoutes");
 const friendInvitationRoutes = require("./routes/friendInvitationRoutes");
