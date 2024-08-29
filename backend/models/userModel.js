@@ -7,16 +7,19 @@ const Schema = mongoose.Schema;
 
 const yearValidator = {
   validator: function (value) {
-    return validator.isInt(String(value), { min: 1900, max: new Date().getFullYear() + 10 });
+    return validator.isInt(String(value), {
+      min: 1900,
+      max: new Date().getFullYear() + 10,
+    });
   },
-  message: "Please enter a valid year"
+  message: "Please enter a valid year",
 };
 
 const resumeFileTypeValidator = {
   validator: function (value) {
-    return value === 'application/pdf';
+    return value === "application/pdf";
   },
-  message: "Resume must be a PDF file"
+  message: "Resume must be a PDF file",
 };
 
 const userSchema = new mongoose.Schema(
@@ -72,12 +75,12 @@ const userSchema = new mongoose.Schema(
       {
         institution: {
           type: String,
-          default: '',
+          default: "",
           maxLength: [100, "Institution Name cannot exceed 100 characters"],
         },
         specialization: {
           type: String,
-          default: '',
+          default: "",
           maxLength: [100, "Specialization cannot exceed 100 characters"],
         },
         gpa: {
@@ -85,39 +88,47 @@ const userSchema = new mongoose.Schema(
         },
         otherInfo: {
           type: String,
-          default: '',
+          default: "",
           maxLength: [200, "Other information cannot exceed 200 characters"],
         },
         timeStrap: {
           isCurrent: { type: Boolean, default: false },
-          start_year: { type: Number, default: new Date().getFullYear(), validate: yearValidator },
-          end_year: { type: Number, validate: yearValidator }
-        }
-      }
+          start_year: {
+            type: Number,
+            default: new Date().getFullYear(),
+            validate: yearValidator,
+          },
+          end_year: { type: Number, validate: yearValidator },
+        },
+      },
     ],
     experiences: [
       {
         organization: {
           type: String,
-          default: '',
+          default: "",
           maxLength: [100, "Organization name cannot exceed 100 characters"],
         },
         role: {
           type: String,
-          default: '',
+          default: "",
           maxLength: [100, "Role cannot exceed 100 characters"],
         },
         otherInfo: {
           type: String,
-          default: '',
+          default: "",
           maxLength: [200, "Other information cannot exceed 200 characters"],
         },
         timeStrap: {
           isCurrent: { type: Boolean, default: false },
-          start_year: { type: Number, default: new Date().getFullYear(), validate: yearValidator },
-          end_year: { type: Number, validate: yearValidator }
-        }
-      }
+          start_year: {
+            type: Number,
+            default: new Date().getFullYear(),
+            validate: yearValidator,
+          },
+          end_year: { type: Number, validate: yearValidator },
+        },
+      },
     ],
     skills: [
       {
@@ -131,40 +142,24 @@ const userSchema = new mongoose.Schema(
           type: Number,
           enum: [1, 2, 3, 4, 5],
           required: true,
-        }
-      }
+        },
+      },
     ],
     links: [
       {
         field: {
           type: String,
-          enum: ['github', 'linkedIn'],
-          default: '',
+          enum: ["github", "linkedIn"],
+          default: "",
         },
         link: {
           type: String,
-          default: '',
+          default: "",
         },
-      }
+      },
     ],
     resume: {
-      fileName: {
-        type: String,
-        required: true,
-      },
-      filePath: {
-        type: String,
-        required: true,
-      },
-      fileType: {
-        type: String,
-        required: true,
-        validate: resumeFileTypeValidator,
-      },
-      fileSize: {
-        type: String,
-        required: true,
-      },
+      type: String,
     },
     createdAt: {
       type: Date,
