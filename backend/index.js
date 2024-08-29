@@ -51,7 +51,6 @@ app.use("/api/profile", profile);
 // });
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
 // Middleware for Errors
 app.use(errorMiddleware);
 
