@@ -1,19 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../../styles/homePage.module.css';
 import CreatePost from '../../User/createPost'; // Ensure the path is correct
-
-
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import WorkIcon from '@mui/icons-material/Work';
 import BusinessIcon from '@mui/icons-material/Business';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import "../../styles/jobForms.css";
-import { Navigate, redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { fetchAllJobForms } from '../../store/slices/JobSlices';
 import AllPost from './AllPosts';
-
 const AllJobForms = () => {
     const dispatch = useDispatch();
     const allJobForms = useSelector((state) => state.jobs.allJobForms);
@@ -38,7 +34,7 @@ const AllJobForms = () => {
 
     return (
         <div className="jobform-page">
-            <h2 className="job-forms-heading">Jobs For You</h2>
+            <h2 className="job-forms-heading">Find Your Dream Job</h2>
             <div className="jobform-container">
                 {allJobForms.length > 0 ? (
                     allJobForms.map((jobForm, index) => (
@@ -101,41 +97,34 @@ const HomePage = () => {
 
     const [showModal, setShowModal] = useState(false);
     const handleShowCreatePost = () => {
-        if(!userInfo){
+        if (!userInfo) {
             navigate("/login");
             return;
         }
-        
+
         setShowModal(!showModal);
     };
 
-    const handleOpenModal = () => {
-        setCreatePostButtonOn(true);
-    };
-
-    const handleCloseModal = () => {
-        setCreatePostButtonOn(false);
-    };
-
     return (
-        <div className={styles.container}>
+        <div className={styles.HomePageContent}>
+            <div className={styles.container}>
+                <div className={styles.leftColumn}>
+                    <img src="profile-pic-url" alt="Profile" className={styles.profilePic} />
+                    <button className={styles.createPostBtn} onClick={handleShowCreatePost}>Create Post</button>
+                </div>
 
-            <div className={styles.leftColumn}>
-                <img src="profile-pic-url" alt="Profile" className={styles.profilePic} />
-                <button className={styles.createPostBtn} onClick={handleShowCreatePost}>Create Post</button>
-            </div>
+                <div className={styles.middleColumn}>
+                    <AllPost />
+                </div>
 
-            <div className={styles.middleColumn}>
-                <AllPost/>
+                <div className={styles.rightColumn}>
+                    <AllJobForms />
+                </div>
+                <CreatePost showModal={showModal} handleShowCreatePost={handleShowCreatePost} />
             </div>
-
-            <div className={styles.rightColumn}>
-               <AllJobForms/>
-            </div>
-            <CreatePost showModal={showModal} handleShowCreatePost={handleShowCreatePost} />
         </div>
-
     );
 };
+
 
 export default HomePage;

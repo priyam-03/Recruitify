@@ -7,7 +7,7 @@ const { createJobForms, applyForJob, fetchMyJobForms, fetchJobById, fetchAllJobF
 
 router.route("/createJobForm").post(isAuthenticatedUser,createJobForms);
 router.route("/fetchMyJobForms").get(isAuthenticatedUser,fetchMyJobForms);
-router.route("/fetchAllJobForms").get(isAuthenticatedUser,fetchAllJobForms);
+router.route("/fetchAllJobForms").get(fetchAllJobForms);
 router.route("/fetchJobById/:id").get(isAuthenticatedUser, fetchJobById);
 router.route("/applyForJob").put(isAuthenticatedUser,applyForJob);
 
