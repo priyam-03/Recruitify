@@ -72,10 +72,8 @@ process.on("uncaughtException", (err) => {
   process.exit(1);
 });
 
-+(
-  // Connecting to database
-  connectDatabase()
-);
+connectDatabase()
+
 
 const server = http.createServer(app);
 
