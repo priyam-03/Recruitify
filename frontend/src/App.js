@@ -96,7 +96,7 @@ function App() {
                     element={<JobsAppliedByMe />}
                   />
                   <Route
-                    path="/shortlisted-applicants/:formId"
+                    path="/shortlisted-applicants/:formId/:noOfApplicants"
                     element={<ShortlistedApplicants />}
                   />
                 </Route>

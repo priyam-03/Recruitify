@@ -6,13 +6,13 @@ import styles from "../styles/shortlistedApplicants.module.css";
 
 const ShortlistedApplicants = () => {
   const { formId } = useParams();
-  const [searchParams] = useSearchParams(); // Use to get query parameters
-  const noOfApplicants = searchParams.get("noOfApplicants"); // Get noOfApplicants from query params
+  const { noOfApplicants } = useParams(); // Get noOfApplicants from query params
 
   const dispatch = useDispatch();
   const shortlistedApplicants = useSelector(
     (state) => state.jobs.shortlistedApplicants
   );
+  console.log("shortlistApplication" + JSON.stringify(shortlistedApplicants));
   const loading = useSelector((state) => state.jobs.isLoading);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const ShortlistedApplicants = () => {
       <h2>Shortlisted Applicants</h2>
       {shortlistedApplicants.map((applicant, index) => (
         <div key={index} className={styles.applicantItem}>
-          <span>{applicant.name}</span>
+          <span>{applicant.userId.name}</span>
         </div>
       ))}
     </div>

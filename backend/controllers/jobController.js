@@ -202,28 +202,25 @@ exports.shortlist = catchAsyncErrors(async (req, res) => {
     // Fetch the job application form with applicant profiles
     const jobApplicationForm = await JobApplicationForm.findById(
       formId
-    ).populate({
-      path: "applicantProfiles.userId",
-      select: "resume", // Select both 'resume' and 'user' fields
-    });
+    ).populate("applicantProfiles.userId", "_id resume");
 
     if (!jobApplicationForm) {
       return res.status(404).json({ error: "Job application form not found" });
     }
 
     // Check if the requester is the owner of the job application form
-    const isOwner = jobApplicationForm.ownerProfile.equals(req.user._id);
-    if (!isOwner) {
-      return res
-        .status(401)
-        .json({ error: "You are not authorized to perform this action" });
-    }
+    // const isOwner = jobApplicationForm.ownerProfile.equals(req.user._id);
+    // if (!isOwner) {
+    //   return res
+    //     .status(401)
+    //     .json({ error: "You are not authorized to perform this action" });
+    // }
 
     // Prepare data to send to Flask API
     const applicantsData = jobApplicationForm.applicantProfiles.map(
       (profile) => ({
-        user_id: profile._id,
-        s3_key: profile.resume,
+        user_id: profile.userId._id,
+        s3_key: profile.userId.resume,
       })
     );
 
@@ -244,17 +241,17 @@ exports.shortlist = catchAsyncErrors(async (req, res) => {
     }
     flaskResponse.data.topApplicants.map((id) => {
       jobApplicationForm.applicantProfiles.find((profile) => {
-        if (profile.userId.toString() === id) {
+        if (profile.userId._id.toString() === id) {
           profile.status = "shortlisted";
         }
       });
     });
     await jobApplicationForm.save();
 
-    const shortlisted = await JobApplicationForm.findById(formId).populate({
-      path: "applicationProfiles.userId",
-      select: "name avatar.filePath",
-    });
+    const shortlisted = await JobApplicationForm.findById(formId).populate(
+      "applicantProfiles.userId",
+      "name"
+    );
     shortlisted.applicantProfiles.filter(
       (profile) => profile.status === "shortlisted"
     );

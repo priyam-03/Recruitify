@@ -102,6 +102,7 @@ const JobSlice = createSlice({
     allJobForms: [],
     myJobForms: [],
     jobFormById: {},
+    shortlistedApplicants: [],
     isError: false,
     message: "",
     errorMessage: "",
@@ -174,6 +175,7 @@ const JobSlice = createSlice({
       })
       .addCase(fetchShortlistedApplicants.fulfilled, (state, action) => {
         state.shortlistedApplicants = action.payload;
+        console.log("shortlistApplication" + action.payload);
         state.isLoading = false;
       })
       .addCase(fetchShortlistedApplicants.rejected, (state) => {

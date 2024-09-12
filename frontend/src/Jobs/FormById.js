@@ -54,11 +54,10 @@ const FormById = () => {
   const shortlistApplication = () => {
     if (noOfApplicants > 0) {
       // Send formId and noOfApplicants as query parameters
+      console.log(formId, noOfApplicants);
       dispatch(fetchShortlistedApplicants({ formId, noOfApplicants })).then(
         () => {
-          navigate(
-            `/shortlisted-applicants/${formId}/shortlisted?noOfApplicants=${noOfApplicants}`
-          );
+          navigate(`/shortlisted-applicants/${formId}/${noOfApplicants}`);
         }
       );
     } else {
