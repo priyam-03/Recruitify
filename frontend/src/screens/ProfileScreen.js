@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout, profile } from "../features/auth/authActions";
 import "../styles/profile.css";
-import Posts from "../User/posts";
 import EducationForm from "../User/educations";
 import ExperienceForm from "../User/experience";
 import SkillForm from "../User/skillsForm";
@@ -11,9 +10,10 @@ import LinkForm from "../User/linkForm";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { fetchResume, uploadResume } from "../store/slices/profileSlices";
+import MyPost from "../User/myPosts";
 
 const ProfileScreen = () => {
-  const [activeSection, setActiveSection] = useState('education');
+  const [activeSection, setActiveSection] = useState(null);
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
   const [singleFile, setSingleFile] = useState("");
@@ -76,7 +76,7 @@ const ProfileScreen = () => {
   const renderContent = () => {
     switch (activeSection) {
       case 'posts':
-        return <Posts />;
+        return <MyPost/>;
       case 'education':
         return <EducationForm />;
       case 'experience':

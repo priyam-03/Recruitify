@@ -20,8 +20,8 @@ const MainContainer = styled("div")({
 const AppBar = () => {
   return (
     <MainContainer>
-      <ChosenOptionLabel />
-      <DropdownMenu />
+      {/* <ChosenOptionLabel /> */}
+      {/* <DropdownMenu /> */}
     </MainContainer>
   );
 };

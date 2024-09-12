@@ -1,17 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Qwitcher+Grypen:wght@400;700&display=swap');
 header {
   background-color: #333;
   color: #fff;
-  padding: 10px 0;
+  padding: 10px 20px;
+  width: 100vw;
+  /* z-index: 1000; */
 }
 
 .header-status {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
 }
 
 .cta {
+  display: flex;
+  align-items: center;
+}
+/* logo.css */
+.logo-container {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo-image {
+  height: 40px;
+  width: auto;
+  margin-right: 10px;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+}
+
+.qwitcher-grypen-regular {
+  font-family: "Qwitcher Grypen", cursive;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.qwitcher-grypen-bold {
+  font-family: "Qwitcher Grypen", cursive;
+  font-weight: 700;
+  font-style: normal;
+}
+
+
+
+.navigation {
+  display: flex;
+  align-items: center;
+}
+
+.navigation a {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 15px;
+}
+
+.right-buttons {
   display: flex;
   align-items: center;
 }
@@ -27,22 +78,18 @@ header {
   margin-right: 10px;
 }
 
+.button:last-child {
+  margin-right: 0;
+}
+
 .button.logout {
   background-color: #dc3545;
 }
 
-.navigation {
-  display: flex;
-  justify-content: flex-end;
-  padding: 0 20px;
+.button.login {
+  margin-right: 0;
 }
 
-.navigation a {
-  color: #fff;
-  text-decoration: none;
-  padding: 10px 15px;
-}
-
-.right-buttons {
-  display: flex;
+.button.register {
+  margin-left: 10px;
 }

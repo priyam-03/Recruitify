@@ -5,7 +5,7 @@ import CreateJob from '../Jobs/CreateJobs';
 import JobForms from '../Jobs/JobForm';
 import { useSelector } from 'react-redux';
 const JobApplicationPage = () => {
-    const [activeSection, setActiveSection] = useState('my-jobs');
+    const [activeSection, setActiveSection] = useState('all-jobs');
     const { userInfo } = useSelector((state) => state.auth);
     const renderContent = () => {
         switch (activeSection) {

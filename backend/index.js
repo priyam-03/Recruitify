@@ -9,22 +9,27 @@ const socketServer = require("./socketServer");
 const errorMiddleware = require("./middleware/error");
 const dotenv = require("dotenv");
 // Config
-if (process.env.NODE_ENV !== "PRODUCTION") {
-  require("dotenv").config({ path: "./secret.env" });
-}
+// if (process.env.NODE_ENV !== "PRODUCTION") {
+require("dotenv").config({ path: "./secret.env" });
+// }
 
 console.log(process.env.SMPT_MAIL);
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
-const temp = process.env.CLIENT_URL || "http://localhost:3000";
+
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: [
+      "http://localhost:3000",
+      "https://recruitingwebsite.online",
+      "https://www.recruitingwebsite.online",
+    ],
     credentials: true,
   })
 );
+
 // Route Imports
 
 app.get("/", (req, res) => {
@@ -55,7 +60,6 @@ app.use("/api/profile", profile);
 // });
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
 // Middleware for Errors
 app.use(errorMiddleware);
 
@@ -68,13 +72,8 @@ process.on("uncaughtException", (err) => {
   process.exit(1);
 });
 
-// Config
-if (process.env.NODE_ENV !== "PRODUCTION") {
-  require("dotenv").config({ path: "./config.env" });
-}
+connectDatabase()
 
-// Connecting to database
-connectDatabase();
 
 const server = http.createServer(app);
 

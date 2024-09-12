@@ -1,6 +1,7 @@
 import { openAlertMessage } from "./alertActions";
 import * as api from "../../api";
 import axios from "axios";
+axios.defaults.baseURL = "https://api.recruitingwebsite.online";
 export const friendsActions = {
   SET_FRIENDS: "FRIENDS.SET_FRIENDS",
   SET_PENDING_FRIENDS_INVITATIONS: "FRIENDS.SET_PENDING_FRIENDS_INVITATIONS",

@@ -1,13 +1,19 @@
 import React from "react";
+import HomePage from "../shared/components/homePage";
 // import "./HomeScreen.css"; // Import the CSS file for styling
 import "../styles/HomeScreen.css";
+import { useSelector } from "react-redux";
+import DashBoard from '../shared/components/dashboard'
 const HomeScreen = () => {
+  const { userInfo, loading } = useSelector((state) => state.auth);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="home-screen">
-      <div className="content">
-        <h1>Welcome to Chat App</h1>
-        <p>Connect with friends and chat in real-time</p>
-      </div>
+      {userInfo ? <HomePage /> : <DashBoard />}
     </div>
   );
 };

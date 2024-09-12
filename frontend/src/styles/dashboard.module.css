@@ -1,0 +1,179 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  margin-top: 50px;
+  width: auto;
+  height: 100%;
+  overflow-y: auto;
+}
+
+
+/* .restArea */
+.restArea {
+  width: auto;
+  min-height: 100px; /* Use min-height instead of height */
+}
+
+.intro {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 40px;
+  text-align: center;
+  align-items: center;
+  font-size: 50px;
+}
+
+.heading {
+  font-weight: 700;
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.paragraph {
+  font-family: 'Poppins', sans-serif;
+  color: #666;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.gridContainer {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+/* Feature Card */
+.featureCard {
+  background-color: white;
+  color: rgb(4, 4, 4);
+  width: 100%;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  margin-bottom: 20px;
+}
+
+.featureCard:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Feature Card Content */
+.featureCardContent {
+  text-align: center;
+  padding: 20px;
+}
+
+.featureTitle {
+  font-family: 'Qwitcher Grypen', cursive;
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+/* Expand More Icon */
+.expandMoreIcon {
+  font-size: 1.5rem;
+  color: #007bff;
+  margin-top: 10px;
+}
+
+/* Contributors Section */
+.contributors {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.contributorsHeading {
+  font-family: 'Qwitcher Grypen', cursive;
+  font-weight: 700;
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.contributorCard {
+  background-color: white;
+  color: rgb(4, 4, 4);
+  width: 100%;
+
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 50px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  margin-bottom: 20px;
+}
+
+.contributorCard:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.contributorCardContent {
+  text-align: center;
+  padding: 15px;
+}
+
+.contributorName {
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #007bff;
+  margin-bottom: 5px;
+}
+
+.contributorRole {
+  font-family: 'Poppins', sans-serif;
+  color: #666;
+  font-size: 1rem;
+}
+
+.contributorImage {
+  width: 80px; /* Adjust size as needed */
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.githubLink {
+  color: #007bff; /* Customize link color */
+  text-decoration: none;
+  margin-top: 10px;
+}
+
+.githubLink:hover {
+  text-decoration: underline;
+}
+
+
+/* Hide Scrollbar */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+* {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+

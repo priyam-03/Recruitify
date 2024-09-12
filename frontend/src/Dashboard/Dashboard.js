@@ -49,7 +49,7 @@ const Dashboard = ({ isUserInRoom }) => {
       <SideBar />
       <FriendsSideBar />
       <Messenger />
-      <AppBar />
+      {/* <AppBar /> */}
       {isUserInRoom && <Room />}
     </Wrapper>
   );
