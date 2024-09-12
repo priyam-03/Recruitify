@@ -57,7 +57,7 @@ const FormById = () => {
       dispatch(fetchShortlistedApplicants({ formId, noOfApplicants })).then(
         () => {
           navigate(
-            `/jobs/${formId}/shortlisted?noOfApplicants=${noOfApplicants}`
+            `/shortlisted-applicants/${formId}/shortlisted?noOfApplicants=${noOfApplicants}`
           );
         }
       );
@@ -69,11 +69,11 @@ const FormById = () => {
   return (
     <div className={styles.formbyidPage}>
       <div className={styles.avatarSection}>
-        {/* <img
+        <img
           className={styles.avatar}
           src={avatarUrl}
           alt={jobForm.ownerProfile.name}
-        /> */}
+        />
         <span className={styles.ownerName}>{jobForm.ownerProfile.name}</span>
 
         <div className={styles.ownerEmail}>
@@ -158,11 +158,11 @@ const FormById = () => {
         {jobForm.applicantProfiles.length > 0 ? (
           jobForm.applicantProfiles.map((applicant, index) => (
             <div key={index} className={styles.applicantAvatarSection}>
-              {/* <img
+              <img
                 className={styles.applicantAvatar}
                 src={getApplicantUrl(applicant.userId.avatar.filePath)}
                 alt={applicant.userId.name}
-              /> */}
+              />
               <span className={styles.applicantOwnerName}>
                 {applicant.userId.name}
               </span>
