@@ -23,46 +23,47 @@ import "./App.css";
 import JobApplicationPage from "./screens/JobApplications";
 import FormById from "./Jobs/FormById";
 import Logo from "./shared/components/logo";
-
+import JobsAppliedByMe from "./screens/JobsAppliedByMe";
+import ShortlistedApplicants from "./Jobs/ShortlistedApplicants";
 function App() {
   const [showLogo, setShowLogo] = useState(false);
   useEffect(() => {
-    const hasVisited = localStorage.getItem('hasVisited');
+    const hasVisited = localStorage.getItem("hasVisited");
     if (!hasVisited) {
       setShowLogo(true);
       const timer = setTimeout(() => {
         setShowLogo(false);
-        localStorage.setItem('hasVisited', 'true');
+        localStorage.setItem("hasVisited", "true");
       }, 2000);
-
 
       return () => clearTimeout(timer);
     }
 
     // Event handler for clearing localStorage on page unload
     const handleBeforeUnload = () => {
-      localStorage.removeItem('hasVisited');
+      localStorage.removeItem("hasVisited");
     };
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
     return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [showLogo]);
 
   return (
     <>
       <Router>
-        {showLogo && <Logo
-          logoSrc='/large-logo-color.png'
-          height={"100vh"}
-          width={"100vw"}
-          applyAnimation={true}
-          preserveAspectRatio="xMidYMid meet"
-        />}
-        {
-          !showLogo &&
+        {showLogo && (
+          <Logo
+            logoSrc="/large-logo-color.png"
+            height={"100vh"}
+            width={"100vw"}
+            applyAnimation={true}
+            preserveAspectRatio="xMidYMid meet"
+          />
+        )}
+        {!showLogo && (
           <>
             <Header />
             <main className="container content">
@@ -71,22 +72,39 @@ function App() {
                 <Route path="/login" element={<LoginScreen />} />
                 <Route path="/register" element={<RegisterScreen />} />
                 <Route path="/forgotpassword" element={<ForgotPassword />} />
-                <Route path="/resetpassword/:token" element={<ResetPassword />} />
+                <Route
+                  path="/resetpassword/:token"
+                  element={<ResetPassword />}
+                />
                 <Route element={<ProtectedRoute />}>
                   <Route path="/user-profile" element={<ProfileScreen />} />
-                  <Route path="/updatePassword" element={<UpdatePasswordScreen />} />
-                  <Route path="/updateProfile" element={<UpdateProfileScreen />} />
-                  <Route path='/Jobs' element={<JobApplicationPage />} />
+                  <Route
+                    path="/updatePassword"
+                    element={<UpdatePasswordScreen />}
+                  />
+                  <Route
+                    path="/updateProfile"
+                    element={<UpdateProfileScreen />}
+                  />
+                  <Route path="/Jobs" element={<JobApplicationPage />} />
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/cluster" element={<Cluster />} />
                   <Route path="/group" element={<Group />} />
                   <Route path="/Jobs/:formId" element={<FormById />} />
+                  <Route
+                    path="/jobs-applied-by-me"
+                    element={<JobsAppliedByMe />}
+                  />
+                  <Route
+                    path="/shortlisted-applicants/:formId"
+                    element={<ShortlistedApplicants />}
+                  />
                 </Route>
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </main>
           </>
-        }
+        )}
       </Router>
 
       <AlertNotification />

@@ -1,8 +1,7 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
-const base_url = process.env.REACT_APP_BACKEND_URL;
-
+axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
 export const userLogin = createAsyncThunk(
   "user/login",
   async ({ email, password }, { rejectWithValue }) => {
@@ -14,7 +13,7 @@ export const userLogin = createAsyncThunk(
       };
 
       const { data } = await axios.post(
-        `${base_url}/api/v1/login`,
+        `/api/v1/login`,
         { email, password },
         { withCredentials: true },
         config
@@ -43,7 +42,7 @@ export const registerUser = createAsyncThunk(
         },
       };
       const { data } = await axios.post(
-        `${base_url}/api/v1/register`,
+        `/api/v1/register`,
         { name, email, password, file },
         {
           headers: {
@@ -67,7 +66,7 @@ export const registerUser = createAsyncThunk(
 
 export const logout = createAsyncThunk("user/logout", async (thunkAPI) => {
   try {
-    await axios.get(`${base_url}/api/v1/logout`);
+    await axios.get(`/api/v1/logout`);
   } catch (error) {
     thunkAPI.dispatch({ payload: error.message });
   }
@@ -77,7 +76,7 @@ export const profile = createAsyncThunk(
   "user/profile",
   async (rejectWithValue) => {
     try {
-      const { data } = await axios.get(`${base_url}/api/v1/me`, {
+      const { data } = await axios.get(`/api/v1/me`, {
         withCredentials: true,
       });
       return data;
@@ -96,14 +95,14 @@ export const updateProfile = createAsyncThunk(
   async ({ name, email, password, file }, { rejectWithValue }) => {
     try {
       const success = await axios.put(
-        `${base_url}/api/v1/me/update`,
+        `/api/v1/me/update`,
         { name, email, password, file },
+        { withCredentials: true },
         {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        },
-        { withCredentials: true }
+        }
       );
       console.log(success);
       return success;
@@ -129,7 +128,7 @@ export const passwordUpdate = createAsyncThunk(
         },
       };
       const { data } = await axios.put(
-        `${base_url}/api/v1/password/update`,
+        `/api/v1/password/update`,
         { oldPassword, confirmPassword, newPassword },
         { withCredentials: true },
         config
@@ -154,7 +153,7 @@ export const passwordForgot = createAsyncThunk(
         },
       };
       const { data } = await axios.post(
-        `${base_url}/api/v1/password/forgot`,
+        `/api/v1/password/forgot`,
         { email },
 
         { withCredentials: true },
@@ -180,7 +179,7 @@ export const passwordReset = createAsyncThunk(
         },
       };
       const { data } = await axios.put(
-        `${base_url}/api/v1/password/reset/${token}`,
+        `/api/v1/password/reset/${token}`,
         { newPassword, confirmPassword, token },
         { withCredentials: true },
         config

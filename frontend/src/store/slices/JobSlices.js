@@ -84,6 +84,16 @@ export const applyForJob = createAsyncThunk(
     }
   }
 );
+export const fetchShortlistedApplicants = createAsyncThunk(
+  "jobs/fetchShortlistedApplicants",
+  async ({ formId, noOfApplicants }) => {
+    const response = await axios.get(
+      `/api/jobs/shortlist?formId=${formId}&noOfApplicants=${noOfApplicants}`,
+      config
+    );
+    return response.data;
+  }
+);
 
 const JobSlice = createSlice({
   name: "jobs",
@@ -158,6 +168,16 @@ const JobSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.errorMessage = action.payload;
+      })
+      .addCase(fetchShortlistedApplicants.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchShortlistedApplicants.fulfilled, (state, action) => {
+        state.shortlistedApplicants = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(fetchShortlistedApplicants.rejected, (state) => {
+        state.isLoading = false;
       });
   },
 });

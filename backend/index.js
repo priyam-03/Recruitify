@@ -5,20 +5,23 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
+const { ApolloServer } = require("@apollo/server");
+const { expressMiddleware } = require("@apollo/server/express4");
 const socketServer = require("./socketServer");
 const errorMiddleware = require("./middleware/error");
 const dotenv = require("dotenv");
-// Config
-// if (process.env.NODE_ENV !== "PRODUCTION") {
 require("dotenv").config({ path: "./secret.env" });
-// }
+const connectDatabase = require("./database/database");
 
-console.log(process.env.SMPT_MAIL);
+// GraphQL imports
+const typeDefs = require("./graphql/typeDefs");
+const resolvers = require("./graphql/resolvers");
+const { isAuthenticatedUserGraphQl } = require("./middleware/auth");
 
+// Middleware Setup
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(
   cors({
     origin: [
@@ -31,15 +34,12 @@ app.use(
 );
 
 // Route Imports
-
 app.get("/", (req, res) => {
   res.send("Recruitify Api is working fine");
 });
-
 const user = require("./routes/userRoute");
 const group = require("./routes/groupRoutes");
 const friendInvitationRoutes = require("./routes/friendInvitationRoutes");
-
 const posts = require("./routes/postRouter");
 const jobs = require("./routes/jobsRouter");
 const profile = require("./routes/profileRouter");
@@ -51,19 +51,19 @@ app.use("/api/posts", posts);
 app.use("/api/jobs", jobs);
 app.use("/api/profile", profile);
 
-// Static files
-// Uncomment the following lines if you have a build directory for your frontend
+// Static files (optional)
 // app.use(express.static(path.join(__dirname, "./frontend/build")));
-
 // app.get("*", (req, res) => {
 //   res.sendFile(path.join(__dirname, "./frontend/build/index.html"));
 // });
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-// Middleware for Errors
+
+// Error Middleware
 app.use(errorMiddleware);
 
-const connectDatabase = require("./database/database");
+// Connecting to the database
+connectDatabase();
 
 // Handling Uncaught Exception
 process.on("uncaughtException", (err) => {
@@ -72,14 +72,36 @@ process.on("uncaughtException", (err) => {
   process.exit(1);
 });
 
-connectDatabase()
+// ApolloServer Setup (GraphQL)
+async function startApolloServer() {
+  const apolloServer = new ApolloServer({
+    typeDefs,
+    resolvers,
+  });
 
+  await apolloServer.start();
 
+  app.use(
+    "/graphql",
+    isAuthenticatedUserGraphQl,
+    expressMiddleware(apolloServer, {
+      context: async ({ req }) => ({
+        user: req.user,
+      }),
+    })
+  );
+}
+
+// Initialize Apollo Server
+startApolloServer();
+
+// Creating HTTP Server
 const server = http.createServer(app);
 
 // Register Socket.IO server
 socketServer.registerSocketServer(server);
 
+// Start the server
 server.listen(process.env.PORT, () => {
   console.log(`Server is working on http://localhost:${process.env.PORT}`);
 });
