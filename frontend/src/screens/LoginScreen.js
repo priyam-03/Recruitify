@@ -12,11 +12,10 @@ const LoginScreen = () => {
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
-
-  // Redirect authenticated user to profile screen
+  
   useEffect(() => {
     if (userInfo) {
-      navigate("/user-profile");
+      navigate("/");
     }
   }, [navigate, userInfo]);
 

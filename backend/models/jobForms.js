@@ -60,22 +60,16 @@ const JobApplicationFormSchema = new Schema({
 
   applicantProfiles: [
     {
-      type: Schema.Types.ObjectId,
-      ref: "Userauth",
-    },
-    {
+      userId: { type: Schema.Types.ObjectId, ref: "Userauth" },
       timestamps: { type: Schema.Types.Date, default: Date.now },
-    },
-    {
+      status: {
+        type: String,
+        enum: ["applied", "shortlisted", "rejected", "hired"],
+        default: "applied",
+      },
       resume: {
         type: String,
       },
-    },
-  ],
-  shortlistedApplicants: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Userauth",
     },
   ],
 

@@ -22,26 +22,42 @@ exports.createPost = catchAsyncErrors(async (req, res) => {
         res.status(201).json(savedPost);
         console.log("successful.. + ");
 
-
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
 
-exports.getPost = catchAsyncErrors(async (req, res) => {
-    try {
-        const email = req.params.email;
-        console.log("email== " + email);
-        const author = await Userauth.findOne({ email: email });
-        let posts;
-        if (email) {
-            posts = await Post.find({ 'author': author._id }).populate('author').sort({timestamp:-1});
-        } else {
-            posts = await Post.find().populate('author').sort({timestamp:-1});
-        }
 
-        console.log("posts == " + posts);
+exports.getMyPost = catchAsyncErrors(async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const posts = await Post.find({ 'author': userId })
+            .populate({
+                path: 'author',
+                select: 'name email avatar'
+            })
+            .sort({ timestamp: -1 });
+
+        if (!posts || posts.length === 0) {
+            return res.status(404).json({ error: 'Posts not found' });
+        }
+        res.status(200).json(posts);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+exports.getAllPost = catchAsyncErrors(async (req, res) => {
+    try {
+        const posts = await Post.find()
+            .populate({
+                path: 'author',
+                select: 'name email avatar'
+            })
+            .sort({ timestamp: -1 });
+
         if (!posts || posts.length === 0) {
             return res.status(404).json({ error: 'Posts not found' });
         }
@@ -54,7 +70,8 @@ exports.getPost = catchAsyncErrors(async (req, res) => {
 
 exports.deletePost = catchAsyncErrors(async (req, res) => {
     try {
-        const postId = req.params.id; 
+        const postId = req.params.id;
+        console.log("psot id  = "+postId);
 
         if (!mongoose.isValidObjectId(postId)) {
             return res.status(400).json({ error: 'Invalid post ID' });
@@ -65,6 +82,12 @@ exports.deletePost = catchAsyncErrors(async (req, res) => {
         if (!post) {
             return res.status(404).json({ error: 'Post not found' });
         }
+
+        // Check if the user is the author of the post
+        if (post.author.toString() !== req.user._id.toString()) {
+            return res.status(403).json({ error: 'Unauthorized to delete this post' });
+        }
+
         await post.remove();
 
         res.status(200).json({ message: 'Post deleted successfully' });

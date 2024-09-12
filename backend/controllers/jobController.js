@@ -85,7 +85,7 @@ exports.fetchMyJobForms = catchAsyncErrors(async (req, res) => {
         select: "_id name avatar.filePath",
       })
       .populate({
-        path: "applicantProfiles",
+        path: "applicantProfiles.userId",
         select: "_id name avatar.filePath",
       })
       .sort({ timestamp: -1 });
@@ -111,7 +111,7 @@ exports.fetchAllJobForms = catchAsyncErrors(async (req, res) => {
         select: "_id name avatar.filePath",
       })
       .populate({
-        path: "applicantProfiles",
+        path: "applicantProfiles.userId",
         select: "_id name avatar.filePath",
       })
       .sort({ timestamp: -1 });
@@ -132,7 +132,7 @@ exports.fetchJobById = catchAsyncErrors(async (req, res) => {
     const formData = await JobApplicationForm.findById(id)
       .populate("ownerProfile")
       .populate({
-        path: "applicantProfiles",
+        path: "applicantProfiles.userId",
         select: "_id name avatar.filePath",
       });
     res.status(200).json(formData);
@@ -145,9 +145,9 @@ exports.fetchJobById = catchAsyncErrors(async (req, res) => {
 exports.applyForJob = catchAsyncErrors(async (req, res) => {
   try {
     const userId = req.user._id;
-    console.log("applicant : " + userId);
+
     const { formId } = req.body;
-    console.log(formId);
+
     const jobApplicationForm = await JobApplicationForm.findById(formId);
 
     if (!jobApplicationForm) {
@@ -160,14 +160,16 @@ exports.applyForJob = catchAsyncErrors(async (req, res) => {
         .json({ error: "You cannot apply to your own job" });
     }
     const hasApplied = jobApplicationForm.applicantProfiles.some((applicant) =>
-      applicant.equals(userId)
+      applicant.userId.toString().equals(userId.toString())
     );
     if (hasApplied) {
       return res
         .status(400)
         .json({ error: "You have already applied for this job" });
     }
-    jobApplicationForm.applicantProfiles.push(userId);
+    jobApplicationForm.applicantProfiles.push({
+      userId,
+    });
     await jobApplicationForm.save();
 
     res.status(201).json({ message: "Application successful" });
@@ -177,7 +179,21 @@ exports.applyForJob = catchAsyncErrors(async (req, res) => {
   }
 });
 
-const axios = require("axios"); // Include axios for making HTTP requests
+exports.jobAppliedByMe = catchAsyncErrors(async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const jobForms = await JobApplicationForm.find({
+      "applicantProfiles.userId": userId,
+    });
+
+    res.json(jobForms);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+const axios = require("axios");
 
 exports.shortlist = catchAsyncErrors(async (req, res) => {
   try {
@@ -187,8 +203,8 @@ exports.shortlist = catchAsyncErrors(async (req, res) => {
     const jobApplicationForm = await JobApplicationForm.findById(
       formId
     ).populate({
-      path: "applicantProfiles",
-      select: "resume user", // Select both 'resume' and 'user' fields
+      path: "applicantProfiles.userId",
+      select: "resume", // Select both 'resume' and 'user' fields
     });
 
     if (!jobApplicationForm) {
@@ -205,17 +221,17 @@ exports.shortlist = catchAsyncErrors(async (req, res) => {
 
     // Prepare data to send to Flask API
     const applicantsData = jobApplicationForm.applicantProfiles.map(
-      //   (profile) => ({
-      //     userId: profile._id,
-      //     awsKeyId: profile.resume,
-      //   })
-      (profile) => profile.resume
+      (profile) => ({
+        user_id: profile._id,
+        s3_key: profile.resume,
+      })
     );
 
     const requestData = {
       applicants: applicantsData,
-      noOfApplicants,
       jobDescription: jobApplicationForm.jobDescription,
+      job_id: formId.toString(),
+      noOfApplicants: parseInt(noOfApplicants),
     };
 
     // Send the data to Flask API
@@ -226,14 +242,24 @@ exports.shortlist = catchAsyncErrors(async (req, res) => {
     if (flaskResponse.status !== 200) {
       return res.status(500).json({ error: flaskResponse.status });
     }
+    flaskResponse.data.topApplicants.map((id) => {
+      jobApplicationForm.applicantProfiles.find((profile) => {
+        if (profile.userId.toString() === id) {
+          profile.status = "shortlisted";
+        }
+      });
+    });
+    await jobApplicationForm.save();
 
-    // Handle the Flask API response
-    const topApplicantIds = flaskResponse.data.topApplicants; // Assuming this is the expected response format
-
-    // Send the response back to the client
-    res.json({ topApplicantIds });
+    const shortlisted = await JobApplicationForm.findById(formId).populate({
+      path: "applicationProfiles.userId",
+      select: "name avatar.filePath",
+    });
+    shortlisted.applicantProfiles.filter(
+      (profile) => profile.status === "shortlisted"
+    );
+    res.json(shortlisted.applicantProfiles);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: error.message });
   }
 });

@@ -9,7 +9,7 @@ const MainContainer = styled("div")({
   backgroundColor: "#36393f",
   // marginTop: "48px",
   display: "flex",
-  // height: "100%",
+  height: "100vh",
 });
 
 const Messenger = () => {
