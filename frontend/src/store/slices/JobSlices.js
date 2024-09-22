@@ -14,9 +14,7 @@ export const createJobForms = createAsyncThunk(
       const response = await axios.post(
         "/api/jobs/createJobForm",
         content,
-        {
-          withCredentials: true,
-        },
+        { withCredentials: true },
         config
       );
       return response.data;
