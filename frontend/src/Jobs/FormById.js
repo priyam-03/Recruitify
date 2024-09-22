@@ -9,11 +9,13 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import styles from "../styles/formById.module.css";
 import { useNavigate } from "react-router-dom";
 import { fetchShortlistedApplicants } from "../store/slices/JobSlices";
+import Error from "../shared/components/Error";
 const FormById = () => {
   const { formId } = useParams();
   const [noOfApplicants, setNoOfApplicants] = useState(0);
   const jobFormTemp = useSelector((state) => state.jobs.jobFormById);
   const loading = useSelector((state) => state.jobs.isLoading);
+  const errorMessage = useSelector((state) => state.jobs.errorMessage);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -35,10 +37,11 @@ const FormById = () => {
     return <div>No job form data available.</div>;
   }
 
-  const avatarUrl = `http://localhost:4000/${jobForm.ownerProfile.avatar.filePath.replace(
-    /\\/g,
-    "/"
-  )}`;
+  // const avatarUrl = `http://localhost:4000/${jobForm.ownerProfile.avatar.filePath.replace(
+  //   /\\/g,
+  //   "/"
+  // )}`;
+  const avatarUrl = `https://www.flaticon.com/free-icon/user-picture_21104`;
   const getApplicantUrl = (path) =>
     `http://localhost:4000/${path.replace(/\\/g, "/")}`;
 
@@ -67,6 +70,7 @@ const FormById = () => {
 
   return (
     <div className={styles.formbyidPage}>
+      {errorMessage && <Error>{errorMessage}</Error>}
       <div className={styles.avatarSection}>
         <img
           className={styles.avatar}

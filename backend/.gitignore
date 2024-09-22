@@ -13,7 +13,7 @@
 
 # production
 
-/backend/uploads
+
 # misc
 /secret.env
 /frontend/.DS_Store

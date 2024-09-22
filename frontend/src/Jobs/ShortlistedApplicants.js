@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useSearchParams } from "react-router-dom";
 import { fetchShortlistedApplicants } from "../store/slices/JobSlices";
 import styles from "../styles/shortlistedApplicants.module.css";
-
+import Error from "../shared/components/Error";
 const ShortlistedApplicants = () => {
   const { formId } = useParams();
   const { noOfApplicants } = useParams(); // Get noOfApplicants from query params
@@ -12,7 +12,7 @@ const ShortlistedApplicants = () => {
   const shortlistedApplicants = useSelector(
     (state) => state.jobs.shortlistedApplicants
   );
-  console.log("shortlistApplication" + JSON.stringify(shortlistedApplicants));
+  const errorMessage = useSelector((state) => state.jobs.errorMessage);
   const loading = useSelector((state) => state.jobs.isLoading);
 
   useEffect(() => {
@@ -31,6 +31,7 @@ const ShortlistedApplicants = () => {
 
   return (
     <div className={styles.shortlistedPage}>
+      {errorMessage && <Error>{errorMessage}</Error>}
       <h2>Shortlisted Applicants</h2>
       {shortlistedApplicants.map((applicant, index) => (
         <div key={index} className={styles.applicantItem}>

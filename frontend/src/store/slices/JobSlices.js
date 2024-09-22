@@ -120,7 +120,7 @@ const JobSlice = createSlice({
       .addCase(createJobForms.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.errorMessage = action.payload;
+        state.errorMessage = action.payload.error;
       })
       .addCase(fetchMyJobForms.pending, (state) => {
         state.isLoading = true;
@@ -132,7 +132,7 @@ const JobSlice = createSlice({
       .addCase(fetchMyJobForms.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.errorMessage = action.payload;
+        state.errorMessage = action.payload.error;
       })
       .addCase(fetchAllJobForms.pending, (state) => {
         state.isLoading = true;
@@ -144,7 +144,7 @@ const JobSlice = createSlice({
       .addCase(fetchAllJobForms.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.errorMessage = action.payload;
+        state.errorMessage = action.payload.error;
       })
       .addCase(fetchJobById.pending, (state) => {
         state.isLoading = true;
@@ -156,7 +156,7 @@ const JobSlice = createSlice({
       .addCase(fetchJobById.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.errorMessage = action.payload;
+        state.errorMessage = action.payload.error;
       })
       .addCase(applyForJob.pending, (state) => {
         state.isLoading = true;
@@ -168,7 +168,7 @@ const JobSlice = createSlice({
       .addCase(applyForJob.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.errorMessage = action.payload;
+        state.errorMessage = action.payload.error;
       })
       .addCase(fetchShortlistedApplicants.pending, (state) => {
         state.isLoading = true;

@@ -147,7 +147,10 @@ exports.applyForJob = catchAsyncErrors(async (req, res) => {
     const userId = req.user._id;
 
     const { formId } = req.body;
-
+    const user = await User.findById(userId);
+    if (user.resume == undefined) {
+      return res.status(400).json({ error: "Please upload your resume" });
+    }
     const jobApplicationForm = await JobApplicationForm.findById(formId);
 
     if (!jobApplicationForm) {
@@ -209,12 +212,12 @@ exports.shortlist = catchAsyncErrors(async (req, res) => {
     }
 
     // Check if the requester is the owner of the job application form
-    // const isOwner = jobApplicationForm.ownerProfile.equals(req.user._id);
-    // if (!isOwner) {
-    //   return res
-    //     .status(401)
-    //     .json({ error: "You are not authorized to perform this action" });
-    // }
+    const isOwner = jobApplicationForm.ownerProfile.equals(req.user._id);
+    if (!isOwner) {
+      return res
+        .status(401)
+        .json({ error: "You are not authorized to perform this action" });
+    }
 
     // Prepare data to send to Flask API
     const applicantsData = jobApplicationForm.applicantProfiles.map(
@@ -223,7 +226,16 @@ exports.shortlist = catchAsyncErrors(async (req, res) => {
         s3_key: profile.userId.resume,
       })
     );
-
+    if (noOfApplicants > applicantsData.length) {
+      return res.status(400).json({
+        error: "Number of applicants exceeds the total number of applicants",
+      });
+    }
+    if (noOfApplicants.length <= 0) {
+      return res
+        .status(400)
+        .json({ error: "Please enter the number of applicants to shortlist" });
+    }
     const requestData = {
       applicants: applicantsData,
       jobDescription: jobApplicationForm.jobDescription,
