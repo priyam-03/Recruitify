@@ -70,7 +70,7 @@ const FormById = () => {
 
   return (
     <div className={styles.formbyidPage}>
-      {errorMessage && <Error>{errorMessage}</Error>}
+      {/* {errorMessage && <Error>{errorMessage}</Error>} */}
       <div className={styles.avatarSection}>
         <img
           className={styles.avatar}

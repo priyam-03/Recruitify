@@ -30,9 +30,7 @@ export const fetchMyJobForms = createAsyncThunk(
     try {
       const response = await axios.get(
         `/api/jobs/fetchMyJobForms`,
-        {
-          withCredentials: true,
-        },
+        { withCredentials: true },
         config
       );
       if (response.data.error === "Forms not found") {
@@ -51,9 +49,7 @@ export const fetchAllJobForms = createAsyncThunk(
     try {
       const response = await axios.get(
         `/api/jobs/fetchAllJobForms`,
-        {
-          withCredentials: true,
-        },
+        { withCredentials: true },
         config
       );
       if (response.data.error === "Forms not found") {
@@ -72,9 +68,7 @@ export const fetchJobById = createAsyncThunk(
     try {
       const response = await axios.get(
         `/api/jobs/fetchJobById/${formId}`,
-        {
-          withCredentials: true,
-        },
+        { withCredentials: true },
         config
       );
       return response.data;
@@ -92,9 +86,7 @@ export const applyForJob = createAsyncThunk(
         `/api/jobs/applyForJob`,
 
         { formId: formId },
-        {
-          withCredentials: true,
-        },
+        { withCredentials: true },
         config
       );
       return response.data;
@@ -108,9 +100,7 @@ export const fetchShortlistedApplicants = createAsyncThunk(
   async ({ formId, noOfApplicants }) => {
     const response = await axios.get(
       `/api/jobs/shortlist?formId=${formId}&noOfApplicants=${noOfApplicants}`,
-      {
-        withCredentials: true,
-      },
+      { withCredentials: true },
       config
     );
     return response.data;

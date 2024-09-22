@@ -144,10 +144,11 @@ exports.fetchJobById = catchAsyncErrors(async (req, res) => {
 
 exports.applyForJob = catchAsyncErrors(async (req, res) => {
   try {
+    console.log(req.user);
     const userId = req.user._id;
 
     const { formId } = req.body;
-    const user = await User.findById(userId);
+    const user = await Userauth.findById(userId);
     if (user.resume == undefined) {
       return res.status(400).json({ error: "Please upload your resume" });
     }
