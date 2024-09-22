@@ -163,7 +163,7 @@ const FormById = () => {
             <div key={index} className={styles.applicantAvatarSection}>
               <img
                 className={styles.applicantAvatar}
-                src={getApplicantUrl(applicant.userId.avatar.filePath)}
+                src={avatarUrl}
                 alt={applicant.userId.name}
               />
               <span className={styles.applicantOwnerName}>
