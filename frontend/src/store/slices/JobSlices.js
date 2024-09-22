@@ -5,7 +5,6 @@ const config = {
   headers: {
     "content-type": "application/json",
   },
-  withCredentials: true,
 };
 
 export const createJobForms = createAsyncThunk(
@@ -15,6 +14,9 @@ export const createJobForms = createAsyncThunk(
       const response = await axios.post(
         "/api/jobs/createJobForm",
         content,
+        {
+          withCredentials: true,
+        },
         config
       );
       return response.data;
@@ -28,7 +30,13 @@ export const fetchMyJobForms = createAsyncThunk(
   "jobs/fetchMyJobForms",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/api/jobs/fetchMyJobForms`, config);
+      const response = await axios.get(
+        `/api/jobs/fetchMyJobForms`,
+        {
+          withCredentials: true,
+        },
+        config
+      );
       if (response.data.error === "Forms not found") {
         return rejectWithValue("No Jobs available.");
       }
@@ -43,7 +51,13 @@ export const fetchAllJobForms = createAsyncThunk(
   "jobs/fetchAllJobForms",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/api/jobs/fetchAllJobForms`, config);
+      const response = await axios.get(
+        `/api/jobs/fetchAllJobForms`,
+        {
+          withCredentials: true,
+        },
+        config
+      );
       if (response.data.error === "Forms not found") {
         return rejectWithValue("No Jobs available.");
       }
@@ -60,6 +74,9 @@ export const fetchJobById = createAsyncThunk(
     try {
       const response = await axios.get(
         `/api/jobs/fetchJobById/${formId}`,
+        {
+          withCredentials: true,
+        },
         config
       );
       return response.data;
@@ -75,7 +92,11 @@ export const applyForJob = createAsyncThunk(
     try {
       const response = await axios.put(
         `/api/jobs/applyForJob`,
+
         { formId: formId },
+        {
+          withCredentials: true,
+        },
         config
       );
       return response.data;
@@ -89,6 +110,9 @@ export const fetchShortlistedApplicants = createAsyncThunk(
   async ({ formId, noOfApplicants }) => {
     const response = await axios.get(
       `/api/jobs/shortlist?formId=${formId}&noOfApplicants=${noOfApplicants}`,
+      {
+        withCredentials: true,
+      },
       config
     );
     return response.data;

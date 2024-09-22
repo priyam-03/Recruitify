@@ -133,7 +133,7 @@ exports.fetchJobById = catchAsyncErrors(async (req, res) => {
       .populate("ownerProfile")
       .populate({
         path: "applicantProfiles.userId",
-        select: "_id name avatar.filePath",
+        select: "_id name avatar",
       });
     res.status(200).json(formData);
   } catch (error) {
