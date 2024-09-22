@@ -10,6 +10,7 @@ const { expressMiddleware } = require("@apollo/server/express4");
 const socketServer = require("./socketServer");
 const errorMiddleware = require("./middleware/error");
 const dotenv = require("dotenv");
+const {redisConnection} = require("./socketHandlers/pubSub.js");
 require("dotenv").config({ path: "./secret.env" });
 const connectDatabase = require("./database/database");
 
@@ -64,6 +65,7 @@ app.use(errorMiddleware);
 
 // Connecting to the database
 connectDatabase();
+redisConnection();
 
 // Handling Uncaught Exception
 process.on("uncaughtException", (err) => {

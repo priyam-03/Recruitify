@@ -1,6 +1,7 @@
+const { json } = require("body-parser");
 const Conversation = require("../../models/conversation");
+const message = require("../../models/message");
 const serverStore = require("../../serverStore");
-
 const updateChatHistory = async (
   conversationId,
   toSpecifiedSocketId = null
@@ -70,5 +71,7 @@ const updateChatHistory = async (
     }
   }
 };
+
+
 
 module.exports = { updateChatHistory };

@@ -144,7 +144,6 @@ exports.fetchJobById = catchAsyncErrors(async (req, res) => {
 
 exports.applyForJob = catchAsyncErrors(async (req, res) => {
   try {
-    console.log(req.user);
     const userId = req.user._id;
 
     const { formId } = req.body;
@@ -164,7 +163,7 @@ exports.applyForJob = catchAsyncErrors(async (req, res) => {
         .json({ error: "You cannot apply to your own job" });
     }
     const hasApplied = jobApplicationForm.applicantProfiles.some((applicant) =>
-      applicant.userId.toString().equals(userId.toString())
+      applicant.userId.equals(userId)
     );
     if (hasApplied) {
       return res

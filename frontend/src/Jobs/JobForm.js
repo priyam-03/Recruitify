@@ -60,7 +60,11 @@ const JobForms = ({ type }) => {
                     />
                     <span className="owner-name">
                       {jobForm.ownerProfile.name}
+                      {jobForm.ownerProfile._id === userInfo.user._id && (
+                        <span>  (me)</span>
+                      )}
                     </span>
+
                     <MoreVertIcon className="job-form-dropdown" />
                   </div>
                   <div
