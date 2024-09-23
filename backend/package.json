@@ -23,6 +23,7 @@
     "express": "^4.19.2",
     "express-joi-validation": "^5.0.1",
     "graphql": "^16.9.0",
+    "ioredis": "^5.4.1",
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.13.0",

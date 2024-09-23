@@ -4,17 +4,20 @@ import '../styles/jobApplication.css'
 import CreateJob from '../Jobs/CreateJobs';
 import JobForms from '../Jobs/JobForm';
 import { useSelector } from 'react-redux';
+import JobsAppliedByMe from './JobsAppliedByMe';
 const JobApplicationPage = () => {
     const [activeSection, setActiveSection] = useState('all-jobs');
     const { userInfo } = useSelector((state) => state.auth);
     const renderContent = () => {
         switch (activeSection) {
             case 'create-job':
-                return <CreateJob/>;
+                return <CreateJob />;
             case 'my-jobs':
-                return <JobForms type={'my'}/>;
+                return <JobForms type={'my'} />;
+            case 'jobs-applied-by-me':
+                return <JobsAppliedByMe />
             case 'all-jobs':
-                return  <JobForms type={'all'}/>;
+                return <JobForms type={'all'} />;
             default:
                 return <div>Job content here...</div>;
         }
@@ -39,6 +42,12 @@ const JobApplicationPage = () => {
                             onClick={() => handleButtonClick('my-jobs')}
                         >
                             My Jobs
+                        </button>
+                        <button
+                            className={`job-left-column-buttons ${activeSection === 'jobs-applied-by-me' ? 'active' : ''}`}
+                            onClick={() => handleButtonClick('jobs-applied-by-me')}
+                        >
+                            Jobs Applied By Me
                         </button>
                         <button
                             className={`job-left-column-buttons ${activeSection === 'all-jobs' ? 'active' : ''}`}

@@ -1,5 +1,11 @@
 import React, { useState } from "react";
 import { useQuery, gql } from "@apollo/client";
+import { styled } from "@mui/system"; // MUI styled utility
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import WorkIcon from "@mui/icons-material/Work";
+import BusinessIcon from "@mui/icons-material/Business";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import "../styles/jobForms.css"; // Existing styles
 
 // Define the GraphQL query
 const GET_JOB_APPLICATIONS = gql`
@@ -25,55 +31,109 @@ const GET_JOB_APPLICATIONS = gql`
   }
 `;
 
+// Styled Components using MUI's styled
+const StyledLabel = styled("label")(({ theme }) => ({
+  fontSize: "1rem",
+  fontWeight: "bold",
+  marginRight: "10px",
+  color: "#333",
+}));
+
+const StyledSelect = styled("select")(({ theme }) => ({
+  padding: "8px 12px",
+  borderRadius: "4px",
+  border: "1px solid #ccc",
+  fontSize: "1rem",
+  outline: "none",
+  backgroundColor: "#f9f9f9",
+  "&:focus": {
+    borderColor: "#007bff",
+  },
+  "& option": {
+    padding: "10px",
+  },
+}));
+
 const JobsAppliedByMe = () => {
-  const [status, setStatus] = useState(""); // Manage filter state
+  const [status, setStatus] = useState(""); 
   const { loading, error, data } = useQuery(GET_JOB_APPLICATIONS, {
     variables: { status },
-    skip: status === null, // Skip query if status is null (optional)
+    skip: status === null,
   });
-  console.log(data);
-  // Function to handle status change
+
   const handleStatusChange = (event) => {
     setStatus(event.target.value);
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (loading) {
+    return <div className="loading-text">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="error-message">Error: {error.message}</div>;
+  }
+
+  const jobApplications = data?.jobAppliedByMe || [];
 
   return (
-    <div>
-      <h1>Job Applications</h1>
-
+    <div className="jobform-page">
       {/* Status Filter */}
-      <label htmlFor="status-filter">Filter by status:</label>
-      <select id="status-filter" value={status} onChange={handleStatusChange}>
-        <option value="">All</option>
-        <option value="applied">Applied</option>
-        <option value="shortlisted">Interviewed</option>
-        <option value="hired">Hired</option>
-        <option value="rejected">Rejected</option>
-        {/* Add other status options as needed */}
-      </select>
-
-      {/* Job Application List */}
-      <div>
-        {data.jobAppliedByMe.map((job) => (
-          <div key={job._id}>
-            <h3>{job.jobRole}</h3>
-            <p>Location: {job.jobLocation}</p>
-            <p>Company: {job.company}</p>
-            <h4>Applicants:</h4>
-            <ul>
-              {job.applicantProfiles.map((profile) => (
-                <li key={profile.userId._id}>
-                  name: {profile.userId.name}, Status: {profile.status}, Resume:{" "}
-                  {profile.resume}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+      <div className="status-filter">
+        <StyledLabel htmlFor="status-filter">Filter by status:</StyledLabel>
+        <StyledSelect id="status-filter" value={status} onChange={handleStatusChange}>
+          <option value="">All</option>
+          <option value="applied">Applied</option>
+          <option value="shortlisted">Interviewed</option>
+          <option value="hired">Hired</option>
+          <option value="rejected">Rejected</option>
+        </StyledSelect>
       </div>
+
+      {/* Job Applications List */}
+      <div className="jobform-container">
+        {jobApplications.length > 0 ? (
+          jobApplications.map((job) => (
+            <div key={job._id} className="job-form-box">
+              <div className="avatar-section">
+                {/* Placeholder for avatar */}
+                <span className="owner-name">
+                  {job.ownerProfile.name}
+                </span>
+                <MoreVertIcon className="job-form-dropdown" />
+              </div>
+
+              <div className="job-desc">
+                <div className="job-role">
+                  <WorkIcon />
+                  <span className="job-texts">{job.jobRole}</span>
+                </div>
+                <div className="job-company">
+                  <BusinessIcon />
+                  <span className="job-texts">{job.company}</span>
+                </div>
+                <div className="job-location">
+                  <LocationOnIcon />
+                  <span className="job-texts">{job.jobLocation}</span>
+                </div>
+              </div>
+
+              <div className="applicant-details">
+                <h4>Applicants:</h4>
+                <ul>
+                  {job.applicantProfiles.map((profile) => (
+                    <li key={profile.userId._id}>
+                      Name: {profile.userId.name}, Status: {profile.status}, Resume: {profile.resume}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="no-jobs-available">No job applications found.</div>
+        )}
+      </div>
+      <div className="job-form-footer">No more applications...</div>
     </div>
   );
 };
