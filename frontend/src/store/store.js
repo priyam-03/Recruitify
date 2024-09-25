@@ -11,13 +11,13 @@ import profileReducer from "./slices/profileSlices";
 import { persistReducer, persistStore } from "redux-persist";
 import { combineReducers } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
+import { customStorage } from "./customStorage";
 const persistConfig = {
   key: "root",
-
-  storage,
-  // whitelist: ["authReducer"],
-  whitelist: ["auth"],
+  storage: customStorage, // Use the custom storage with expiration logic
+  whitelist: ["auth"], // Specify reducers that need to be persisted
 };
+
 const rootReducer = combineReducers({
   auth: authReducer,
   alert: alertReducer,
@@ -25,8 +25,8 @@ const rootReducer = combineReducers({
   chat: chatReducer,
   room: roomReducer,
   posts: postReducer,
-  jobs:jobReducer,
-  profile:profileReducer,
+  jobs: jobReducer,
+  profile: profileReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
