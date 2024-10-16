@@ -1,9 +1,9 @@
-
 # AI-Powered Recruiting Platform
 
 Welcome to the AI-Powered Recruiting Platform! This platform is designed to revolutionize the recruitment process by integrating AI-driven features, seamless interview management, and social networking capabilities.
 
 ## Table of Contents
+
 - [Features](#features)
 - [Technology Stack](#technology-stack)
 - [Installation](#installation)
@@ -29,36 +29,39 @@ Welcome to the AI-Powered Recruiting Platform! This platform is designed to revo
 To set up the project locally, follow these steps:
 
 1. **Clone the repository**:
-    ```bash
-    git clone https://github.com/priyam-03/Recruitify.git
-    cd Recruiitfy
-    ```
+
+   ```bash
+   git clone https://github.com/priyam-03/Recruitify.git
+   cd Recruiitfy
+   ```
 
 2. **Install dependencies**:
-    ```bash
-    # Install backend dependencies
-    cd backend
-    npm install
 
-    # Install frontend dependencies
-    cd ../frontend
-    npm install
-    ```
+   ```bash
+   # Install backend dependencies
+   cd backend
+   npm install
+
+   # Install frontend dependencies
+   cd ../frontend
+   npm install
+   ```
 
 3. **Set up environment variables**:
 
-   Create a `secret.env` file in both the `backend` and `frontend` directories and add the necessary environment variables as outlined in the `.env.example` files.
+   Create a `secret.env` file in `backend` directories and add the necessary environment variables as outlined in the `.env.example` file.
 
 4. **Start the development servers**:
-    ```bash
-    # Start backend server
-    cd backend
-    npm start
 
-    # Start frontend server
-    cd ../frontend
-    npm start
-    ```
+   ```bash
+   # Start backend server
+   cd backend
+   npm start
+
+   # Start frontend server
+   cd ../frontend
+   npm start
+   ```
 
 5. **Access the platform**:
    Open your browser and navigate to `http://localhost:3000` to start using the platform.
@@ -86,5 +89,3 @@ We welcome contributions! To contribute:
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for more information.
-
-
