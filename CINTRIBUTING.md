@@ -62,7 +62,7 @@ We have both client-side and server-side code. You'll need to install dependenci
 
 ### Running the Server
 
-1. In the `server` folder, create a `.env` file and add necessary environment variables (e.g., `PORT`, `MONGO_URI`, etc.).
+1. Create a `secret.env` file in `backend` directories and add the necessary environment variables as outlined in the `.env.example` file.
 2. Start the server:
    ```bash
    npm start
