@@ -1,7 +1,13 @@
 import { store } from "../store/store";
-import { setLocalStream, setRemoteStreams } from "../store/actions/roomActions";
+import {
+  setOpenRoom,
+  setRoomDetails,
+  setLocalStream,
+  setRemoteStreams,
+} from "../store/actions/roomActions";
 import Peer from "simple-peer";
 import * as socketConnection from "./socketConnection";
+import { openAlertMessage } from "../store/actions/alertActions";
 
 const getConfiguration = () => {
   const turnIceServers = null;
@@ -140,4 +146,17 @@ export const switchOutgoingTracks = (stream) => {
       }
     }
   }
+};
+//stop localstream preview
+export const handleRejectConnection = () => {
+  const localStream = store.getState().room.localStream;
+  if (localStream) {
+    localStream.getTracks().forEach((track) => track.stop());
+    store.dispatch(setLocalStream(null));
+  }
+  store.dispatch(setRemoteStreams([]));
+
+  store.dispatch(setRoomDetails(null));
+  store.dispatch(setOpenRoom(false, false));
+  store.dispatch(openAlertMessage("Call rejected"));
 };

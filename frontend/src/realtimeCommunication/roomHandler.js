@@ -43,7 +43,11 @@ export const updateActiveRooms = (data) => {
     const isRoomCreatedByMe = room.roomCreator.userId === userId;
 
     if (isRoomCreatedByMe) {
-      rooms.push({ ...room, creatorUsername: "Me" });
+      rooms.push({
+        ...room,
+        creatorUsername: "Me",
+        handleJoinRequest: room.joinRequests && room.joinRequests.length > 0,
+      });
     } else {
       friends.forEach((f) => {
         if (f.id === room.roomCreator.userId) {
@@ -92,7 +96,10 @@ export const leaveRoom = () => {
   store.dispatch(setOpenRoom(false, false));
 };
 
-export const handleJoinRequest = (data) => {
-  const { joinRequest } = data;
-  store.dispatch(setJoinRequest(joinRequest));
+export const admit = (data) => {
+  socketConnection.admit(data);
+};
+
+export const reject = (data) => {
+  socketConnection.reject(data);
 };

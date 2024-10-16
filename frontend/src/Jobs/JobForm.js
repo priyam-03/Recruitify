@@ -42,7 +42,6 @@ const JobForms = ({ type }) => {
 
   return (
     <div className="jobform-page">
-      {errorMessage && <Error>{errorMessage}</Error>}
       <h2 className="job-forms-heading">Job Application Forms</h2>
       <div className="jobform-container">
         {jobForms.length > 0 ? (
@@ -61,7 +60,7 @@ const JobForms = ({ type }) => {
                     <span className="owner-name">
                       {jobForm.ownerProfile.name}
                       {jobForm.ownerProfile._id === userInfo.user._id && (
-                        <span>  (me)</span>
+                        <span> (me)</span>
                       )}
                     </span>
 

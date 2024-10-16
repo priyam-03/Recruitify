@@ -55,7 +55,7 @@ const StyledSelect = styled("select")(({ theme }) => ({
 }));
 
 const JobsAppliedByMe = () => {
-  const [status, setStatus] = useState(""); 
+  const [status, setStatus] = useState("");
   const { loading, error, data } = useQuery(GET_JOB_APPLICATIONS, {
     variables: { status },
     skip: status === null,
@@ -80,7 +80,11 @@ const JobsAppliedByMe = () => {
       {/* Status Filter */}
       <div className="status-filter">
         <StyledLabel htmlFor="status-filter">Filter by status:</StyledLabel>
-        <StyledSelect id="status-filter" value={status} onChange={handleStatusChange}>
+        <StyledSelect
+          id="status-filter"
+          value={status}
+          onChange={handleStatusChange}
+        >
           <option value="">All</option>
           <option value="applied">Applied</option>
           <option value="shortlisted">Interviewed</option>
@@ -96,9 +100,7 @@ const JobsAppliedByMe = () => {
             <div key={job._id} className="job-form-box">
               <div className="avatar-section">
                 {/* Placeholder for avatar */}
-                <span className="owner-name">
-                  {job.ownerProfile.name}
-                </span>
+                <span className="owner-name">{job.ownerProfile.name}</span>
                 <MoreVertIcon className="job-form-dropdown" />
               </div>
 
@@ -117,16 +119,17 @@ const JobsAppliedByMe = () => {
                 </div>
               </div>
 
-              <div className="applicant-details">
+              {/* <div className="applicant-details">
                 <h4>Applicants:</h4>
                 <ul>
                   {job.applicantProfiles.map((profile) => (
                     <li key={profile.userId._id}>
-                      Name: {profile.userId.name}, Status: {profile.status}, Resume: {profile.resume}
+                      Name: {profile.userId.name}, Status: {profile.status},
+                      Resume: {profile.resume}
                     </li>
                   ))}
                 </ul>
-              </div>
+              </div> */}
             </div>
           ))
         ) : (

@@ -67,7 +67,7 @@ const SideBar = ({ activeRooms, isUserInRoom }) => {
 
   return (
     <MainContainer>
-      <StyledMainPageButton className="check" />
+      {/* <StyledMainPageButton className="check" />
       <StyledCreateRoomButton className="check" isUserInRoom={isUserInRoom} />
       {activeRooms.map((room) => (
         <StyledActiveRoomButton
@@ -78,7 +78,7 @@ const SideBar = ({ activeRooms, isUserInRoom }) => {
           key={room.roomId}
           isUserInRoom={isUserInRoom}
         />
-      ))}
+      ))} */}
       <StyledCustomPrimaryButton
         className="check"
         label="New Group"

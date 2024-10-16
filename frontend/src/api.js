@@ -74,7 +74,9 @@ export const sendFriendInvitation = async (data) => {
 
 export const acceptFriendInvitation = async (data) => {
   try {
-    return await axios.post("/api/friend-invitation/accept", data);
+    return await axios.post("/api/friend-invitation/accept", data, {
+      withCredentials: true,
+    });
   } catch (exception) {
     // checkResponseCode(exception);
     return {
@@ -86,7 +88,9 @@ export const acceptFriendInvitation = async (data) => {
 
 export const rejectFriendInvitation = async (data) => {
   try {
-    return await axios.post("/api/friend-invitation/reject", data);
+    return await axios.post("/api/friend-invitation/reject", data, {
+      withCredentials: true,
+    });
   } catch (exception) {
     // checkResponseCode(exception);
     return {

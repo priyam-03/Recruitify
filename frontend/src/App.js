@@ -25,6 +25,7 @@ import FormById from "./Jobs/FormById";
 import Logo from "./shared/components/logo";
 import JobsAppliedByMe from "./screens/JobsAppliedByMe";
 import ShortlistedApplicants from "./Jobs/ShortlistedApplicants";
+import Interview from "./Interview/Interview";
 function App() {
   const [showLogo, setShowLogo] = useState(false);
   useEffect(() => {
@@ -87,7 +88,7 @@ function App() {
                     element={<UpdateProfileScreen />}
                   />
                   <Route path="/Jobs" element={<JobApplicationPage />} />
-                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/chat" element={<Dashboard />} />
                   <Route path="/cluster" element={<Cluster />} />
                   <Route path="/group" element={<Group />} />
                   <Route path="/Jobs/:formId" element={<FormById />} />
@@ -99,6 +100,7 @@ function App() {
                     path="/shortlisted-applicants/:formId/:noOfApplicants"
                     element={<ShortlistedApplicants />}
                   />
+                  <Route path="/interview" element={<Interview />} />
                 </Route>
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>

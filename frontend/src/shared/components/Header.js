@@ -18,8 +18,17 @@ const Header = () => {
     <header>
       <div className="header-status">
         <NavLink to="/" className="logo-container">
-          <img src="/small-logo-no-background.png" alt="Logo" className="logo-image" />
-          <span className="logo-text qwitcher-grypen-bold">Recruitify</span>
+          <img
+            src="/small-logo-no-background.png"
+            alt="Logo"
+            className="logo-image"
+          />
+          <span
+            className="logo-text"
+            style={{ fontFamily: "Arial, sans-serif" }}
+          >
+            Recruitify
+          </span>
         </NavLink>
         <nav className="navigation">
           <NavLink to="/">Home</NavLink>

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { openAlertMessage } from "../actions/alertActions";
 axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
 const config = {
   headers: {
@@ -9,16 +10,15 @@ const config = {
 
 export const createJobForms = createAsyncThunk(
   "jobs/createJobForms",
-  async (content, { rejectWithValue }) => {
+  async (content, { rejectWithValue, dispatch }) => {
     try {
-      const response = await axios.post(
-        "/api/jobs/createJobForm",
-        content,
-        { withCredentials: true },
-        config
-      );
+      const response = await axios.post("/api/jobs/createJobForm", content, {
+        withCredentials: true,
+      });
       return response.data;
     } catch (exception) {
+      // Dispatching the openAlertMessage action on error
+      openAlertMessage(exception.response?.data?.error || exception.message);
       return rejectWithValue(exception.response?.data || exception.message);
     }
   }
@@ -38,6 +38,7 @@ export const fetchMyJobForms = createAsyncThunk(
       }
       return response.data;
     } catch (exception) {
+      openAlertMessage(exception.response?.data?.error || exception.message);
       return rejectWithValue(exception.response?.data || exception.message);
     }
   }
@@ -57,6 +58,7 @@ export const fetchAllJobForms = createAsyncThunk(
       }
       return response.data;
     } catch (exception) {
+      openAlertMessage(exception.response?.data?.error || exception.message);
       return rejectWithValue(exception.response?.data || exception.message);
     }
   }
@@ -64,7 +66,7 @@ export const fetchAllJobForms = createAsyncThunk(
 
 export const fetchJobById = createAsyncThunk(
   "jobs/fetchJobById",
-  async (formId, { rejectWithValue }) => {
+  async (formId, { rejectWithValue, dispatch }) => {
     try {
       const response = await axios.get(
         `/api/jobs/fetchJobById/${formId}`,
@@ -73,6 +75,8 @@ export const fetchJobById = createAsyncThunk(
       );
       return response.data;
     } catch (exception) {
+      // Dispatching the openAlertMessage action on error
+      openAlertMessage(exception.response?.data?.error || exception.message);
       return rejectWithValue(exception.response?.data || exception.message);
     }
   }
@@ -80,7 +84,7 @@ export const fetchJobById = createAsyncThunk(
 
 export const applyForJob = createAsyncThunk(
   "jobs/applyForJob",
-  async (formId, { rejectWithValue }) => {
+  async (formId, { rejectWithValue, dispatch }) => {
     try {
       const response = await axios.put(
         `/api/jobs/applyForJob`,
@@ -89,8 +93,14 @@ export const applyForJob = createAsyncThunk(
         { withCredentials: true },
         config
       );
+
       return response.data;
     } catch (exception) {
+      console.log(exception);
+      // Dispatching the openAlertMessage action on error
+      dispatch(
+        openAlertMessage(exception.response?.data?.error || exception.message)
+      );
       return rejectWithValue(exception.response?.data || exception.message);
     }
   }

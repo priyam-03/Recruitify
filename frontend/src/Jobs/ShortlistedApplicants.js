@@ -31,7 +31,6 @@ const ShortlistedApplicants = () => {
 
   return (
     <div className={styles.shortlistedPage}>
-      {errorMessage && <Error>{errorMessage}</Error>}
       <h2>Shortlisted Applicants</h2>
       {shortlistedApplicants.map((applicant, index) => (
         <div key={index} className={styles.applicantItem}>

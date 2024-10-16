@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
+import { openAlertMessage } from "../actions/alertActions";
 axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
 const config = {
   headers: {
@@ -15,6 +15,7 @@ export const fetchMyPosts = createAsyncThunk(
       const response = await axios.get(`/api/posts/getMyPosts`, {
         withCredentials: true,
       });
+      console.log(response);
 
       if (response.data.error === "Posts not found") {
         return rejectWithValue("No posts available.");
@@ -23,6 +24,7 @@ export const fetchMyPosts = createAsyncThunk(
       return response.data;
     } catch (exception) {
       if (exception.response && exception.response.data) {
+        openAlertMessage(exception.response?.data?.error || exception.message);
         return rejectWithValue(exception.response.data);
       } else {
         return rejectWithValue("An error occurred while fetching posts.");
@@ -46,6 +48,7 @@ export const fetchAllPosts = createAsyncThunk(
       return response.data;
     } catch (exception) {
       if (exception.response && exception.response.data) {
+        openAlertMessage(exception.response?.data?.error || exception.message);
         return rejectWithValue(exception.response.data);
       } else {
         return rejectWithValue("An error occurred while fetching posts.");
@@ -66,7 +69,12 @@ export const createPost = createAsyncThunk(
       );
       return response.data;
     } catch (exception) {
-      return rejectWithValue(exception.response ? exception.response.data : "An error occurred while creating the post.");
+      openAlertMessage(exception.response?.data?.error || exception.message);
+      return rejectWithValue(
+        exception.response
+          ? exception.response.data
+          : "An error occurred while creating the post."
+      );
     }
   }
 );
@@ -83,7 +91,12 @@ export const editPost = createAsyncThunk(
       );
       return response.data;
     } catch (exception) {
-      return rejectWithValue(exception.response ? exception.response.data : "An error occurred while editing the post.");
+      openAlertMessage(exception.response?.data?.error || exception.message);
+      return rejectWithValue(
+        exception.response
+          ? exception.response.data
+          : "An error occurred while editing the post."
+      );
     }
   }
 );
@@ -99,7 +112,12 @@ export const deletePost = createAsyncThunk(
       );
       return id;
     } catch (exception) {
-      return rejectWithValue(exception.response ? exception.response.data : "An error occurred while deleting the post.");
+      openAlertMessage(exception.response?.data?.error || exception.message);
+      return rejectWithValue(
+        exception.response
+          ? exception.response.data
+          : "An error occurred while deleting the post."
+      );
     }
   }
 );
@@ -116,7 +134,11 @@ export const incrementLike = createAsyncThunk(
       );
       return response.data;
     } catch (exception) {
-      return rejectWithValue(exception.response ? exception.response.data : "An error occurred while incrementing the like.");
+      return rejectWithValue(
+        exception.response
+          ? exception.response.data
+          : "An error occurred while incrementing the like."
+      );
     }
   }
 );
@@ -133,7 +155,11 @@ export const decrementLike = createAsyncThunk(
       );
       return response.data;
     } catch (exception) {
-      return rejectWithValue(exception.response ? exception.response.data : "An error occurred while decrementing the like.");
+      return rejectWithValue(
+        exception.response
+          ? exception.response.data
+          : "An error occurred while decrementing the like."
+      );
     }
   }
 );
@@ -207,8 +233,12 @@ const postSlice = createSlice({
       })
       .addCase(deletePost.fulfilled, (state, action) => {
         if (!action.payload.error) {
-          state.myPosts = state.myPosts.filter((post) => post._id !== action.payload);
-          state.allPosts = state.allPosts.filter((post) => post._id !== action.payload);
+          state.myPosts = state.myPosts.filter(
+            (post) => post._id !== action.payload
+          );
+          state.allPosts = state.allPosts.filter(
+            (post) => post._id !== action.payload
+          );
         }
       })
       .addCase(deletePost.pending, (state) => {
@@ -221,7 +251,9 @@ const postSlice = createSlice({
       })
       .addCase(incrementLike.fulfilled, (state, action) => {
         if (!action.payload.error) {
-          const post = state.allPosts.find((post) => post._id === action.payload._id);
+          const post = state.allPosts.find(
+            (post) => post._id === action.payload._id
+          );
           if (post) {
             post.likes = action.payload.likes;
           }
@@ -237,7 +269,9 @@ const postSlice = createSlice({
       })
       .addCase(decrementLike.fulfilled, (state, action) => {
         if (!action.payload.error) {
-          const post = state.allPosts.find((post) => post._id === action.payload._id);
+          const post = state.allPosts.find(
+            (post) => post._id === action.payload._id
+          );
           if (post) {
             post.likes = action.payload.likes;
           }

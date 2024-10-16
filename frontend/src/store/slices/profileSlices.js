@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { openAlertMessage } from "../actions/alertActions";
 axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
 const config = {
   headers: {
@@ -7,7 +8,6 @@ const config = {
   },
   withCredentials: true,
 };
-
 export const addEducation = createAsyncThunk(
   "profile/addEducation",
   async (content, { rejectWithValue }) => {
@@ -19,6 +19,7 @@ export const addEducation = createAsyncThunk(
       );
       return response.data;
     } catch (exception) {
+      openAlertMessage(exception.response?.data?.error || exception.message);
       return rejectWithValue(exception.response?.data || exception.message);
     }
   }
@@ -31,6 +32,7 @@ export const fetchEducations = createAsyncThunk(
       const response = await axios.get("/api/profile/fetchEducations", config);
       return response.data;
     } catch (exception) {
+      openAlertMessage(exception.response?.data?.error || exception.message);
       return rejectWithValue(exception.response?.data || exception.message);
     }
   }
@@ -47,6 +49,7 @@ export const addExperience = createAsyncThunk(
       );
       return response.data;
     } catch (exception) {
+      openAlertMessage(exception.response?.data?.error || exception.message);
       return rejectWithValue(exception.response?.data || exception.message);
     }
   }
@@ -59,6 +62,7 @@ export const fetchExperiences = createAsyncThunk(
       const response = await axios.get("/api/profile/fetchExperiences", config);
       return response.data;
     } catch (exception) {
+      openAlertMessage(exception.response?.data?.error || exception.message);
       return rejectWithValue(exception.response?.data || exception.message);
     }
   }
@@ -75,6 +79,7 @@ export const addSkill = createAsyncThunk(
       );
       return response.data;
     } catch (exception) {
+      openAlertMessage(exception.response?.data?.error || exception.message);
       return rejectWithValue(exception.response?.data || exception.message);
     }
   }
@@ -87,6 +92,7 @@ export const fetchSkills = createAsyncThunk(
       const response = await axios.get("/api/profile/fetchSkills", config);
       return response.data;
     } catch (exception) {
+      openAlertMessage(exception.response?.data?.error || exception.message);
       return rejectWithValue(exception.response?.data || exception.message);
     }
   }
@@ -103,6 +109,7 @@ export const addLink = createAsyncThunk(
       );
       return response.data;
     } catch (exception) {
+      openAlertMessage(exception.response?.data?.error || exception.message);
       return rejectWithValue(exception.response?.data || exception.message);
     }
   }
@@ -115,6 +122,7 @@ export const fetchLinks = createAsyncThunk(
       const response = await axios.get("/api/profile/fetchLinks", config);
       return response.data;
     } catch (exception) {
+      openAlertMessage(exception.response?.data?.error || exception.message);
       return rejectWithValue(exception.response?.data || exception.message);
     }
   }
@@ -132,6 +140,7 @@ export const uploadResume = createAsyncThunk(
       });
       return response.data;
     } catch (exception) {
+      openAlertMessage(exception.response?.data?.error || exception.message);
       return rejectWithValue(exception.response?.data || exception.message);
     }
   }
@@ -149,6 +158,7 @@ export const fetchResume = createAsyncThunk(
       });
       return response.data;
     } catch (exception) {
+      openAlertMessage(exception.response?.data?.error || exception.message);
       return rejectWithValue(exception.response?.data || exception.message);
     }
   }

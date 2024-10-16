@@ -8,11 +8,11 @@ import {
 } from "@mui/icons-material";
 import DropdownMenu from "../shared/components/HamburgerDropdown";
 import { fetchMyPosts } from "../store/slices/postSlice";
-import usePostChange from "./IsChange";
 import "../styles/posts.css";
 import CreatePost from "./createPost";
 import CommentTextsection from "../shared/components/CommentTextSection";
 import Error from "../shared/components/Error";
+
 const MyPost = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const [showModal, setShowModal] = useState(false);
@@ -26,7 +26,7 @@ const MyPost = () => {
   useEffect(() => {
     dispatch(fetchMyPosts());
   }, [dispatch]);
-
+  console.log(myPosts);
   const handleShowCreatePost = () => {
     setShowModal(!showModal);
   };
@@ -59,7 +59,6 @@ const MyPost = () => {
 
   return (
     <div className="posts-page">
-      {errorMessage && <Error>{errorMessage}</Error>}
       <Button
         variant="contained"
         color="primary"
@@ -67,8 +66,9 @@ const MyPost = () => {
       >
         Create Post
       </Button>
+
       <div className="posts">
-        {myPosts &&
+        {myPosts && myPosts.length > 0 ? (
           myPosts.map((post) => (
             <div key={post._id} className="post">
               <div className="post-owner">
@@ -124,9 +124,14 @@ const MyPost = () => {
                 />
               )}
             </div>
-          ))}
-        <Typography variant="body2">No more Posts to show</Typography>
+          ))
+        ) : (
+          <Typography variant="body2" sx={{ mt: 2 }}>
+            No posts available.
+          </Typography>
+        )}
       </div>
+
       <CreatePost
         showModal={showModal}
         handleShowCreatePost={handleShowCreatePost}

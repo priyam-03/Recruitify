@@ -18,11 +18,10 @@ let socket = null;
 export const connectWithSocketServer = (userInfo) => {
   const jwtToken = userInfo.token;
 
-
   const connection_url =
-  process.env.REACT_APP_ENVIRONMENT == "PRODUCTION"
-    ? process.env.REACT_APP_BACKEND_URL
-    : "http://localhost:4000";
+    process.env.REACT_APP_ENVIRONMENT == "PRODUCTION"
+      ? process.env.REACT_APP_BACKEND_URL
+      : "http://localhost:4000";
   // Update this URL with your server's local network IP
   socket = io(
     connection_url,
@@ -76,9 +75,7 @@ export const connectWithSocketServer = (userInfo) => {
   socket.on("active-rooms", (data) => {
     roomHandler.updateActiveRooms(data);
   });
-  socket.on("joinRequest", (data) => {
-    roomHandler.handleJoinRequest(data);
-  });
+
   socket.on("conn-prepare", (data) => {
     const { connUserSocketId } = data;
     webRTCHandler.prepareNewPeerConnection(connUserSocketId, false);
@@ -88,6 +85,10 @@ export const connectWithSocketServer = (userInfo) => {
   socket.on("conn-init", (data) => {
     const { connUserSocketId } = data;
     webRTCHandler.prepareNewPeerConnection(connUserSocketId, true);
+  });
+
+  socket.on("conn-reject", (data) => {
+    webRTCHandler.handleRejectConnection(data);
   });
 
   socket.on("conn-signal", (data) => {
@@ -154,5 +155,17 @@ export const leaveRoom = (data) => {
 export const signalPeerData = (data) => {
   if (socket) {
     socket.emit("conn-signal", data);
+  }
+};
+
+export const admit = (data) => {
+  if (socket) {
+    socket.emit("room-admit", data);
+  }
+};
+
+export const reject = (data) => {
+  if (socket) {
+    socket.emit("room-reject", data);
   }
 };

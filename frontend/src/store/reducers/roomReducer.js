@@ -11,7 +11,7 @@ const initState = {
   screenSharingStream: null,
   isScreenSharingActive: false,
   isUserJoinedWithOnlyAudio: false,
-  joinRequest: [],
+  hasJoinRequests: false,
 };
 
 const reducer = (state = initState, action) => {

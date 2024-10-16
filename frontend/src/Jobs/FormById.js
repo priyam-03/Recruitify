@@ -9,13 +9,13 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import styles from "../styles/formById.module.css";
 import { useNavigate } from "react-router-dom";
 import { fetchShortlistedApplicants } from "../store/slices/JobSlices";
-import Error from "../shared/components/Error";
+
 const FormById = () => {
   const { formId } = useParams();
   const [noOfApplicants, setNoOfApplicants] = useState(0);
+  const [applicants, setApplicants] = useState([]);
   const jobFormTemp = useSelector((state) => state.jobs.jobFormById);
   const loading = useSelector((state) => state.jobs.isLoading);
-  const errorMessage = useSelector((state) => state.jobs.errorMessage);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -29,6 +29,13 @@ const FormById = () => {
 
   const jobForm = useMemo(() => jobFormTemp, [jobFormTemp]);
 
+  useEffect(() => {
+    // Set applicants when jobForm is fetched
+    if (jobForm && jobForm.applicantProfiles) {
+      setApplicants(jobForm.applicantProfiles);
+    }
+  }, [jobForm]);
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -37,13 +44,7 @@ const FormById = () => {
     return <div>No job form data available.</div>;
   }
 
-  // const avatarUrl = `http://localhost:4000/${jobForm.ownerProfile.avatar.filePath.replace(
-  //   /\\/g,
-  //   "/"
-  // )}`;
   const avatarUrl = `https://www.flaticon.com/free-icon/user-picture_21104`;
-  const getApplicantUrl = (path) =>
-    `http://localhost:4000/${path.replace(/\\/g, "/")}`;
 
   const scrollSkills = (direction) => {
     if (skillsContainerRef.current) {
@@ -54,10 +55,9 @@ const FormById = () => {
       });
     }
   };
+
   const shortlistApplication = () => {
     if (noOfApplicants > 0) {
-      // Send formId and noOfApplicants as query parameters
-      console.log(formId, noOfApplicants);
       dispatch(fetchShortlistedApplicants({ formId, noOfApplicants })).then(
         () => {
           navigate(`/shortlisted-applicants/${formId}/${noOfApplicants}`);
@@ -68,9 +68,18 @@ const FormById = () => {
     }
   };
 
+  const handleApplyForJob = () => {
+    dispatch(applyForJob(formId)).then(() => {
+      // After applying for the job, update the applicants list
+      dispatch(fetchJobById(formId)).then((response) => {
+        // Assuming fetchJobById updates the jobForm in Redux store, update the local state
+        setApplicants(response.payload.applicantProfiles);
+      });
+    });
+  };
+
   return (
     <div className={styles.formbyidPage}>
-      {/* {errorMessage && <Error>{errorMessage}</Error>} */}
       <div className={styles.avatarSection}>
         <img
           className={styles.avatar}
@@ -149,17 +158,33 @@ const FormById = () => {
             {jobForm.jobDescription}
           </textarea>
         </div>
-        <button
-          className={styles.applyButton}
-          onClick={() => dispatch(applyForJob(formId))}
-        >
+        <button className={styles.applyButton} onClick={handleApplyForJob}>
           Apply
         </button>
       </div>
+      {/* <div className={styles.applicantsSection}>
+        <h2>Applicants</h2>
+        {applicants.length > 0 ? (
+          applicants.map((applicant, index) => (
+            <div key={index} className={styles.applicantAvatarSection}>
+              <img
+                className={styles.applicantAvatar}
+                src={avatarUrl}
+                alt={applicant.userId.name}
+              />
+              <span className={styles.applicantOwnerName}>
+                {applicant.userId.name}
+              </span>
+              <MoreVertIcon className={styles.jobFormDropdown} />
+            </div>
+          ))
+        ) : (
+          <div>No application for the Job yet</div>
+        )} */}
       <div className={styles.applicantsSection}>
         <h2>Applicants</h2>
-        {jobForm.applicantProfiles.length > 0 ? (
-          jobForm.applicantProfiles.map((applicant, index) => (
+        {applicants.length > 0 ? (
+          applicants.map((applicant, index) => (
             <div key={index} className={styles.applicantAvatarSection}>
               <img
                 className={styles.applicantAvatar}
@@ -175,15 +200,24 @@ const FormById = () => {
         ) : (
           <div>No application for the Job yet</div>
         )}
-        <input
-          type="number"
-          id="noOfApplicants"
-          value={noOfApplicants}
-          onChange={(e) => setNoOfApplicants(e.target.value)}
-        />
-        <button onClick={shortlistApplication}>Shortlist</button>
+
+        {/* Moved the input and button to the bottom */}
+        <div className={styles.shortlistSection}>
+          <input
+            type="number"
+            id="noOfApplicants"
+            value={noOfApplicants}
+            onChange={(e) => setNoOfApplicants(e.target.value)}
+            placeholder="Enter number of applicants to shortlist"
+          />
+          <button onClick={shortlistApplication}>Shortlist</button>
+        </div>
+        <div className={styles.interviewSection}>
+          <button onClick={() => navigate("/interview")}>Take Interview</button>
+        </div>
       </div>
     </div>
+    // </div>
   );
 };
 

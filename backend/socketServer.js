@@ -11,7 +11,8 @@ const roomSignalingDataHandler = require("./socketHandlers/roomSignalingDataHand
 const groupMessageHandler = require("./socketHandlers/groupMessageHandler");
 const groupChatHistoryHandler = require("./socketHandlers/groupChatHistoryHandler");
 const serverStore = require("./serverStore");
-
+const roomPermissionHandler = require("./socketHandlers/roomPermission");
+const roomRejectHandler = require("./socketHandlers/roomRejectHandler");
 const registerSocketServer = (server) => {
   let url;
 
@@ -68,12 +69,21 @@ const registerSocketServer = (server) => {
       groupChatHistoryHandler(socket, data);
     });
 
-    socket.on("room-create", () => {
-      roomCreateHandler(socket);
+    socket.on("room-create", (data = null) => {
+      roomCreateHandler(socket, data);
     });
 
     socket.on("room-join", (data) => {
       roomJoinHandler(socket, data);
+      // console.log(data);
+    });
+
+    socket.on("room-admit", (data) => {
+      roomPermissionHandler(socket, data);
+    });
+
+    socket.on("room-reject", (data) => {
+      roomRejectHandler(socket, data);
     });
 
     socket.on("room-leave", (data) => {
