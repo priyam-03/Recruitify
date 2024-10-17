@@ -1,273 +1,496 @@
-
+/* Main Layout */
 .formbyidPage {
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     display: flex;
-    flex-direction: row;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    color: #e0e0e0;
+    gap: 1rem;
+    padding: 1rem;
     overflow-y: auto;
-}
+  }
+  
+  /* Scrollbar Styles */
+  .formbyidPage *::-webkit-scrollbar {
+    width: 8px;
+  }
 
-.avatarSection,
-.jobDescSection,
-.applicantsSection {
-    padding: 10px;
+  .formbyidPage *::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+  }
+  
+  .formbyidPage *::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .formbyidPage *::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Avatar Section */
+  .avatarSection {
+  width: 300px;
+  min-width: 250px;
+  height: auto;
+  padding: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  overflow-y: auto;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
-
-.avatarSection {
-    width: 15%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.jobDescSection {
-    flex-grow: 1;
-    background-color: rgb(37, 37, 38);
-    padding: 10px;
-    color: white;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    overflow-y: auto;
-    height: 100vh;
-    margin-bottom: 30px;
-}
-
-.applicantsSection {
-    width: 20%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.avatar {
-    width: 150px;
-    height: 150px;
-    border-radius: 5%;
+  
+  .avatarSection:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  }
+  
+  .avatar {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
     object-fit: cover;
-}
-
-.ownerName,
-.ownerEmail {
-    display: block;
-    margin-top: 10px;
-    font-size: 1.2em;
-    color: white;
-    text-align: center;
-    background-color: rgb(31, 31, 32);
-    padding: 5px;
-    border-radius: 3px;
-    width: calc(100% - 20px);
-    text-align: center;
-}
-
-.ownerEmail {
-    font-size: 1em;
-}
-
-.jobRole,
-.jobCompany,
-.jobLocation,
-.jobLocationType,
-.workingHours {
-    width: 95%;
-    height: 60px;
-    padding: 10px;
-    background-color: rgb(33, 33, 33);
-    margin-bottom: 10px;
-    align-items: center;
-    display: flex;
-    border-radius: 3px;
-}
-
-.jobRole {
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .avatar:hover {
+    transform: scale(1.05);
+  }
+  
+  .ownerName {
     font-size: 1.5rem;
-}
-
-.jobMislanious {
-    width: 95%;
-    padding: 10px;
-    background-color: rgb(33, 33, 33);
-    margin-bottom: 10px;
-    align-items: center;
-    display: flex;
-    border-radius: 3px;
-}
-
-.jobDescription {
-    width: 95%;
-    height: 250px;
-    padding: 10px;
-    background-color: rgb(33, 33, 33);
-    margin-bottom: 10px;
+    font-weight: 600;
+    color: #e0e0e0;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .ownerEmail {
+    font-size: 0.9rem;
+    color: rgba(224, 224, 224, 0.7);
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    width: 100%;
+    transition: all 0.3s ease;
+  }
+  
+  .ownerEmail:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+  
+  /* Job Description Section */
+  .jobDescSection {
+    flex-grow: 1;
+    max-height: 100%;
+    padding: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
-    border-radius: 3px;
-}
-
-.jobDescHeading {
-    font-size: 1.2rem;
-}
-
-.jobTexts {
-    margin-left: 5px;
-    margin-top: 5px;
-    padding: 5px;
-    font-size: 1.1rem;
-
-}
-
-.jobDescTexts {
-    font-size: 15px;
-    padding: 10px;
-    background-color: rgba(24, 24, 24, 0.36);
-    border: none;
-    border-radius: 5px;
-    resize: none;
-    height: 100%;
-    color: white;
+    gap: 1.5rem;
     overflow-y: auto;
-}
-
-.jobSkills {
-    background-color: rgb(33, 33, 33);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .jobDescSection:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  }
+  
+  .jobRole {
     display: flex;
     align-items: center;
-    flex-wrap: nowrap;
-    gap: 5px;
-    padding: 10px;
-    border-radius: 5px;
-    width: 95%;
-    margin-bottom: 10px;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    font-size: 1.8rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .jobRole:hover {
+    /* background-color: rgba(255, 255, 255, 0.08); */
+    transform: translateY(-2px);
+  }
+  
+  .jobMislanious {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .jobMislanious:hover {
+    /* background-color: rgba(255, 255, 255, 0.08); */
+    transform: translateY(-2px);
+  }
+  
+  .jobMislanious ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .jobMislanious li {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: rgba(224, 224, 224, 0.9);
+  }
+  
+  /* Skills Section */
+  .jobSkills {
     position: relative;
-    overflow: hidden;
-}
-
-.arrowLeft,
-.arrowRight {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 1rem 3rem;
+    transition: all 0.3s ease;
+  }
+  
+  .jobSkills:hover {
+    /* background-color: rgba(255, 255, 255, 0.08); */
+    transform: translateY(-2px);
+  }
+  
+  .skillsContainer {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 0.5rem 0;
+    scroll-behavior: smooth;
+  }
+  
+  .skillsContainer::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .jobSkill {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #e0e0e0;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+  }
+  
+  .jobSkill:hover {
+    transform: translateY(-2px) scale(1.05);
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+  
+  .arrowLeft, .arrowRight {
     position: absolute;
-    color: white;
     top: 50%;
     transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    padding: 0.5rem;
     cursor: pointer;
-}
-
-.arrowLeft {
-    left: 10px;
-}
-
-.arrowRight {
-    right: 10px;
-}
-
-.skillsContainer {
-    display: flex;
-    justify-content: center;
+    transition: all 0.3s ease;
+  }
+  
+  .arrowLeft {
+    left: 0.5rem;
+  }
+  
+  .arrowRight {
+    right: 0.5rem;
+  }
+  
+  .arrowLeft:hover, .arrowRight:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-50%) scale(1.1);
+  }
+  
+  /* Job Description */
+  .jobDescription {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 1.5rem;
     flex-grow: 1;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-}
-
-.jobSkill {
-    background-color: rgb(72, 70, 70);
-    color: rgb(255, 255, 255);
-    width: 100px;
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    margin: 3px;
-    border-radius: 3px;
-}
-
-.applyButton {
-    background-color: rgb(5, 37, 152);
-    padding: 15px;
-    color: rgb(255, 255, 255);
-    width: 100px;
-    margin: 0px 20px 10px 20px;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+  }
+  
+  .jobDescription:hover {
+    /* background-color: rgba(255, 255, 255, 0.08); */
+    transform: translateY(-2px);
+  }
+  
+  .jobDescHeading {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  
+  .jobDescTexts {
+    width: 100%;
+    height: calc(100% - 2rem);
+    background-color: rgba(255, 255, 255, 0.03);
     border: none;
-    border-radius: 5px;
-}
-
-.applicantsSection {
-    margin-top: 20px;
+    border-radius: 6px;
+    padding: 1rem;
+    color: rgba(224, 224, 224, 0.9);
+    font-size: 1rem;
+    line-height: 1.6;
+    resize: none;
+    transition: all 0.3s ease;
+  }
+  
+  .jobDescTexts:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  
+  /* Applicants Section */
+  .applicantsSection {
+    width: 300px;
+    min-width: 250px;
+    max-height: 100%;
+    padding: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
-
-}
-
-.applicantAvatarSection {
+    gap: 1rem;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .applicantsSection:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  }
+  
+  .applicantsSection h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .applicantAvatarSection {
     display: flex;
     align-items: center;
-    width: 95%;
-    background-color: rgb(50, 50, 50);
-    padding: 5px;
-    border-radius: 5px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5), 0px 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-
-.applicantAvatar {
-    width: 50px;
-    height: 50px;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .applicantAvatarSection:hover {
+    transform: translateX(4px);
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+  
+  .applicantAvatar {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+  }
+  
+  .applicantAvatarSection:hover .applicantAvatar {
+    transform: scale(1.1);
+  }
+  
+  .applicantOwnerName {
+    font-size: 1rem;
+    flex-grow: 1;
+  }
+  
+  /* Buttons */
+  /* General Button Styles */
+#change-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 25px;
+    font-weight: 600;
     cursor: pointer;
-    
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.applicantsSection .applicantOwnerName {
-    margin: 5px;
-    font-size: 1.3rem;
-    width:95%;
-    cursor: pointer;
+/* Apply Button */
+.applyButton {
+    background: linear-gradient(135deg, #4a90e2, #357ab8);
+    color: #fff;
+    border-radius: 25px;
 }
 
-.applicantsSection .jobFormDropdown {
-    cursor: pointer;
+.applyButton:hover {
+    background: linear-gradient(135deg, #5a9fe2, #468db8);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-.shortlistSection {
-    margin-top: 20px; /* Adds some space between the applicants list and the input/button */
+/* Shortlist Button */
+.shortlistSection button {
+    background-color: #28a745; /* Green */
+    color: #fff;
+    border-radius: 25px;
+}
+
+.shortlistSection button:hover {
+    background-color: #218838; /* Darker Green */
+}
+
+/* Interview Button */
+.interviewSection button {
+    background-color: #ffc107; /* Yellow */
+    color: #fff;
+    border-radius: 25px;
+}
+
+.interviewSection button:hover {
+    background-color: #e0a800; /* Darker Yellow */
+}
+
+  
+  .shortlistSection {
+    margin-top: 2rem;
     display: flex;
-    justify-content: flex-end; /* Aligns the input and button to the right */
-    gap: 10px; /* Adds space between the input and the button */
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .shortlistSection:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
   }
   
   .shortlistSection input {
-    width: 150px;
-    padding: 5px;
+    width: 100%;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #e0e0e0;
+    transition: all 0.3s ease;
   }
   
-  .shortlistSection button {
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  .shortlistSection input:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.12);
+  }
+  
+  /* .shortlistSection button {
+    background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+    color: #e0e0e0;
   }
   
   .shortlistSection button:hover {
-    background-color: #0056b3;
-  }
-
+    background: linear-gradient(135deg, #3a3a3a 0%, #282828 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  } */
+  
   .interviewSection {
-    margin-top: 10px; /* Space between Shortlist and Interview buttons */
-    display: flex;
-    justify-content: flex-end; /* Align button to the right */
+    margin-top: 1rem;
   }
   
-  .interviewSection button {
-    padding: 5px 10px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  /* .interviewSection button {
+    width: 100%;
+    background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+    color: #e0e0e0;
   }
   
   .interviewSection button:hover {
-    background-color: #218838;
+    background: linear-gradient(135deg, #3a3a3a 0%, #282828 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  } */
+
+  .jobDescSection, .applicantsSection {
+    max-height: 80vh; /* Example height to limit and allow scrolling */
+    overflow-y: auto;  /* Enable scrolling within these sections */
+}
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
   
+  .formbyidPage > * {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
   
+  .avatarSection { animation-delay: 0.1s; }
+  .jobDescSection { animation-delay: 0.2s; }
+  .applicantsSection { animation-delay: 0.3s; }
+  
+  /* Responsive Design */
+  @media (max-width: 1200px) {
+    .formbyidPage {
+      padding: 0.5rem;
+      gap: 0.5rem;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    
+    .avatarSection,
+    .applicantsSection {
+      width: 250px;
+      min-width: 200px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .formbyidPage {
+      flex-direction: column;
+      height: auto;
+      overflow-y: auto;
+    }
+    
+    .avatarSection,
+    .jobDescSection,
+    .applicantsSection {
+      width: 100%;
+      height: auto;
+      max-height: none;
+    }
+    
+    .avatar {
+      width: 120px;
+      height: 120px;
+    }
+    
+    .shortlistSection {
+      flex-direction: row;
+    }
+    
+    .shortlistSection input {
+      flex-grow: 1;
+    }
+  
+    .applyButton {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 100;
+    }
+  }

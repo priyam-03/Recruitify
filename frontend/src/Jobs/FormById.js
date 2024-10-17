@@ -158,7 +158,7 @@ const FormById = () => {
             {jobForm.jobDescription}
           </textarea>
         </div>
-        <button className={styles.applyButton} onClick={handleApplyForJob}>
+        <button className={styles.applyButton} onClick={handleApplyForJob} id="change-btn">
           Apply
         </button>
       </div>
@@ -210,10 +210,10 @@ const FormById = () => {
             onChange={(e) => setNoOfApplicants(e.target.value)}
             placeholder="Enter number of applicants to shortlist"
           />
-          <button onClick={shortlistApplication}>Shortlist</button>
+          <button onClick={shortlistApplication} id="change-btn">Shortlist</button>
         </div>
         <div className={styles.interviewSection}>
-          <button onClick={() => navigate("/interview")}>Take Interview</button>
+          <button onClick={() => navigate("/interview")} id="change-btn">Take Interview</button>
         </div>
       </div>
     </div>
