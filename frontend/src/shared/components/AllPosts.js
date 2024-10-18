@@ -56,27 +56,27 @@ const AllPost = () => {
                                 <Avatar
                                     src={post.author.avatar.filePath}
                                     alt={post.author.name}
-                                    sx={{ width: 56, height: 56 }}
+                                    sx={{ width: 56, height: 56 }} // Make sure this is consistent with CSS
                                 />
                                 <div className="username">
-                                    <Typography variant="subtitle1">{post.author.name}</Typography>
+                                    <Typography variant="subtitle1" className="post-owner-username">{post.author.name}</Typography>
                                 </div>
                                 <DropdownMenu postId={post._id} userEmail={post.author.email} />
                             </div>
                             <div className="post-content">
                                 <Typography variant="body1">{post.text}</Typography>
                             </div>
-                            <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
-                                <IconButton onClick={() => handleToggleLike(post._id)}>
-                                    <ThumbUpIcon color={likeMode[post._id] ? 'primary' : 'action'} />
+                            <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }} className="post-actions">
+                                <IconButton onClick={() => handleToggleLike(post._id)} className="like-button">
+                                    <ThumbUpIcon  />
                                 </IconButton>
                                 <Typography variant="body2" sx={{ ml: 1 }}>
                                     {likes[post._id] || 0}
                                 </Typography>
-                                <IconButton onClick={() => handleToggleLike(post._id)}>
+                                <IconButton onClick={() => handleToggleLike(post._id)} className="dislike-button">
                                     <ThumbDownIcon />
                                 </IconButton>
-                                <IconButton onClick={() => handleToggleTextSection(post._id)}>
+                                <IconButton onClick={() => handleToggleTextSection(post._id)} className="comment-button">
                                     <ChatIcon />
                                 </IconButton>
                             </Box>
