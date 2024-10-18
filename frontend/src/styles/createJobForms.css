@@ -2,37 +2,45 @@
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 30px; /* Increased padding for better spacing */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
 }
 
-.create-select, .create-desc-form-control, .create-form-control, .create-skills-form-control {
-    margin-bottom: 15px;
-}
-
-.create-desc-form-control{
-    width: 90%;
-    padding: 10px;
+.create-select, 
+.create-desc-form-control, 
+.create-form-control, 
+.create-skills-form-control {
+    margin-bottom: 25px; /* Increased margin for better spacing */
 }
 
 .create-form-label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: white;
-}
-.create-preview-label{
-    color: #fafafa;
+    color: white; /* Changed to white for visibility on black background */
 }
 
-.create-role-loc-form, .create-form-select, .create-desc-form-textarea {
-    width: 100%;
-    padding: 10px;
+.create-role-loc-form, 
+.create-form-select, 
+.create-desc-form-textarea {
+    width: 100%; /* Full width */
+    padding: 12px; /* Increased padding for better input area */
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    transition: border 0.3s ease;
+    background-color: #ffffff; /* Darker background for inputs */
+    color: white; /* Text color for better visibility */
 }
-.create-desc-form-textarea{
-    padding: 5px;
+
+.create-role-loc-form:focus, 
+.create-form-select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.create-desc-form-textarea {
     height: 200px;
     resize: none;
 }
@@ -40,52 +48,25 @@
 .create-requiredskills-flex {
     display: flex;
     align-items: center;
-}
-
-.create-add-skill-button {
-    cursor: pointer;
-    color: #f6f6f6;
-    margin-left: 10px;
-}
-
-.create-form-selectedSkills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.create-form-selected-skill {
-    display: flex;
-    align-items: center;
-    padding: 5px 10px;
-    background-color: #f0f0f0;
-    border-radius: 4px;
-}
-
-.create-form-selected-skill-text {
-    margin-right: 10px;
-    color: #000000;
-
-}
-
-.create-remove-skill {
-    cursor: pointer;
-    color: rgb(7, 6, 6);
+    gap: 10px; /* Added gap between skill input and button */
 }
 
 .create-button-container {
     display: flex;
-    gap: 10px;
+    justify-content: space-between;
+    gap: 10px; /* Space between buttons */
+    padding: 10px 0;
 }
 
 .create-button {
-    padding: 10px 20px;
+    padding: 12px 20px; /* Increased padding for buttons */
     font-size: 16px;
     background-color: #007bff;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .create-button:hover {
@@ -96,30 +77,30 @@
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    background-color: #0c2760;
+    background-color: #1a1a1a; /* Darker background for preview */
 }
 
 .create-preview-heading {
     margin-bottom: 20px;
     font-size: 24px;
-}
-.create-preview-value{
-    color: #f1f5f9;
+    color: white;
 }
 
 .create-preview-field {
-    margin-bottom: 10px;
+    margin-bottom: 15px; /* Increased margin for spacing in preview */
     padding-bottom: 10px;
-    border-bottom: 2px solid #ccc;
+    border-bottom: 1px solid #ccc; /* Changed to border-bottom for a cleaner look */
 }
 
 .create-preview-label {
     font-weight: bold;
     display: block;
     margin-bottom: 5px;
+    color: white; /* Changed to white for visibility */
 }
 
 .create-preview-value {
     display: block;
     font-size: 16px;
+    color: #f1f5f9; /* Light color for preview text */
 }

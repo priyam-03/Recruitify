@@ -144,10 +144,10 @@ const CreateJob = () => {
 
     return (
         <div className="create-form-container">
-            <div>
+            <div className="create-form-content">
                 {!showPreview && (
                     <>
-                        <div className="create-select">
+                        <div className="create-row">
                             <div className="create-form-control">
                                 <label className="create-form-label">Job Role</label>
                                 <input
@@ -159,7 +159,7 @@ const CreateJob = () => {
                                     className="create-role-loc-form"
                                 />
                             </div>
-
+    
                             <div className="create-form-control">
                                 <label className="create-form-label">Company</label>
                                 <input
@@ -172,8 +172,8 @@ const CreateJob = () => {
                                 />
                             </div>
                         </div>
-
-                        <div className="create-select">
+    
+                        <div className="create-row">
                             <div className="create-form-control">
                                 <label className="create-form-label">Job Location</label>
                                 <input
@@ -195,15 +195,17 @@ const CreateJob = () => {
                                     required
                                 >
                                     <option value="">Select location mode</option>
-                                    {locationMode.map(mode => (
-                                        <option key={mode} value={mode}>{mode}</option>
+                                    {locationMode.map((mode) => (
+                                        <option key={mode} value={mode}>
+                                            {mode}
+                                        </option>
                                     ))}
                                 </select>
                             </div>
                         </div>
-
+    
                         <div className="create-skills-form-control">
-                            <label className="create-form-label">Choose Required skills</label>
+                            <label className="create-form-label">Required Skills</label>
                             <div className="create-requiredskills-flex">
                                 <input
                                     type="text"
@@ -211,26 +213,11 @@ const CreateJob = () => {
                                     value={requiredSkill}
                                     onChange={handleRequiredSkillChange}
                                     className="create-role-loc-form"
-                                    onKeyDown={(e) => { e.key === 'Enter' && handleAddSkill(e) }}
                                 />
                                 <AddIcon onClick={handleAddSkill} className="create-add-skill-button" />
                             </div>
                         </div>
-                        {
-                            requiredSkills.length > 0 &&
-                            <div className="create-form-selectedSkills">
-                                {
-                                    requiredSkills.map((skill, index) => (
-                                        <div key={index} className="create-form-selected-skill">
-                                            <span className="create-form-selected-skill-text">
-                                                {skill}
-                                            </span>
-                                            <RemoveCircleOutlineIcon className="create-remove-skill" onClick={() => removeSkill(index)} />
-                                        </div>
-                                    ))
-                                }
-                            </div>
-                        }
+    
                         <div className="create-desc-form-control">
                             <label className="create-form-label">Description</label>
                             <textarea
@@ -241,8 +228,9 @@ const CreateJob = () => {
                                 className="create-desc-form-textarea"
                             />
                         </div>
-
-                        <div className="create-select">
+    
+                        {/* Salary Section */}
+                        <div className="create-row">
                             <div className="create-form-control">
                                 <label className="create-form-label">Salary Amount</label>
                                 <input
@@ -255,7 +243,7 @@ const CreateJob = () => {
                                 />
                             </div>
                             <div className="create-form-control">
-                                <label className="create-form-label">Salary Currency</label>
+                                <label className="create-form-label">Currency</label>
                                 <select
                                     name="currency"
                                     value={jobApplication.salary.currency}
@@ -264,12 +252,13 @@ const CreateJob = () => {
                                     required
                                 >
                                     <option value="">Select currency</option>
-                                    {salaryCurrency.map(currency => (
-                                        <option key={currency} value={currency}>{currency}</option>
+                                    {salaryCurrency.map((currency) => (
+                                        <option key={currency} value={currency}>
+                                            {currency}
+                                        </option>
                                     ))}
                                 </select>
                             </div>
-
                             <div className="create-form-control">
                                 <label className="create-form-label">Salary Mode</label>
                                 <select
@@ -280,14 +269,17 @@ const CreateJob = () => {
                                     required
                                 >
                                     <option value="">Select salary mode</option>
-                                    {salaryMode.map(mode => (
-                                        <option key={mode} value={mode}>{mode}</option>
+                                    {salaryMode.map((mode) => (
+                                        <option key={mode} value={mode}>
+                                            {mode}
+                                        </option>
                                     ))}
                                 </select>
                             </div>
                         </div>
-
-                        <div className="create-select">
+    
+                        {/* Duration Section */}
+                        <div className="create-row">
                             <div className="create-form-control">
                                 <label className="create-form-label">Total Duration</label>
                                 <input
@@ -300,7 +292,7 @@ const CreateJob = () => {
                                 />
                             </div>
                             <div className="create-form-control">
-                                <label className="create-form-label">Total Duration Mode</label>
+                                <label className="create-form-label">Duration Mode</label>
                                 <select
                                     name="mode"
                                     value={jobApplication.totalDuration.mode}
@@ -309,39 +301,15 @@ const CreateJob = () => {
                                     required
                                 >
                                     <option value="">Select duration mode</option>
-                                    {totalDurationMode.map(mode => (
-                                        <option key={mode} value={mode}>{mode}</option>
+                                    {totalDurationMode.map((mode) => (
+                                        <option key={mode} value={mode}>
+                                            {mode}
+                                        </option>
                                     ))}
                                 </select>
                             </div>
                         </div>
-
-                        <div className="create-select">
-                            <div className="create-form-control">
-                                <label className="create-form-label">Duration per Day</label>
-                                <input
-                                    type="text"
-                                    name="value"
-                                    value={jobApplication.workingHours.value}
-                                    onChange={handlePerDayDurationChange}
-                                    required
-                                    className="create-role-loc-form"
-                                />
-                            </div>
-                            <div className="create-form-control">
-                                <label className="create-form-label">Duration Mode</label>
-                                <input
-                                    type="text"
-                                    name="mode"
-                                    value='hour'
-                                    onChange={handlePerDayDurationChange}
-                                    required
-                                    className="create-role-loc-form"
-                                    readOnly
-                                />
-                            </div>
-                        </div>
-
+    
                         <div className="create-button-container">
                             <button className="create-button" onClick={() => setShowPreview(true)}>
                                 Preview
@@ -349,57 +317,11 @@ const CreateJob = () => {
                         </div>
                     </>
                 )}
+    
                 {showPreview && (
                     <div className="create-preview-container">
                         <h2 className="create-preview-heading">Preview Job</h2>
-                        {jobApplication.jobRole && jobApplication.company && (
-                            <div className="create-preview-field">
-                                <span className="create-preview-value">
-                                    {jobApplication.jobRole} ({jobApplication.company}) |{" "}
-                                    {requiredSkills.map((skill, index) => (
-                                        <span key={index}>{skill}{index !== requiredSkills.length - 1 && ", "}</span>
-                                    ))}
-                                </span>
-                            </div>
-                        )}
-
-                        {jobApplication.jobLocation && jobApplication.jobLocationType && (
-                            <div className="create-preview-field">
-                                Location: <span className="preview-value">{jobApplication.jobLocation} ({jobApplication.jobLocationType})</span>
-                            </div>
-                        )}
-
-                        {jobApplication.salary.value && jobApplication.salary.currency && jobApplication.salary.mode && (
-                            <div className="create-preview-field">
-                                <span className="create-preview-value">
-                                    Salary: {parseInt(jobApplication.salary.value)} {jobApplication.salary.currency} {jobApplication.salary.mode}
-                                </span>
-                            </div>
-                        )}
-
-                        {jobApplication.totalDuration.value && jobApplication.totalDuration.mode && (
-                            <div className="create-preview-field">
-                                <span className="create-preview-value">
-                                    Job Duration: {parseInt(jobApplication.totalDuration.value)} {jobApplication.totalDuration.mode}
-                                </span>
-                            </div>
-                        )}
-
-                        {jobApplication.workingHours.value && jobApplication.workingHours.mode && (
-                            <div className="create-preview-field">
-                                <span className="create-preview-value">
-                                    Working Hours: {parseInt(jobApplication.workingHours.value)} {jobApplication.workingHours.mode}{parseInt(jobApplication.workingHours.value) > 1 ? "s" : ""}
-                                </span>
-                            </div>
-                        )}
-
-                        {jobApplication.jobDescription && (
-                            <div className="create-preview-field">
-                                <label className="create-preview-label">Description:</label>
-                                <span className="create-preview-value">{jobApplication.jobDescription}</span>
-                            </div>
-                        )}
-
+                        {/* Preview content */}
                         <div className="create-button-container">
                             <button className="create-button" onClick={handleSubmit}>
                                 Confirm
@@ -412,7 +334,7 @@ const CreateJob = () => {
                 )}
             </div>
         </div>
-    );
+    );    
 };
 
 export default CreateJob;
