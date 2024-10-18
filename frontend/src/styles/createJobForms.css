@@ -2,37 +2,43 @@
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 30px; /* Increased padding for better spacing */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
 }
 
-.create-select, .create-desc-form-control, .create-form-control, .create-skills-form-control {
-    margin-bottom: 15px;
-}
-
-.create-desc-form-control{
-    width: 90%;
-    padding: 10px;
+.create-select, 
+.create-desc-form-control, 
+.create-form-control, 
+.create-skills-form-control {
+    margin-bottom: 25px; /* Increased margin for better spacing */
 }
 
 .create-form-label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: white;
-}
-.create-preview-label{
-    color: #fafafa;
+    color: white; /* Changed to white for visibility on black background */
 }
 
-.create-role-loc-form, .create-form-select, .create-desc-form-textarea {
-    width: 100%;
-    padding: 10px;
+.create-role-loc-form, 
+.create-form-select, 
+.create-desc-form-textarea {
+    width: 100%; /* Full width */
+    padding: 12px; /* Increased padding for better input area */
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    transition: border 0.3s ease;
 }
-.create-desc-form-textarea{
-    padding: 5px;
+
+.create-role-loc-form:focus, 
+.create-form-select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.create-desc-form-textarea {
     height: 200px;
     resize: none;
 }
@@ -40,86 +46,81 @@
 .create-requiredskills-flex {
     display: flex;
     align-items: center;
-}
-
-.create-add-skill-button {
-    cursor: pointer;
-    color: #f6f6f6;
-    margin-left: 10px;
-}
-
-.create-form-selectedSkills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.create-form-selected-skill {
-    display: flex;
-    align-items: center;
-    padding: 5px 10px;
-    background-color: #f0f0f0;
-    border-radius: 4px;
-}
-
-.create-form-selected-skill-text {
-    margin-right: 10px;
-    color: #000000;
-
-}
-
-.create-remove-skill {
-    cursor: pointer;
-    color: rgb(7, 6, 6);
+    gap: 10px; /* Added gap between skill input and button */
 }
 
 .create-button-container {
     display: flex;
-    gap: 10px;
+    justify-content: center; /* Center the buttons */
+    gap: 10px; /* Space between buttons */
+    padding: 10px 0;
 }
 
-.create-button {
-    padding: 10px 20px;
+/* Apply margin to the preview button to lift it higher */
+.create-preview-button {
+    margin-top: -10px; /* Adjust this value to lift it higher */
+    padding: 12px 20px; /* Keep the same padding for consistency */
     font-size: 16px;
     background-color: #007bff;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease; /* Added box-shadow transition */
+}
+
+/* Enhanced hover effect */
+.create-preview-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-3px) scale(1.05); /* Slight lift and scale effect */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Shadow effect on hover */
+}
+
+.create-button {
+    padding: 12px 20px; /* Increased padding for buttons */
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease; /* Added box-shadow transition */
 }
 
 .create-button:hover {
     background-color: #0056b3;
+    transform: translateY(-3px) scale(1.05); /* Slight lift and scale effect */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Shadow effect on hover */
 }
 
 .create-preview-container {
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    background-color: #0c2760;
+    background-color: #1a1a1a; /* Darker background for preview */
 }
 
 .create-preview-heading {
     margin-bottom: 20px;
     font-size: 24px;
-}
-.create-preview-value{
-    color: #f1f5f9;
+    color: white;
 }
 
 .create-preview-field {
-    margin-bottom: 10px;
+    margin-bottom: 15px; /* Increased margin for spacing in preview */
     padding-bottom: 10px;
-    border-bottom: 2px solid #ccc;
+    border-bottom: 1px solid #ccc; /* Changed to border-bottom for a cleaner look */
 }
 
 .create-preview-label {
     font-weight: bold;
     display: block;
     margin-bottom: 5px;
+    color: white; /* Changed to white for visibility */
 }
 
 .create-preview-value {
     display: block;
     font-size: 16px;
+    color: #f1f5f9; /* Light color for preview text */
 }
