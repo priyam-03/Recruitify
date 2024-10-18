@@ -30,7 +30,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     transition: border 0.3s ease;
-    background-color: #ffffff; /* Darker background for inputs */
+    background-color: white; /* Darker background for inputs */
     color: white; /* Text color for better visibility */
 }
 
@@ -53,9 +53,29 @@
 
 .create-button-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Center the buttons */
     gap: 10px; /* Space between buttons */
     padding: 10px 0;
+}
+
+/* Apply margin to the preview button to lift it higher */
+.create-preview-button {
+    margin-top: -10px; /* Adjust this value to lift it higher */
+    padding: 12px 20px; /* Keep the same padding for consistency */
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease; /* Added box-shadow transition */
+}
+
+/* Enhanced hover effect */
+.create-preview-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-3px) scale(1.05); /* Slight lift and scale effect */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Shadow effect on hover */
 }
 
 .create-button {
@@ -66,11 +86,13 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease; /* Added box-shadow transition */
 }
 
 .create-button:hover {
     background-color: #0056b3;
+    transform: translateY(-3px) scale(1.05); /* Slight lift and scale effect */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Shadow effect on hover */
 }
 
 .create-preview-container {
