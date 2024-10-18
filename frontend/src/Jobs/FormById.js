@@ -161,8 +161,7 @@ const FormById = () => {
         {/* <div> */}
         <button className={styles.applyButton} onClick={handleApplyForJob} id="change-btn">
           Apply
-        </button>
-        {/* </div> */}
+        </button>        {/* </div> */}
       </div>
       {/* <div className={styles.applicantsSection}>
         <h2>Applicants</h2>
