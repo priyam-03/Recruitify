@@ -12,7 +12,7 @@ import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import styles from "../styles/formById.module.css";
 import { useNavigate } from "react-router-dom";
-import ShortlistModal from "../shared/components/shortListModal";
+import ShortlistModal from "../shared/components/shortlistModal.js";
 
 const FormById = () => {
   const { formId } = useParams();
