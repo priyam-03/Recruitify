@@ -45,7 +45,7 @@ const Header = () => {
             ) : (
               <>
                 <NavLink to="/user-profile">Profile</NavLink>
-                <NavLink to="/dashboard">Messages</NavLink>
+                <NavLink to="/chat">Messages</NavLink>
                 <NavLink to="/jobs">Jobs</NavLink>
                 <Avatar />
               </>

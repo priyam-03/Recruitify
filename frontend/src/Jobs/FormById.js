@@ -1,19 +1,23 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { applyForJob, fetchJobById } from "../store/slices/JobSlices";
+import {
+  applyForJob,
+  fetchJobById,
+  fetchShortlistedApplicants,
+} from "../store/slices/JobSlices";
 import WorkIcon from "@mui/icons-material/Work";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import styles from "../styles/formById.module.css";
 import { useNavigate } from "react-router-dom";
-import { fetchShortlistedApplicants } from "../store/slices/JobSlices";
+import ShortlistModal from "../shared/components/shortlistModal.js";
 
 const FormById = () => {
   const { formId } = useParams();
-  const [noOfApplicants, setNoOfApplicants] = useState(0);
   const [applicants, setApplicants] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to handle modal visibility
   const jobFormTemp = useSelector((state) => state.jobs.jobFormById);
   const loading = useSelector((state) => state.jobs.isLoading);
   const dispatch = useDispatch();
@@ -56,13 +60,13 @@ const FormById = () => {
     }
   };
 
-  const shortlistApplication = () => {
-    if (noOfApplicants > 0) {
-      dispatch(fetchShortlistedApplicants({ formId, noOfApplicants })).then(
-        () => {
-          navigate(`/shortlisted-applicants/${formId}/${noOfApplicants}`);
-        }
-      );
+  const shortlistApplication = (numApplicants) => {
+    if (numApplicants > 0) {
+      dispatch(
+        fetchShortlistedApplicants({ formId, noOfApplicants: numApplicants })
+      ).then(() => {
+        navigate(`/shortlisted-applicants/${formId}/${numApplicants}`);
+      });
     } else {
       alert("Please enter a valid number of applicants.");
     }
@@ -164,25 +168,6 @@ const FormById = () => {
         </button>
         {/* </div> */}
       </div>
-      {/* <div className={styles.applicantsSection}>
-        <h2>Applicants</h2>
-        {applicants.length > 0 ? (
-          applicants.map((applicant, index) => (
-            <div key={index} className={styles.applicantAvatarSection}>
-              <img
-                className={styles.applicantAvatar}
-                src={avatarUrl}
-                alt={applicant.userId.name}
-              />
-              <span className={styles.applicantOwnerName}>
-                {applicant.userId.name}
-              </span>
-              <MoreVertIcon className={styles.jobFormDropdown} />
-            </div>
-          ))
-        ) : (
-          <div>No application for the Job yet</div>
-        )} */}
       <div className={styles.applicantsSection}>
         <h2>Applicants</h2>
         {applicants.length > 0 ? (
@@ -203,23 +188,28 @@ const FormById = () => {
           <div>No application for the Job yet</div>
         )}
 
-        {/* Moved the input and button to the bottom */}
         <div className={styles.shortlistSection}>
-          <input
+          {/* <input
             type="number"
             id="noOfApplicants"
             value={noOfApplicants}
             onChange={(e) => setNoOfApplicants(e.target.value)}
             placeholder="Enter number of applicants to shortlist"
-          />
-          <button onClick={shortlistApplication} id="change-btn">Shortlist</button>
+          /> */}
+          <button onClick={() => setIsModalOpen(true)} id="change-btn">
+            Shortlist
+          </button>
         </div>
+        <ShortlistModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={shortlistApplication}
+        />
         <div className={styles.interviewSection}>
-          <button onClick={() => navigate("/interview")} id="change-btn">Take Interview</button>
+          <button onClick={() => navigate("/interview")}>Take Interview</button>
         </div>
       </div>
     </div>
-    // </div>
   );
 };
 
