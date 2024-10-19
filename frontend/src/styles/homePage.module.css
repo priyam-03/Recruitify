@@ -1,7 +1,10 @@
-
-.HomePageContent{
-    overflow: auto; 
+.HomePageContent {
+    overflow: auto;
+    background-color: #121212;
+    color: #e0e0e0;
+    transition: background-color 0.5s ease;
 }
+
 .container {
     display: flex;
     flex-direction: row;
@@ -9,51 +12,113 @@
     width: 100vw;
     height: 100vh;
     background-color: black;
+    transition: all 0.3s ease;
 }
 
 .leftColumn {
-    max-width: 20%;
-    min-width: 15%;
+    flex: 1;
     padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: black;
+    background-color: #181818;
     box-sizing: border-box;
+    transition: all 0.3s ease;
 }
 
 .profilePic {
     width: 100%;
-    max-width: 120px; /* Adjust based on your preference */
+    max-width: 120px;
     height: auto;
     border-radius: 50%;
     margin-bottom: 20px;
+    border: 3px solid #4a90e2;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profilePic:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6);
 }
 
 .createPostBtn {
-    background-color: #f5f5f5;
-    color: black;
+    background: linear-gradient(135deg, #4a90e2, #357ab8);
+    color: #fff;
+    border-radius: 25px;
     border: none;
     padding: 10px 20px;
-    border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.createPostBtn:hover {
+    background: linear-gradient(135deg, #357ab8, #4a90e2);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    transform: translateY(-5px);
+}
+
+.createPostBtn:active {
+    background: linear-gradient(135deg, #4a90e2, #357ab8);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(1px);
 }
 
 .middleColumn {
-    flex: 1;
-    background-color: black;
+    flex: 3;
+    background-color: #1f1f1f;
     padding: 20px;
     overflow-y: auto;
     box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 20px;
 }
 
-.rightColumn {
-    width: 30%;
+.post-card {
+    background-color: #2c2c2c;
     padding: 20px;
-    overflow-y: auto;
-    background-color: black;
-    box-sizing: border-box;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: #e0e0e0;
+}
+
+.avatar-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.owner-name {
+    font-weight: 600;
+    font-size: 18px;
+    color: #ffffff;
+    transition: color 0.3s ease;
+}
+
+.owner-name:hover {
+    color: #4a90e2;
+}
+
+.job-desc {
+    cursor: pointer;
+}
+
+.job-desc:hover {
+    background-color: #333;
+    transition: background-color 0.3s ease;
 }
 
 .middleColumn::-webkit-scrollbar {
@@ -66,5 +131,92 @@
 }
 
 .middleColumn::-webkit-scrollbar-track {
-    background: black;
+    background: #1f1f1f;
+}
+
+.rightColumn {
+    flex: 1.5;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #1e1e1e;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    transition: all 0.5s ease;
+    box-sizing: border-box;
+}
+
+.post-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    background-color: #333;
+}
+
+.post-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 10px;
+    transition: font-size 0.3s ease;
+}
+
+.post-title:hover {
+    font-size: 24px;
+}
+
+.post-description {
+    font-size: 16px;
+    color: #b0b0b0;
+    line-height: 1.6;
+    transition: color 0.3s ease;
+}
+
+.post-description:hover {
+    color: #ffffff;
+}
+
+.post-image {
+    width: 100%;
+    border-radius: 5px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.post-image:hover {
+    opacity: 0.85;
+    transform: scale(1.05);
+}
+
+.post-tags {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.post-tag {
+    background-color: #007bff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 12px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.post-tag:hover {
+    background-color: #0056b3;
+    transform: translateY(-3px);
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .leftColumn, .rightColumn {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .middleColumn {
+        width: 100%;
+        grid-template-columns: 1fr;
+    }
 }
