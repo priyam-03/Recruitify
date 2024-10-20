@@ -50,6 +50,12 @@ const CreateJob = () => {
         }));
     };
 
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleAddSkill();
+        }
+    };
+
     const handleSubmit = () => {
         if (!jobApplication.jobRole || !jobApplication.jobDescription || !jobApplication.company || !jobApplication.jobLocation || !jobApplication.jobLocationType) {
             alert("Please fill out all required fields.");
@@ -85,8 +91,23 @@ const CreateJob = () => {
                             </select>
                         </div>
                         <div className="create-skills-form-control">
-                            <input type="text" value={requiredSkill} onChange={e => setRequiredSkill(e.target.value)} placeholder="Add Skill" className="create-role-loc-form" />
+                            <input
+                                type="text"
+                                value={requiredSkill}
+                                onChange={e => setRequiredSkill(e.target.value)}
+                                placeholder="Add Skill"
+                                className="create-role-loc-form"
+                                onKeyPress={handleKeyPress}
+                            />
                             <AddIcon onClick={handleAddSkill} className="create-add-skill-button" />
+                        </div>
+                        <div className="create-requiredskills-flex">
+                            {jobApplication.requiredSkills.map((skill, index) => (
+                                <div key={index} className="create-skill-item">
+                                    <span>{skill}</span>
+                                    <RemoveCircleOutlineIcon onClick={() => removeSkill(index)} className="create-remove-skill-button" />
+                                </div>
+                            ))}
                         </div>
                         <div className="create-desc-form-control">
                             <textarea name="jobDescription" value={jobApplication.jobDescription} onChange={handleJobChange} placeholder="Description" className="create-desc-form-textarea" />

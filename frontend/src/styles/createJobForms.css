@@ -116,7 +116,7 @@
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
 }
 .create-button:hover {
     background-color: #0056b3;
@@ -142,4 +142,15 @@
 .create-form-content textarea::placeholder {
     color: #ffffff;
     opacity: 0.7;
+}
+
+.create-remove-skill-button {
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+    color: #ff4d4d;
+}
+
+.create-remove-skill-button:hover {
+    color: #ff1a1a;
+    transform: scale(1.1);
 }
