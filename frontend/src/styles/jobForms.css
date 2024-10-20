@@ -51,7 +51,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    border: 2px solid #007bff;
+    border: 2px solid #6ec1e4;
     object-fit: cover;
 }
 
@@ -83,7 +83,7 @@
 
 .job-role svg, .job-location svg, .job-company svg {
     margin-right: 10px;
-    color: #007bff;
+    color: #6ec1e4;
 }
 
 .job-texts {
@@ -92,7 +92,7 @@
 }
 
 .job-skill {
-    color: #007bff;
+    color: #6ec1e4;
     font-weight: 500;
 }
 
@@ -112,7 +112,7 @@
 }
 
 .view-all-jobs {
-    background-color: #007bff;
+    background-color: #6ec1e4;
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -123,7 +123,7 @@
 }
 
 .view-all-jobs:hover {
-    background-color: #0056b3;
+    background-color: #5bb3d4;
 }
 
 /* Scrollbar styles */
