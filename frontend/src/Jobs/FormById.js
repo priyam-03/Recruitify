@@ -22,6 +22,7 @@ const FormById = () => {
   const loading = useSelector((state) => state.jobs.isLoading);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { userInfo } = useSelector((state) => state.auth);
 
   const skillsContainerRef = useRef(null);
 
@@ -161,10 +162,10 @@ const FormById = () => {
           <textarea className={styles.jobDescTexts} readOnly>
             {jobForm.jobDescription}
           </textarea>
-        </div>
-        <button className={styles.applyButton} onClick={handleApplyForJob}>
-          Apply
-        </button>
+        </div>{jobForm.ownerProfile._id !== userInfo.user._id &&
+          <button className={styles.applyButton} onClick={handleApplyForJob}>
+            Apply
+          </button>}
       </div>
       <div className={styles.applicantsSection}>
         <h2>Applicants</h2>
@@ -186,7 +187,7 @@ const FormById = () => {
           <div>No application for the Job yet</div>
         )}
 
-        <div className={styles.shortlistSection}>
+        {jobForm.ownerProfile._id === userInfo.user._id &&<div className={styles.shortlistSection}>
           {/* <input
             type="number"
             id="noOfApplicants"
@@ -194,18 +195,26 @@ const FormById = () => {
             onChange={(e) => setNoOfApplicants(e.target.value)}
             placeholder="Enter number of applicants to shortlist"
           /> */}
-          <button onClick={() => setIsModalOpen(true)} id="change-btn">
-            Shortlist
-          </button>
-        </div>
-        <ShortlistModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          onSubmit={shortlistApplication}
-        />
-        <div className={styles.interviewSection}>
-          <button onClick={() => navigate("/interview")}>Take Interview</button>
-        </div>
+          
+            
+            <button onClick={() => setIsModalOpen(true)} id="change-btn">
+              Shortlist
+            </button>
+        </div>}
+        {jobForm.ownerProfile._id === userInfo.user._id &&
+          <ShortlistModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            onSubmit={shortlistApplication}
+          />
+          }
+          {
+          jobForm.ownerProfile._id === userInfo.user._id &&
+            <div className={styles.interviewSection}>
+              <button onClick={() => navigate("/interview")}>Take Interview</button>
+           </div>
+          }
+
       </div>
     </div>
   );
