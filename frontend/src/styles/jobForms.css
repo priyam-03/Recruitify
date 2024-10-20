@@ -1,97 +1,162 @@
-/* jobForms.css */
-
 .jobform-page {
     padding: 20px;
-    margin-bottom: 20px;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    height: 100%;
+    overflow-y: auto;
+    max-width: 100%;
 }
 
 .job-forms-heading {
-    font-size: 24px;
+    font-size: 26px;
     margin-bottom: 20px;
+    color: #e0e0e0;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+    font-weight: bold;
 }
 
 .jobform-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(48%, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 20px;
+    max-width: 100%;
 }
 
 .job-form-box {
-    background-color: #11224964;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 2px 2px 10px rgba(254, 244, 244, 0.1);
+    background-color: #2b2b2b;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    border: 1px solid #444;
+    overflow: hidden;
+    padding: 10px;
 }
 
+.job-form-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.job-role-container {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 5px; 
+    margin-left: 20px;
+}
+
+.job-role {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgb(59, 59, 59);
+}
 .avatar-section {
     display: flex;
     align-items: center;
-    flex-direction: row;
     margin-bottom: 10px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid #d3d4db;
 }
 
 .avatar {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    margin-right: 10px;
-}
-
-.avatar,.owner-name:hover{
-    cursor: pointer;
+    border: 2px solid #6ec1e4;
+    object-fit: cover;
 }
 
 .owner-name {
-    font-weight: bold;
-    width:90%;
+    font-size: 16px;
+    font-weight: 600;
+    color: #e0e0e0;
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.job-form-dropdown {
+    color: #e0e0e0;
+    cursor: pointer;
 }
 
 .job-desc {
-    margin-top: 10px;
-    background-color:#03081d27;
-    padding: 5px;
-    border-radius: 5px;
-    cursor: pointer;
-    
+    margin-left: 20px;
+    padding: 15px 0; /* Adjust padding */
 }
 
-.job-role, .job-location,.job-company {
+.job-company,
+.job-location {
     display: flex;
     align-items: center;
-    margin-bottom: 5px;
-    margin-left: 5px;
+    margin-bottom: 10px;
 }
-
-.job-role svg, .job-location svg {
+.avatar-section svg,
+.job-role svg,
+.job-company svg,
+.job-location svg {
     margin-right: 10px;
+    color: #f55318;
 }
 
+.job-role svg{
+    height: 35px;
+    width: 35px;
+}
 .job-texts {
-    font-size: 16px;
+    font-size: 28px;
+    color: #e0e0e0;
+    flex-grow: 1;
+}
+.job-dtexts {
+    font-size: 14px;
+    color: #e0e0e0;
+    flex-grow: 1;
+}
+
+
+.job-skill {
+    color: #6ec1e4;
+    font-weight: 500;
+    font-size: 13px;
     margin-left: 5px;
 }
 
-.job-skill{
-    color: white;
+.no-jobs-available {
+    text-align: center;
+    color: #888;
+    padding: 20px;
+    border: 1px dashed #444;
+    border-radius: 10px;
 }
 
 .job-form-footer {
-    position: relative;
-    bottom: 0px; /* Adjust the value as needed */
-    left: 0px; /* Adjust the value as needed */
-    width: 100%; /* Adjust the value as needed */
-    padding: 10px;
-    color: white;
-    border-radius: 0px;
+    margin-top: 20px;
     text-align: center;
+    border-top: 1px solid #444;
+    padding-top: 20px;
 }
 
-.job-form-dropdown{
-   margin-left: 5px;
+/* Scrollbar styles */
+.jobform-page::-webkit-scrollbar {
+    width: 8px;
 }
 
-.job-form-dropdown:hover{
-    cursor: pointer;
+.jobform-page::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+.jobform-page::-webkit-scrollbar-thumb {
+    background-color: #444;
+    border-radius: 4px;
+}
+
+.jobform-page::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
 }

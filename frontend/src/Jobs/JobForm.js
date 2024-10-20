@@ -4,17 +4,17 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import WorkIcon from "@mui/icons-material/Work";
 import BusinessIcon from "@mui/icons-material/Business";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { fetchMyJobForms, fetchAllJobForms } from "../store/slices/JobSlices";
-import "../styles/jobForms.css";
 import { useNavigate } from "react-router-dom";
-import Error from "../shared/components/Error";
+import "../styles/jobForms.css";
+
 const JobForms = ({ type }) => {
   const dispatch = useDispatch();
   const myJobForms = useSelector((state) => state.jobs.myJobForms);
   const allJobForms = useSelector((state) => state.jobs.allJobForms);
   const isLoading = useSelector((state) => state.jobs.isLoading);
   const errorMessage = useSelector((state) => state.jobs.errorMessage);
-  console.log(errorMessage, errorMessage);
   const { userInfo } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
@@ -51,27 +51,9 @@ const JobForms = ({ type }) => {
                 (type === "my" &&
                   jobForm.ownerProfile._id === userInfo.user._id)) && (
                 <div key={index} className="job-form-box">
-                  <div className="avatar-section">
-                    <img
-                      className="avatar"
-                      src={jobForm.ownerProfile.avatar.filePath}
-                      alt={jobForm.ownerProfile.name}
-                    />
-                    <span className="owner-name">
-                      {jobForm.ownerProfile.name}
-                      {jobForm.ownerProfile._id === userInfo.user._id && (
-                        <span> (me)</span>
-                      )}
-                    </span>
-
-                    <MoreVertIcon className="job-form-dropdown" />
-                  </div>
-                  <div
-                    className="job-desc"
-                    onClick={() => handleFormById(jobForm._id)}
-                  >
+                  <div className="job-role-container">
                     <div className="job-role">
-                      <WorkIcon />
+                      <WorkIcon fontSize="50px" />
                       <span className="job-texts">
                         {jobForm.jobRole}
                         {jobForm.requiredSkills &&
@@ -81,24 +63,36 @@ const JobForms = ({ type }) => {
                               {jobForm.requiredSkills.map((skill, index) => (
                                 <span key={index} className="job-skill">
                                   {skill}
-                                  {index !==
-                                    jobForm.requiredSkills.length - 1 && ", "}
+                                  {index !== jobForm.requiredSkills.length - 1 && ", "}
                                 </span>
                               ))}
                             </>
                           )}
                       </span>
+                      <MoreVertIcon className="job-form-dropdown" color="white" />
+                    </div>
+                  </div>
+                  <div className="job-desc">
+                    <div className="avatar-section">
+                      <AccountCircleIcon />
+                      <span className="owner-name">
+                        {jobForm.ownerProfile.name}
+                        {jobForm.ownerProfile._id === userInfo.user._id && (
+                          <span> (me)</span>
+                        )}
+                      </span>
                     </div>
                     <div className="job-company">
                       <BusinessIcon />
-                      <span className="job-texts">{jobForm.company}</span>
+                      <span className="job-dtexts">{jobForm.company}</span>
                     </div>
                     <div className="job-location">
                       <LocationOnIcon />
-                      <span className="job-texts">{jobForm.jobLocation}</span>
+                      <span className="job-dtexts">{jobForm.jobLocation}</span>
                     </div>
                   </div>
                 </div>
+
               )
           )
         ) : (

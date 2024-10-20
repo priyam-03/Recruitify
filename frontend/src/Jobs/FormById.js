@@ -84,8 +84,8 @@ const FormById = () => {
   };
 
   return (
-    <div className={styles.formbyidPage}>
-      <div className={styles.avatarSection}>
+    <div className={styles.formbyidPage} id="job-container">
+      <div className={styles.avatarSection} id="job-details">
         <img
           className={styles.avatar}
           src={avatarUrl}
@@ -93,7 +93,7 @@ const FormById = () => {
         />
         <span className={styles.ownerName}>{jobForm.ownerProfile.name}</span>
 
-        <div className={styles.ownerEmail}>
+        <div className={styles.ownerEmail} >
           Email:
           <span className={styles.ownerEmailText}>
             {" "}
@@ -157,7 +157,7 @@ const FormById = () => {
             />
           </div>
         )}
-        <div className={styles.jobDescription}>
+        <div className={styles.jobDescription} id="job-description">
           <text className={styles.jobDescHeading}>Job Description: </text>
           <textarea className={styles.jobDescTexts} readOnly>
             {jobForm.jobDescription}
@@ -166,7 +166,8 @@ const FormById = () => {
           <button className={styles.applyButton} onClick={handleApplyForJob}>
             Apply
           </button>}
-      </div>
+        </div>
+       
       <div className={styles.applicantsSection}>
         <h2>Applicants</h2>
         {applicants.length > 0 ? (

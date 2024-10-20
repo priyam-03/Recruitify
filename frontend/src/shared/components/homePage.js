@@ -10,11 +10,15 @@ import "../../styles/jobForms.css";
 import { useNavigate } from 'react-router-dom';
 import { fetchAllJobForms } from '../../store/slices/JobSlices';
 import AllPost from './AllPosts';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
+
 const AllJobForms = () => {
     const dispatch = useDispatch();
     const allJobForms = useSelector((state) => state.jobs.allJobForms);
     const isLoading = useSelector((state) => state.jobs.isLoading);
     const navigate = useNavigate();
+    const { userInfo } = useSelector((state) => state.auth);
 
     useEffect(() => {
         dispatch(fetchAllJobForms());
@@ -37,45 +41,52 @@ const AllJobForms = () => {
             <h2 className="job-forms-heading">Find Your Dream Job</h2>
             <div className="jobform-container">
                 {allJobForms.length > 0 ? (
-                    allJobForms.map((jobForm, index) => (
-                        <div key={index} className="job-form-box">
-                            <div className="avatar-section">
-                                <img
-                                    className="avatar"
-                                    src={jobForm.ownerProfile.avatar.filePath}
-                                    alt={jobForm.ownerProfile.name}
-                                />
-                                <span className="owner-name">{jobForm.ownerProfile.name}</span>
-                                <MoreVertIcon className="job-form-dropdown" />
-                            </div>
-                            <div className="job-desc" onClick={() => handleFormById(jobForm._id)}>
-                                <div className="job-role">
-                                    <WorkIcon />
-                                    <span className="job-texts">
-                                        {jobForm.jobRole}
-                                        {jobForm.requiredSkills && jobForm.requiredSkills.length > 0 && (
-                                            <>
-                                                <span className="job-texts"> | </span>
-                                                {jobForm.requiredSkills.map((skill, index) => (
-                                                    <span key={index} className="job-skill">
-                                                        {skill}{index !== jobForm.requiredSkills.length - 1 && ", "}
-                                                    </span>
-                                                ))}
-                                            </>
-                                        )}
-                                    </span>
-                                </div>
-                                <div className="job-company">
-                                    <BusinessIcon />
-                                    <span className="job-texts">{jobForm.company}</span>
-                                </div>
-                                <div className="job-location">
-                                    <LocationOnIcon />
-                                    <span className="job-texts">{jobForm.jobLocation}</span>
-                                </div>
-                            </div>
-                        </div>
-                    ))
+                    allJobForms.map(
+                        (jobForm, index) => (
+                            <div key={index} className="job-form-box">
+                  <div className="job-role-container">
+                    <div className="job-role">
+                      <WorkIcon fontSize="2rem"/>
+                      <span className="job-texts">
+                        {jobForm.jobRole}
+                        {/* {jobForm.requiredSkills &&
+                          jobForm.requiredSkills.length > 0 && (
+                            <>
+                              <span className="job-texts"> | </span>
+                              {jobForm.requiredSkills.map((skill, index) => (
+                                <span key={index} className="job-skill">
+                                  {skill}
+                                  {index !== jobForm.requiredSkills.length - 1 && ", "}
+                                </span>
+                              ))}
+                            </>
+                          )} */}
+                      </span>
+                      <MoreVertIcon className="job-form-dropdown" color="white"/>
+                    </div>
+                    </div>
+                    <div className="job-desc">
+                      <div className="avatar-section">
+                         <AccountCircleIcon/>
+                        <span className="owner-name">
+                          {jobForm.ownerProfile.name}
+                          {jobForm.ownerProfile._id === userInfo.user._id && (
+                            <span> (me)</span>
+                          )}
+                        </span>
+                      </div>
+                      <div className="job-company">
+                        <BusinessIcon />
+                        <span className="job-dtexts">{jobForm.company}</span>
+                      </div>
+                      <div className="job-location">
+                        <LocationOnIcon />
+                        <span className="job-dtexts">{jobForm.jobLocation}</span>
+                      </div>
+                    </div>
+                  </div>
+                
+                        ))
                 ) : (
                     <div className="no-jobs-available">
                         No more jobs available...
@@ -89,19 +100,17 @@ const AllJobForms = () => {
     );
 };
 
-
 const HomePage = () => {
     const [createPostButtonOn, setCreatePostButtonOn] = useState(false);
     const { userInfo } = useSelector((state) => state.auth);
     const navigate = useNavigate();
-
     const [showModal, setShowModal] = useState(false);
+
     const handleShowCreatePost = () => {
         if (!userInfo) {
             navigate("/login");
             return;
         }
-
         setShowModal(!showModal);
     };
 
@@ -125,6 +134,5 @@ const HomePage = () => {
         </div>
     );
 };
-
 
 export default HomePage;
