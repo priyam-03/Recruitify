@@ -10,6 +10,7 @@ import "../../styles/jobForms.css";
 import { useNavigate } from 'react-router-dom';
 import { fetchAllJobForms } from '../../store/slices/JobSlices';
 import AllPost from './AllPosts';
+
 const AllJobForms = () => {
     const dispatch = useDispatch();
     const allJobForms = useSelector((state) => state.jobs.allJobForms);
@@ -89,19 +90,17 @@ const AllJobForms = () => {
     );
 };
 
-
 const HomePage = () => {
     const [createPostButtonOn, setCreatePostButtonOn] = useState(false);
     const { userInfo } = useSelector((state) => state.auth);
     const navigate = useNavigate();
-
     const [showModal, setShowModal] = useState(false);
+
     const handleShowCreatePost = () => {
         if (!userInfo) {
             navigate("/login");
             return;
         }
-
         setShowModal(!showModal);
     };
 
@@ -125,6 +124,5 @@ const HomePage = () => {
         </div>
     );
 };
-
 
 export default HomePage;
