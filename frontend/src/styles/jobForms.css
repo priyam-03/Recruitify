@@ -5,22 +5,25 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     height: 100%;
     overflow-y: auto;
+    max-width: 100%;
 }
 
 .job-forms-heading {
-    font-size: 24px;
+    font-size: 26px;
     margin-bottom: 20px;
     color: #e0e0e0;
     text-align: center;
     font-family: 'Poppins', sans-serif;
     border-bottom: 2px solid #333;
     padding-bottom: 10px;
+    font-weight: bold;
 }
 
 .jobform-container {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    max-width: 100%;
 }
 
 .job-form-box {
@@ -31,6 +34,7 @@
     cursor: pointer;
     border: 1px solid #444;
     overflow: hidden;
+    padding: 10px;
 }
 
 .job-form-box:hover {
@@ -38,22 +42,32 @@
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
+.job-role-container {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 5px; 
+    margin-left: 20px;
+}
+
+.job-role {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgb(59, 59, 59);
+}
 .avatar-section {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 15px;
-    background-color: #333;
-    border-bottom: 1px solid #444;
+    margin-bottom: 10px;
 }
 
 .avatar {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     border: 2px solid #6ec1e4;
-
-
     object-fit: cover;
 }
 
@@ -61,7 +75,6 @@
     font-size: 16px;
     font-weight: 600;
     color: #e0e0e0;
-    margin-left: 10px;
     flex-grow: 1;
     white-space: nowrap;
     overflow: hidden;
@@ -74,31 +87,45 @@
 }
 
 .job-desc {
-    padding: 15px;
+    margin-left: 20px;
+    padding: 15px 0; /* Adjust padding */
 }
 
-.job-role, .job-location, .job-company {
+.job-company,
+.job-location {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
 }
-
-.job-role svg, .job-location svg, .job-company svg {
+.avatar-section svg,
+.job-role svg,
+.job-company svg,
+.job-location svg {
     margin-right: 10px;
-    color: #6ec1e4;
-
+    color: #f55318;
 }
 
+.job-role svg{
+    height: 35px;
+    width: 35px;
+}
 .job-texts {
+    font-size: 28px;
+    color: #e0e0e0;
+    flex-grow: 1;
+}
+.job-dtexts {
     font-size: 14px;
     color: #e0e0e0;
+    flex-grow: 1;
 }
 
+
 .job-skill {
-
     color: #6ec1e4;
-
     font-weight: 500;
+    font-size: 13px;
+    margin-left: 5px;
 }
 
 .no-jobs-available {
@@ -114,25 +141,6 @@
     text-align: center;
     border-top: 1px solid #444;
     padding-top: 20px;
-}
-
-.view-all-jobs {
-
-    background-color: #6ec1e4;
-
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    font-weight: bold;
-}
-
-.view-all-jobs:hover {
-
-    background-color: #5bb3d4;
-
 }
 
 /* Scrollbar styles */

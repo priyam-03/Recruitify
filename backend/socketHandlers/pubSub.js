@@ -1,5 +1,6 @@
 // import Redis from "ioredis";
 // import dotenv from 'dotenv';
+// require("dotenv").config();
 require("dotenv").config({ path: "./secret.env" });
 const Redis = require("ioredis");
 
