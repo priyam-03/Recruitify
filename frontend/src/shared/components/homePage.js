@@ -65,7 +65,7 @@ const AllJobForms = () => {
                       <MoreVertIcon className="job-form-dropdown" color="white"/>
                     </div>
                     </div>
-                    <div className="job-desc">
+                    <div className="job-desc"  onClick={()=>handleFormById(jobForm._id)}>
                       <div className="avatar-section">
                          <AccountCircleIcon/>
                         <span className="owner-name">
