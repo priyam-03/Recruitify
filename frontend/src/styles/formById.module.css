@@ -107,6 +107,7 @@
   border-radius: 12px;
   display: flex;
   flex-direction: column;
+  width: 100%;
   gap: 1.5rem;
   height: 100vh;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
@@ -115,8 +116,9 @@
 /* Upper fixed part of job description */
 .jobHead {
   position: relative;
-  width: 100%;
+  width: 700px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 1rem;
   padding: 1rem;
@@ -174,6 +176,7 @@
 
 
     display: flex;
+    justify-content: space-between;
     align-items: center;
     gap: 1rem;
     padding: 1rem;
@@ -307,7 +310,7 @@
   .applicantsSection {
     width: 300px;
     min-width: 250px;
-    max-height: 100%;
+    max-height: 100vh;
     padding: 1.5rem;
     background-color: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(10px);
@@ -315,7 +318,7 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    overflow-y: auto;
+    overflow: hidden;
     transition: all 0.3s ease;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   }
@@ -329,6 +332,7 @@
     font-size: 1.5rem;
     margin-bottom: 1rem;
     text-align: center;
+    color: #00b9bf;
   }
   
   .applicantAvatarSection {
@@ -336,6 +340,8 @@
     align-items: center;
     gap: 0.75rem;
     padding: 0.75rem;
+    margin-left: -15px;
+    margin-bottom: 10px;
     background-color: rgba(255, 255, 255, 0.05);
     border-radius: 8px;
     transition: all 0.3s ease;
@@ -378,11 +384,11 @@
 
 /* Apply Button */
 .applyButton {
-  position: fixed;
+ 
     background: linear-gradient(135deg, #4a90e2, #357ab8);
     color: #fff;
     border-radius: 25px;
-    margin-left: 77%;
+
 }
 
 .applyButton:hover {
@@ -396,6 +402,7 @@
     background-color: #28a745; /* Green */
     color: #fff;
     border-radius: 25px;
+   
 }
 
 .shortlistSection button:hover {
@@ -404,18 +411,21 @@
 
 /* Interview Button */
 .interviewSection button {
-    background-color: #ffc107; /* Yellow */
-    color: #fff;
+    background-color: #dca80b; /* Yellow */
+    color: #ffffff;
     border-radius: 25px;
+    font-size: medium;
 }
 
 .interviewSection button:hover {
-    background-color: #e0a800; /* Darker Yellow */
+    background-color: #b68900; /* Darker Yellow */
 }
 
   
   .shortlistSection {
     margin-top: 2rem;
+    height: 100vh;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
@@ -438,6 +448,8 @@
     background-color: rgba(255, 255, 255, 0.08);
     color: #e0e0e0;
     transition: all 0.3s ease;
+    flex: 1;
+    overflow-y: auto; 
   }
   
   .shortlistSection input:focus {
@@ -472,9 +484,13 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   } */
 
-  .jobDescSection, .applicantsSection {
-    max-height: 80vh; /* Example height to limit and allow scrolling */
+  .jobDescSection{
+    max-height: 85vh; /* Example height to limit and allow scrolling */
     overflow-y: auto;  /* Enable scrolling within these sections */
+}
+.applicantsSection {
+  max-height: 85vh; 
+  overflow-y:hidden; 
 }
   
   /* Animations */
@@ -574,4 +590,39 @@
     text-align: center;
     padding: 10px 0;
     border-top: 1px solid #ddd;
+}
+
+
+
+.parent {
+  display: flex;
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+}
+
+.left-column, .right-column {
+  flex: 1; /* Set equal width for left and right columns */
+  background-color: lightblue;
+  padding: 1rem;
+}
+
+.middlecolumn {
+  flex: 2; /* Middle column will take twice the space of the others */
+  display: flex;
+  flex-direction: column;
+}
+
+.upperscrollable {
+  flex: 1; /* Scrollable area will expand to fill available space */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 1rem;
+}
+
+.lowerfixed {
+  
+  height: 60px;
+  padding: 1rem;
+}
+.noappl{
+  text-align: center;
 }
