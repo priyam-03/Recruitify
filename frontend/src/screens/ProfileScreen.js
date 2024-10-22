@@ -120,7 +120,7 @@ const ProfileScreen = () => {
               </h2>
               <img
                 className="profile-image"
-                src={`http://localhost:4000/${userInfo.user.avatar.filePath}`}
+                src={`${process.env.REACT_APP_BACKEND_URL}/${userInfo.user.avatar.filePath}`}
                 alt="Profile"
               />
             </div>
