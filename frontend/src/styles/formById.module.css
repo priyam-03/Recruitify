@@ -58,30 +58,39 @@
   height: 180px;
   border-radius: 50%;
   object-fit: cover;
+  text-align: center;
   transition: transform 0.3s ease;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #e0e0e0;
+  text-align: center;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
+
 
 .avatar:hover {
   transform: scale(1.05);
 }
 
 .ownerName {
+
   font-size: 1.5rem;
   font-weight: 600;
   color: #e0e0e0;
   text-align: center;
   margin-top: 1rem;
+
 }
 
 .ownerEmail {
   font-size: 0.9rem;
-  color: rgba(224, 224, 224, 0.7);
+  color: rgba(69, 249, 255, 0.7);
   text-align: center;
   background-color: rgba(255, 255, 255, 0.05);
   padding: 0.5rem 1rem;
   border-radius: 20px;
-  width: 100%;
+  min-width: 260px;
+  width: auto;
   transition: all 0.3s ease;
 }
 
@@ -174,6 +183,7 @@
     font-weight: 600;
     transition: all 0.3s ease;
     height: auto;
+
   }
 
 
@@ -372,7 +382,7 @@
     background: linear-gradient(135deg, #4a90e2, #357ab8);
     color: #fff;
     border-radius: 25px;
-    margin-left: 80%;
+    margin-left: 77%;
 }
 
 .applyButton:hover {

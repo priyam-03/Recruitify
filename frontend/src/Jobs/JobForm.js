@@ -29,12 +29,14 @@ const JobForms = ({ type }) => {
   if (isLoading) {
     return <div className="loading-text">Loading...</div>;
   }
+ 
 
   const jobForms = type === "my" ? myJobForms : allJobForms;
 
   if (!Array.isArray(jobForms)) {
     return <div className="error-message">Failed to load job forms.</div>;
   }
+  
 
   const handleFormById = (formId) => {
     navigate(`/Jobs/${formId}`);
@@ -44,6 +46,7 @@ const JobForms = ({ type }) => {
     <div className="jobform-page">
       <h2 className="job-forms-heading">Job Application Forms</h2>
       <div className="jobform-container">
+    
         {jobForms.length > 0 ? (
           jobForms.map(
             (jobForm, index) =>
@@ -55,6 +58,7 @@ const JobForms = ({ type }) => {
                     <div className="job-role">
                       <WorkIcon fontSize="50px" />
                       <span className="job-texts">
+                        
                         {jobForm.jobRole}
                         {jobForm.requiredSkills &&
                           jobForm.requiredSkills.length > 0 && (

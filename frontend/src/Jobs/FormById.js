@@ -49,7 +49,7 @@ const FormById = () => {
     return <div>No job form data available.</div>;
   }
 
-  const avatarUrl = `https://www.flaticon.com/free-icon/user-picture_21104`;
+  const avatarUrl = ``;
 
   const scrollSkills = (direction) => {
     if (skillsContainerRef.current) {
@@ -88,7 +88,8 @@ const FormById = () => {
       <div className={styles.avatarSection} id="job-details">
         <img
           className={styles.avatar}
-          src={avatarUrl}
+          src={avatarUrl?avatarUrl:"/ppic.jpg"}
+
           alt={jobForm.ownerProfile.name}
         />
         <span className={styles.ownerName}>{jobForm.ownerProfile.name}</span>
