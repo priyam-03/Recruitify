@@ -102,71 +102,84 @@ const FormById = () => {
         </div>
       </div>
       <div className={styles.jobDescSection}>
-        <div className={styles.jobRole}>
+
+      <div className={styles.jobRole}>
           <WorkIcon />
           <span className={styles.jobTexts}>
             {jobForm.jobRole}{" "}
             {jobForm.company && <text>({jobForm.company})</text>}
           </span>
-        </div>
-        <div className={styles.jobMislanious}>
-          <ul>
-            <li className={styles.jobTexts}>
-              <span>
-                {jobForm.jobLocation}{" "}
-                {jobForm.jobLocationType && (
-                  <text>({jobForm.jobLocationType})</text>
-                )}
-              </span>
-            </li>
-            {jobForm.totalDurations && (
-              <li className={styles.jobTexts}>
-                Total Duration: {jobForm.totalDuration} {jobForm.totalDuration}
-              </li>
-            )}
-            {jobForm.workingHours && (
-              <li className={styles.jobTexts}>
-                Working Hours: {jobForm.workingHours.value}{" "}
-                {jobForm.workingHours.mode}
-              </li>
-            )}
-            {jobForm.salary && (
-              <li className={styles.jobTexts}>
-                Salary: {jobForm.salary.value} {jobForm.salary.currency}{" "}
-                {jobForm.salary.mode}
-              </li>
-            )}
-          </ul>
-        </div>
-        {jobForm.requiredSkills.length > 0 && (
-          <div className={styles.jobSkills}>
-            <ArrowLeftIcon
-              className={styles.arrowLeft}
-              onClick={() => scrollSkills("left")}
-            />
-            <div className={styles.skillsContainer} ref={skillsContainerRef}>
-              {jobForm.requiredSkills.map((skill, index) => (
-                <div key={index} className={styles.jobSkill}>
-                  {skill}
-                </div>
-              ))}
-            </div>
-            <ArrowRightIcon
-              className={styles.arrowRight}
-              onClick={() => scrollSkills("right")}
-            />
-          </div>
-        )}
-        <div className={styles.jobDescription} id="job-description">
-          <text className={styles.jobDescHeading}>Job Description: </text>
-          <textarea className={styles.jobDescTexts} readOnly>
-            {jobForm.jobDescription}
-          </textarea>
-        </div>{jobForm.ownerProfile._id !== userInfo.user._id &&
+          {jobForm.ownerProfile._id !== userInfo.user._id &&
           <button className={styles.applyButton} onClick={handleApplyForJob}>
             Apply
           </button>}
-        </div>
+      </div>
+
+
+
+      <div className={styles.jobBody}>
+       
+        <div className={styles.jobMislanious}>
+            <ul>
+              <li className={styles.jobTexts}>
+                <span>
+                  {jobForm.jobLocation}{" "}
+                  {jobForm.jobLocationType && (
+                    <text>({jobForm.jobLocationType})</text>
+                  )}
+                </span>
+              </li>
+              {jobForm.totalDurations && (
+                <li className={styles.jobTexts}>
+                  Total Duration: {jobForm.totalDuration} {jobForm.totalDuration}
+                </li>
+              )}
+              {jobForm.workingHours && (
+                <li className={styles.jobTexts}>
+                  Working Hours: {jobForm.workingHours.value}{" "}
+                  {jobForm.workingHours.mode}
+                </li>
+              )}
+              {jobForm.salary && (
+                <li className={styles.jobTexts}>
+                  Salary: {jobForm.salary.value} {jobForm.salary.currency}{" "}
+                  {jobForm.salary.mode}
+                </li>
+              )}
+            </ul>
+          </div>
+
+
+
+          {jobForm.requiredSkills.length > 0 && (
+            <div className={styles.jobSkills}>
+              <ArrowLeftIcon
+                className={styles.arrowLeft}
+                onClick={() => scrollSkills("left")}
+              />
+              <div className={styles.skillsContainer} ref={skillsContainerRef}>
+                {jobForm.requiredSkills.map((skill, index) => (
+                  <div key={index} className={styles.jobSkill}>
+                    {skill}
+                  </div>
+                ))}
+              </div>
+              <ArrowRightIcon
+                className={styles.arrowRight}
+                onClick={() => scrollSkills("right")}
+              />
+            </div>
+          )}
+
+<div className={styles.jobDescription} id="job-description">
+            <text className={styles.jobDescHeading}>Job Description: </text>
+            <textarea className={styles.jobDescTexts} readOnly>
+              {jobForm.jobDescription}
+            </textarea>
+          </div>
+      </div>          
+          </div>
+       
        
       <div className={styles.applicantsSection}>
         <h2>Applicants</h2>
