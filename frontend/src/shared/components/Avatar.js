@@ -1,10 +1,12 @@
 import React from "react";
 import { styled } from "@mui/system";
+import { useSelector } from "react-redux";
 
+// Styled components for the avatar container and image
 const AvatarPreview = styled("div")({
   height: "40px",
   width: "40px",
-  backgroundColor: "#5865f2",
+  // backgroundColor: "",
   borderRadius: "20px",
   display: "flex",
   alignItems: "center",
@@ -22,12 +24,39 @@ const AvatarImage = styled("img")({
   objectFit: "cover", // Ensure the image covers the container without distortion
 });
 
-const Avatar = ({ avatar }) => {
+// Fallback avatar image in case of failure
+const fallbackAvatar = "https://via.placeholder.com/40"; // You can change this to any fallback image URL
+
+const Avatar = () => {
+  const { userInfo } = useSelector((state) => state.auth);
+
+  // Derive avatar source URL
+  const avatarSrc = userInfo?.user?.avatar?.filePath
+    ? `${process.env.REACT_APP_BACKEND_URL}/${userInfo.user.avatar.filePath}`
+    : "https://plus.unsplash.com/premium_vector-1721131162397-943dc390c744?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+
+  // Extract user's initials from the name for fallback content (if available)
+  const getUserInitials = () => {
+    if (userInfo?.user?.name) {
+      const nameParts = userInfo.user.name.split(" ");
+      const initials = nameParts.map((part) => part[0]).join("");
+      return initials.toUpperCase();
+    }
+    return "U"; // Default if no name is available
+  };
+
   return (
     <AvatarPreview>
+      {/* Image tag with error handling */}
       <AvatarImage
-        src='https://media.istockphoto.com/id/183821822/photo/say.jpg?s=612x612&w=0&k=20&c=kRmCjTzA9cq4amgRgeHkZsZuvxezUtC8wdDYfKg-mho='
+        src={avatarSrc}
         alt="avatar"
+        onError={(e) => {
+          // Handle image load failure by switching to fallback avatar or user initials
+          e.target.onerror = null; // Prevent infinite loop if fallback fails
+          e.target.src =
+            "https://plus.unsplash.com/premium_vector-1721131162397-943dc390c744?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"; // Set fallback avatar image
+        }}
       />
     </AvatarPreview>
   );
