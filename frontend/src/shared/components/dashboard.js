@@ -78,7 +78,7 @@ const Dashboard = () => {
 
       <div className={styles.contributors}>
         <Typography variant="h5" component="h2" className={styles.contributorsHeading}>
-          Meet Our Contributors
+          Meet Our Creators
         </Typography>
         <br/>
         <br/>
