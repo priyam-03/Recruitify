@@ -1,57 +1,353 @@
+/* Vibrant Modern Registration Theme with Dynamic Animations - 2024 Edition */
+
+:root {
+  /* Vibrant color palette */
+  --primary-gradient-1: #FF3CAC;
+  --primary-gradient-2: #784BA0;
+  --primary-gradient-3: #2B86C5;
+  --accent-1: #FF6B6B;      /* Coral */
+  --accent-2: #4ECB71;      /* Mint */
+  --accent-3: #9B51E0;      /* Purple */
+  --text-color: #2D3436;
+  --text-light: #FFFFFF;
+  --background-1: #8EC5FC;
+  --background-2: #E0C3FC;
+  --form-background: rgba(255, 255, 255, 0.95);
+  --input-background: rgba(255, 255, 255, 0.9);
+  --success: #00B894;
+  --error-color: #FF7675;
+  --box-shadow-color: rgba(0, 0, 0, 0.1);
+  --space-xs: 0.25rem;    /* Reduced from 0.5rem */
+  --space-sm: 0.5rem;     /* Reduced from 0.75rem */
+  --space-md: 0.75rem;    /* Reduced from 1rem */
+  --space-lg: 1rem;       /* Reduced from 1.5rem */
+  --space-xl: 1.5rem;     /* Reduced from 2rem */
+  --space-2xl: 2rem;      /* Reduced from 3rem */
+  --space-3xl: 2.5rem;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(
+    45deg,
+    var(--background-1) 0%,
+    var(--background-2) 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientFlow 15s ease infinite;
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .register-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: var(--space-lg);
+  margin-bottom: var(--space-3xl); 
+  perspective: 1500px;
+  overflow-y: auto;
+}
+
+.register-form {
+  width: 100%;
+  max-width: 700px;
+  padding: var(--space-xl);
+  margin: var(--space-md); /* Added bottom margin */
+  background: var(--form-background);
+  border-radius: 20px;
+  box-shadow: 
+    0 20px 40px var(--box-shadow-color),
+    0 0 100px rgba(139, 92, 246, 0.1);
+  backdrop-filter: blur(10px);
+  transform-style: preserve-3d;
+  animation: formFloat 1s ease-out forwards;
+  position: relative;
+  overflow: hidden;
+}
+
+.form-wrapper {
+  width: 100%;
+  padding-bottom: var(--space-lg); /* Added bottom padding */
+}
+
+
+.register-form::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(
+    90deg,
+    var(--primary-gradient-1),
+    var(--primary-gradient-2),
+    var(--primary-gradient-3)
+  );
+  background-size: 200% 100%;
+  animation: rainbowMove 3s linear infinite;
+}
+
+@keyframes rainbowMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@keyframes formFloat {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) rotateX(-10deg) scale(0.95);
   }
-  
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotateX(0) scale(1);
+  }
+}
+
+.form-group {
+  margin-bottom: var(--space-md);
+  transform-origin: left;
+  animation: slideIn 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  opacity: 0;
+}
+
+.form-group:nth-child(1) { animation-delay: 0.2s; }
+.form-group:nth-child(2) { animation-delay: 0.3s; }
+.form-group:nth-child(3) { animation-delay: 0.4s; }
+.form-group:nth-child(4) { animation-delay: 0.5s; }
+.form-group:nth-child(5) { animation-delay: 0.6s; }
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  transform: translateY(0);
+  transition: all 0.3s ease;
+  background: linear-gradient(
+    90deg,
+    var(--primary-gradient-2),
+    var(--primary-gradient-3)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.form-input {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  background: var(--input-background);
+  color: var(--text-color);
+  font-size: 1.1rem;
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary-gradient-2);
+  box-shadow: 
+    0 0 0 4px rgba(120, 75, 160, 0.1),
+    0 0 20px rgba(120, 75, 160, 0.1);
+  transform: translateY(-2px);
+}
+
+.error {
+  color: var(--error-color);
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  padding-left: 1rem;
+  opacity: 0;
+  animation: errorSlide 0.3s ease forwards;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.error::before {
+  content: '⚠️';
+  font-size: 0.9rem;
+}
+
+@keyframes errorSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.register-button {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-light);
+  background: linear-gradient(
+    135deg,
+    var(--primary-gradient-1),
+    var(--primary-gradient-2),
+    var(--primary-gradient-3)
+  );
+  background-size: 200% 200%;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  animation: buttonPulse 2s infinite;
+  position: relative;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.register-button:disabled {
+  background: linear-gradient(135deg, #a8a8a8, #c0c0c0);
+  cursor: not-allowed;
+  animation: none;
+  transform: none;
+}
+
+@keyframes buttonPulse {
+  0% {
+    background-position: 0% 50%;
+    transform: scale(1);
+  }
+  50% {
+    background-position: 100% 50%;
+    transform: scale(1.02);
+  }
+  100% {
+    background-position: 0% 50%;
+    transform: scale(1);
+  }
+}
+
+.register-button::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transform: rotate(45deg);
+  transition: 0.8s;
+  opacity: 0;
+}
+
+.register-button:not(:disabled):hover::after {
+  opacity: 1;
+  transform: rotate(45deg) translateX(100%);
+}
+
+.register-button:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+}
+
+/* Floating animation for form elements on hover */
+.form-group:hover label {
+  transform: translateY(-2px);
+}
+
+/* Modern Mobile Responsiveness */
+@media (max-width: 768px) {
+  .register-container {
+    padding: var(--space-lg);
+    padding-bottom: var(--space-2xl); /* Adjusted for mobile */
+  }
+
   .register-form {
-    width: 700px;
-    padding: 40px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: var(--space-xl);
+    margin: var(--space-md);
+    margin-bottom: var(--space-xl); /* Adjusted for mobile */
+    border-radius: 24px;
   }
-  
-  .form-group {
-    margin-bottom: 20px;
+
+  .form-wrapper {
+    padding-bottom: var(--space-lg); /* Adjusted for mobile */
   }
-  
-  label {
-    font-weight: bold;
-    color: #333333;
+}
+
+@media (min-height: 1000px) {
+  .register-container {
+    padding-bottom: var(--space-3xl);
   }
-  
+}
+
+/* Fix for very short screens */
+@media (max-height: 600px) {
+  .register-container {
+    padding: var(--space-md);
+    min-height: auto;
+    margin-top: var(--space-xl);
+    margin-bottom: var(--space-xl);
+  }
+}
+
+/* Dark mode support with vivid colors */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: #FFFFFF;
+    --background-1: #0F172A;
+    --background-2: #1E293B;
+    --form-background: rgba(30, 41, 59, 0.95);
+    --input-background: rgba(51, 65, 85, 0.9);
+  }
+
+  .register-form {
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.3),
+      0 0 100px rgba(139, 92, 246, 0.2);
+  }
+
   .form-input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #cccccc;
-    border-radius: 5px;
+    color: #FFFFFF;
   }
-  
-  .register-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .register-button:disabled {
-    background-color: #a5d8ff;
-    cursor: not-allowed;
-  }
-  
-  .register-button:hover {
-    background-color: #0056b3;
-  }
-  
+
   .error {
-    color: red;
-    margin-top: 5px;
+    color: #FFA8A8;
   }
-  
+}
