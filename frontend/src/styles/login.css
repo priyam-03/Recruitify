@@ -1,15 +1,14 @@
 :root {
-  /* Vibrant color palette */
-  --primary-gradient-1: #FF3CAC;
-  --primary-gradient-2: #784BA0;
-  --primary-gradient-3: #2B86C5;
-  --accent-1: #FF6B6B;
-  --accent-2: #4ECB71;
-  --accent-3: #9B51E0;
+  --primary-gradient-1: #2B86C5; 
+  --primary-gradient-2: #4A90E2;  
+  --primary-gradient-3: #67B8F7;  
+  --accent-1: #5B9BF3;   
+  --accent-2: #4ECB71;     
+  --accent-3: #4A7FE0;      
   --text-color: #2D3436;
   --text-light: #FFFFFF;
   --background-1: #8EC5FC;
-  --background-2: #E0C3FC;
+  --background-2: #C1E3FC;  
   --form-background: rgba(255, 255, 255, 0.95);
   --input-background: rgba(255, 255, 255, 0.9);
   --success: #00B894;
@@ -64,7 +63,7 @@ body {
   border-radius: 30px;
   box-shadow: 
     0 20px 40px var(--box-shadow-color),
-    0 0 100px rgba(139, 92, 246, 0.1);
+    0 0 100px rgba(74, 144, 226, 0.1);  
   backdrop-filter: blur(10px);
   transform-style: preserve-3d;
   animation: formFloat 1s ease-out forwards;
@@ -141,8 +140,8 @@ body {
   outline: none;
   border-color: var(--primary-gradient-2);
   box-shadow: 
-    0 0 0 4px rgba(120, 75, 160, 0.1),
-    0 0 20px rgba(120, 75, 160, 0.1);
+    0 0 0 4px rgba(74, 144, 226, 0.1),  
+    0 0 20px rgba(74, 144, 226, 0.1);   
   transform: translateY(-2px);
 }
 
@@ -257,7 +256,7 @@ body {
   .login-form {
     box-shadow: 
       0 20px 40px rgba(0, 0, 0, 0.3),
-      0 0 100px rgba(139, 92, 246, 0.2);
+      0 0 100px rgba(74, 144, 226, 0.2);
   }
 
   .form-input {
@@ -265,7 +264,7 @@ body {
   }
 }
 
-/* All animations remain unchanged */
+/* Animations */
 @keyframes gradientFlow {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }

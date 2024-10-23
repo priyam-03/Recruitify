@@ -1,28 +1,25 @@
-/* Vibrant Modern Registration Theme with Dynamic Animations - 2024 Edition */
-
 :root {
-  /* Vibrant color palette */
-  --primary-gradient-1: #FF3CAC;
-  --primary-gradient-2: #784BA0;
-  --primary-gradient-3: #2B86C5;
-  --accent-1: #FF6B6B;      /* Coral */
-  --accent-2: #4ECB71;      /* Mint */
-  --accent-3: #9B51E0;      /* Purple */
+  --primary-gradient-1: #2B86C5;  
+  --primary-gradient-2: #4A90E2;  
+  --primary-gradient-3: #67B8F7;  
+  --accent-1: #5B9BF3;     
+  --accent-2: #4ECB71;      
+  --accent-3: #4A7FE0;     
   --text-color: #2D3436;
   --text-light: #FFFFFF;
   --background-1: #8EC5FC;
-  --background-2: #E0C3FC;
+  --background-2: #C1E3FC;  
   --form-background: rgba(255, 255, 255, 0.95);
   --input-background: rgba(255, 255, 255, 0.9);
   --success: #00B894;
   --error-color: #FF7675;
   --box-shadow-color: rgba(0, 0, 0, 0.1);
-  --space-xs: 0.25rem;    /* Reduced from 0.5rem */
-  --space-sm: 0.5rem;     /* Reduced from 0.75rem */
-  --space-md: 0.75rem;    /* Reduced from 1rem */
-  --space-lg: 1rem;       /* Reduced from 1.5rem */
-  --space-xl: 1.5rem;     /* Reduced from 2rem */
-  --space-2xl: 2rem;      /* Reduced from 3rem */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 0.75rem;
+  --space-lg: 1rem;
+  --space-xl: 1.5rem;
+  --space-2xl: 2rem;
   --space-3xl: 2.5rem;
 }
 
@@ -73,12 +70,12 @@ body {
   width: 100%;
   max-width: 700px;
   padding: var(--space-xl);
-  margin: var(--space-md); /* Added bottom margin */
+  margin: var(--space-md);
   background: var(--form-background);
   border-radius: 20px;
   box-shadow: 
     0 20px 40px var(--box-shadow-color),
-    0 0 100px rgba(139, 92, 246, 0.1);
+    0 0 100px rgba(75, 144, 226, 0.1);  
   backdrop-filter: blur(10px);
   transform-style: preserve-3d;
   animation: formFloat 1s ease-out forwards;
@@ -88,9 +85,8 @@ body {
 
 .form-wrapper {
   width: 100%;
-  padding-bottom: var(--space-lg); /* Added bottom padding */
+  padding-bottom: var(--space-lg);
 }
-
 
 .register-form::before {
   content: '';
@@ -182,8 +178,8 @@ label {
   outline: none;
   border-color: var(--primary-gradient-2);
   box-shadow: 
-    0 0 0 4px rgba(120, 75, 160, 0.1),
-    0 0 20px rgba(120, 75, 160, 0.1);
+    0 0 0 4px rgba(74, 144, 226, 0.1), 
+    0 0 20px rgba(74, 144, 226, 0.1);   
   transform: translateY(-2px);
 }
 
@@ -284,30 +280,28 @@ label {
 
 .register-button:not(:disabled):hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+  box-shadow: 0 8px 20px rgba(74, 144, 226, 0.3);  
 }
 
-/* Floating animation for form elements on hover */
 .form-group:hover label {
   transform: translateY(-2px);
 }
 
-/* Modern Mobile Responsiveness */
 @media (max-width: 768px) {
   .register-container {
     padding: var(--space-lg);
-    padding-bottom: var(--space-2xl); /* Adjusted for mobile */
+    padding-bottom: var(--space-2xl);
   }
 
   .register-form {
     padding: var(--space-xl);
     margin: var(--space-md);
-    margin-bottom: var(--space-xl); /* Adjusted for mobile */
+    margin-bottom: var(--space-xl);
     border-radius: 24px;
   }
 
   .form-wrapper {
-    padding-bottom: var(--space-lg); /* Adjusted for mobile */
+    padding-bottom: var(--space-lg);
   }
 }
 
@@ -317,7 +311,6 @@ label {
   }
 }
 
-/* Fix for very short screens */
 @media (max-height: 600px) {
   .register-container {
     padding: var(--space-md);
@@ -327,7 +320,6 @@ label {
   }
 }
 
-/* Dark mode support with vivid colors */
 @media (prefers-color-scheme: dark) {
   :root {
     --text-color: #FFFFFF;
@@ -340,7 +332,7 @@ label {
   .register-form {
     box-shadow: 
       0 20px 40px rgba(0, 0, 0, 0.3),
-      0 0 100px rgba(139, 92, 246, 0.2);
+      0 0 100px rgba(74, 144, 226, 0.2); 
   }
 
   .form-input {
