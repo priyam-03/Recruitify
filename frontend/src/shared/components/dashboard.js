@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "../../styles/dashBoard.module.css";
+import styles from "../../styles/dashboard.module.css";
 import CreatePost from "../../User/createPost"; // Ensure the path is correct
 import { useDispatch, useSelector } from "react-redux";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
