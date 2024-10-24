@@ -6,7 +6,7 @@ import { updateProfile, profile } from "../features/auth/authActions";
 import { updateProfileReset } from "../features/auth/authSlice";
 import Error from "../shared/components/Error";
 import Spinner from "../shared/components/Spinner";
-import styles from "./UpdateProfile.module.css";
+import styles from "../styles/UpdateProfile.module.css";
 
 const UpdateProfileScreen = () => {
   const dispatch = useDispatch();

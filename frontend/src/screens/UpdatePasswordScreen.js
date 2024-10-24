@@ -6,7 +6,7 @@ import { passwordUpdate, profile } from "../features/auth/authActions";
 import { updateProfileReset } from "../features/auth/authSlice";
 import Error from "../shared/components/Error";
 import Spinner from "../shared/components/Spinner";
-import styles from "./UpdatePassword.module.css";
+import styles from "../styles/UpdatePassword.module.css";
 
 const UpdatePasswordScreen = () => {
   const dispatch = useDispatch();
