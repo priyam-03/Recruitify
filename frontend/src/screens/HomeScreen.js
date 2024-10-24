@@ -3,7 +3,7 @@ import React from "react";
 import "../styles/HomeScreen.css";
 import { useSelector } from "react-redux";
 import HomePage from "../shared/components/homePage";
-import DashBoard from "../shared/components/dashBoard";
+import DashBoard from "../shared/components/dashboard";
 const HomeScreen = () => {
   const { userInfo, loading } = useSelector((state) => state.auth);
 
