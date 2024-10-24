@@ -1,18 +1,36 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { logout } from "../../features/auth/authActions";
 import { setGroup } from "../../store/actions/friendsActions";
 import "../../styles/header.css";
 import Avatar from "./Avatar";
+import UserPopover from "./UserPopover";
 
 const Header = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const [anchorEl, setAnchorEl] = useState(null);
 
   useEffect(() => {
     dispatch(setGroup());
   }, [dispatch]);
+
+  const handleAvatarClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    handleClose();
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "user-popover" : undefined;
 
   return (
     <header>
@@ -44,10 +62,19 @@ const Header = () => {
               </>
             ) : (
               <>
-                <NavLink to="/user-profile">Profile</NavLink>
+                {/* <NavLink to="/user-profile">Profile</NavLink> */}
                 <NavLink to="/chat">Messages</NavLink>
                 <NavLink to="/jobs">Jobs</NavLink>
-                <Avatar />
+                <div>
+                  <Avatar onClick={handleAvatarClick} />
+                  <UserPopover
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    user={userInfo.user} 
+                    onLogout={handleLogout}
+                  />
+                </div>
               </>
             )}
           </div>

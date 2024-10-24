@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 const AvatarPreview = styled("div")({
   height: "40px",
   width: "40px",
+  cursor:"pointer",
   // backgroundColor: "",
   borderRadius: "20px",
   display: "flex",
@@ -27,7 +28,7 @@ const AvatarImage = styled("img")({
 // Fallback avatar image in case of failure
 const fallbackAvatar = "https://via.placeholder.com/40"; // You can change this to any fallback image URL
 
-const Avatar = () => {
+const Avatar = ({onClick}) => {
   const { userInfo } = useSelector((state) => state.auth);
 
   // Derive avatar source URL
@@ -46,7 +47,7 @@ const Avatar = () => {
   };
 
   return (
-    <AvatarPreview>
+    <AvatarPreview onClick={onClick}>
       {/* Image tag with error handling */}
       <AvatarImage
         src={avatarSrc}
