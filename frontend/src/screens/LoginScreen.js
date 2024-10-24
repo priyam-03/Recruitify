@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../features/auth/authActions";
 import Error from "../shared/components/Error";
 import Spinner from "../shared/components/Spinner";
-import "../styles/login.css";
+import styles from "../styles/Login.module.css";
 
 const LoginScreen = () => {
   const { loading, userInfo, error } = useSelector((state) => state.auth);
@@ -24,42 +24,46 @@ const LoginScreen = () => {
   };
 
   return (
-    <div className="login-container">
-      <form onSubmit={handleSubmit(submitForm)} className="login-form">
-        <h2 className="login-heading">Login</h2>
-        {error && <Error>{error}</Error>}
-        <div className="form-group">
-          <label htmlFor="email" className="form-label">
-            Email
-          </label>
-          <input
-            type="email"
-            className="form-input"
-            {...register("email")}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password" className="form-label">
-            Password
-          </label>
-          <input
-            type="password"
-            className="form-input"
-            {...register("password")}
-            required
-          />
-        </div>
-        <button type="submit" className="login-button" disabled={loading}>
-          {loading ? <Spinner /> : "Login"}
-        </button>
-        <Link to="/forgotpassword" className="forgot-password">
-          Forgot Password?
-        </Link>
-        <p className="signup-link">
-          Don't have an account? <Link to="/signup">Sign Up</Link>
-        </p>
-      </form>
+    <div className={styles.loginBody}>
+      <div className={styles.loginContainer}>
+        <form onSubmit={handleSubmit(submitForm)} className={styles.loginForm}>
+          <h2 className={styles.loginHeading}>Login</h2>
+          {error && <Error>{error}</Error>}
+          <div className={styles.formGroup}>
+            <label htmlFor="email" className={styles.formLabel}>
+              Email
+            </label>
+            <input
+              type="email"
+              className={styles.formInput}
+              {...register("email")}
+              required
+              id="email"
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="password" className={styles.formLabel}>
+              Password
+            </label>
+            <input
+              type="password"
+              className={styles.formInput}
+              {...register("password")}
+              required
+              id="password"
+            />
+          </div>
+          <button type="submit" className={styles.loginButton} disabled={loading}>
+            {loading ? <Spinner /> : "Login"}
+          </button>
+          <Link to="/forgotpassword" className={styles.forgotPassword}>
+            Forgot Password?
+          </Link>
+          <p className={styles.signupLink}>
+            Don't have an account? <Link to="/signup">Sign Up</Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };
