@@ -1,102 +1,190 @@
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Error from "../shared/components/Error";
-import Spinner from "../shared/components/Spinner";
+import { useForm } from "react-hook-form";
 import { updateProfile, profile } from "../features/auth/authActions";
 import { updateProfileReset } from "../features/auth/authSlice";
+import Error from "../shared/components/Error";
+import Spinner from "../shared/components/Spinner";
+import styles from "./UpdateProfile.module.css";
+
 const UpdateProfileScreen = () => {
-  const [customError, setCustomError] = useState(null);
-  const [singleFile, setSingleFile] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
   const { loading, error, isUpdated, userInfo } = useSelector(
     (state) => state.auth
   );
-  const [name, setName] = useState(userInfo.user.name);
-  const [email, setEmail] = useState(userInfo.user.email);
+  
+  const [customError, setCustomError] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
 
-  console.log(isUpdated);
-  const SingleFileChange = (e) => {
-    setSingleFile(e.target.files[0]);
-  };
-  const navigate = useNavigate();
-
-  const dispatch = useDispatch();
   const {
+    register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+    setValue,
+    watch
+  } = useForm({
+    defaultValues: {
+      name: userInfo?.user?.name || "",
+      email: userInfo?.user?.email || "",
+      file: null
+    }
+  });
 
-  const submitForm = () => {
-    // check if passwords match
-    // transform email string to lowercase to avoid case sensitivity issues in login
-
-    var formData = new FormData();
-    formData.append("name", name);
-    formData.append("email", email);
-
-    formData.append("file", singleFile);
-
-    const formDataObj = {};
-    formData.forEach((value, key) => (formDataObj[key] = value));
-    console.log(formDataObj.file);
-    dispatch(updateProfile(formDataObj));
+  const validateEmail = (value) => {
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    if (!emailRegex.test(value)) {
+      return "Please enter a valid email address";
+    }
+    return true;
   };
+
+  const validateImage = (file) => {
+    if (file) {
+      const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+      if (!validTypes.includes(file.type)) {
+        return "Please upload a valid image file (JPEG, PNG, or GIF)";
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        return "File size should be less than 5MB";
+      }
+    }
+    return true;
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const validationResult = validateImage(file);
+      if (validationResult === true) {
+        setValue('file', file);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPreviewImage(reader.result);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        setCustomError(validationResult);
+      }
+    }
+  };
+
+  const onSubmit = (data) => {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("email", data.email.toLowerCase());
+    if (data.file) {
+      formData.append("file", data.file);
+    }
+
+    dispatch(updateProfile(formData));
+  };
+
   useEffect(() => {
-    if (userInfo.user) {
-      setName(userInfo.user.name);
-      setEmail(userInfo.user.email);
+    if (userInfo?.user) {
+      setValue("name", userInfo.user.name);
+      setValue("email", userInfo.user.email);
     }
+    
     if (error) {
-      alert(error);
+      setCustomError(error);
     }
+    
     if (isUpdated) {
-      console.log("why");
       dispatch(profile());
       navigate("/user-profile");
       dispatch(updateProfileReset());
     }
-  }, [error, isUpdated, userInfo.user]);
-  return (
-    <form onSubmit={handleSubmit(submitForm)}>
-      {error && <Error>{error}</Error>}
-      {customError && <Error>{customError}</Error>}
-      <div className="form-group">
-        <label htmlFor="name">First Name</label>
-        <input
-          type="text"
-          className="form-input"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          className="form-input"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </div>
+  }, [error, isUpdated, userInfo, dispatch, navigate, setValue]);
 
-      <div className="form-group">
-        <label htmlFor="fileupload">Profile Photo</label>
-        <input
-          id="fileupload"
-          type="file"
-          className="form-input"
-          onChange={(e) => SingleFileChange(e)}
-          placeholder="update"
-        />
+  return (
+    <div className={styles.updateProfileBody}>
+      <div className={styles.updateProfileContainer}>
+        <form className={styles.updateProfileForm} onSubmit={handleSubmit(onSubmit)}>
+          <h1 className={styles.formHeading}>Update Profile</h1>
+          
+          {(error || customError) && (
+            <div className={styles.error}>
+              {error || customError}
+            </div>
+          )}
+
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel} htmlFor="name">
+              Name
+            </label>
+            <input
+              id="name"
+              type="text"
+              className={styles.formInput}
+              {...register("name", {
+                required: "Name is required",
+                minLength: {
+                  value: 2,
+                  message: "Name must be at least 2 characters long"
+                }
+              })}
+            />
+            {errors.name && (
+              <div className={styles.error}>{errors.name.message}</div>
+            )}
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel} htmlFor="email">
+              Email Address
+            </label>
+            <input
+              id="email"
+              type="email"
+              className={styles.formInput}
+              {...register("email", {
+                required: "Email is required",
+                validate: validateEmail
+              })}
+            />
+            {errors.email && (
+              <div className={styles.error}>{errors.email.message}</div>
+            )}
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel} htmlFor="file">
+              Profile Photo
+            </label>
+            <input
+              id="file"
+              type="file"
+              accept="image/*"
+              className={styles.fileInput}
+              onChange={handleFileChange}
+            />
+            {previewImage && (
+              <div className="mt-4 flex justify-center">
+                <img
+                  src={previewImage}
+                  alt="Preview"
+                  className="w-24 h-24 rounded-full object-cover"
+                />
+              </div>
+            )}
+            {errors.file && (
+              <div className={styles.error}>{errors.file.message}</div>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            className={styles.updateButton}
+            disabled={loading}
+          >
+            {loading ? <Spinner /> : "Update Profile"}
+          </button>
+        </form>
       </div>
-      <button type="submit" className="button" disabled={loading}>
-        {loading ? <Spinner /> : "Update Profile"}
-      </button>
-      {errors.files && <div className="error">{errors.files.message}</div>}
-    </form>
+    </div>
   );
 };
 
