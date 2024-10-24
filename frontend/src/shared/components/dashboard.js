@@ -47,6 +47,7 @@ const AllJobForms = () => {
                   <WorkIcon fontSize="2rem" />
                   <span className="job-texts">
                     {jobForm.jobRole}
+                    {/* adding comment */}
                     {/* {jobForm.requiredSkills &&
                           jobForm.requiredSkills.length > 0 && (
                             <>
