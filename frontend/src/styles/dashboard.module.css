@@ -48,6 +48,7 @@
   flex-wrap: wrap;
 }
 
+
 /* Feature Card */
 .featureCard {
   background-color: white;
@@ -90,14 +91,26 @@
   margin-top: 10px;
 }
 
-/* Contributors Section */
+
+.gridContainer2 {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  height: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  margin-bottom: 10px;
+  padding-left: 150px;
+  padding-right: 150px;
+}
+
 .contributors {
   margin-top: 50px;
   text-align: center;
+  height: auto;
 }
 
 .contributorsHeading {
-  font-family: 'Qwitcher Grypen', cursive;
   font-weight: 700;
   font-size: 2rem;
   color: #333;
@@ -105,24 +118,20 @@
 }
 
 .contributorCard {
-  background-color: white;
+  background-color: transparent;
   color: rgb(4, 4, 4);
-  width: 100%;
-
-  height: 200px;
+  width: auto;
+  height: 50px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
   border-radius: 50px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s, box-shadow 0.3s;
-  margin-bottom: 20px;
 }
 
 .contributorCard:hover {
   transform: translateY(-10px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .contributorCardContent {
@@ -131,13 +140,29 @@
 }
 
 .contributorName {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.5); 
+  backdrop-filter: blur(5px); 
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 20px;
   font-family: 'Poppins', sans-serif;
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: #007bff;
-  margin-bottom: 5px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-align: center;
+  letter-spacing: 0.5px;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); 
 }
 
+.contributorCard:hover .contributorName {
+  opacity: 1;
+  transform: translate(-50%, -10px); 
+}
 .contributorRole {
   font-family: 'Poppins', sans-serif;
   color: #666;
@@ -145,7 +170,7 @@
 }
 
 .contributorImage {
-  width: 80px; /* Adjust size as needed */
+  width: 80px; 
   height: 80px;
   border-radius: 50%;
   object-fit: cover;
@@ -153,7 +178,7 @@
 }
 
 .githubLink {
-  color: #007bff; /* Customize link color */
+  color: #007bff; 
   text-decoration: none;
   margin-top: 10px;
 }
@@ -174,6 +199,9 @@
   /* IE and Edge */
   scrollbar-width: none;
   /* Firefox */
+}
+.footer{
+  min-height: 150px;
 }
 
 
