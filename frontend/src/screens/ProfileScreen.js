@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { logout, profile } from "../features/auth/authActions";
 import "../styles/profile.css";
 import EducationForm from "../User/educations";
 import ExperienceForm from "../User/experience";
@@ -170,12 +169,6 @@ const ProfileScreen = () => {
               </div>
             </button>
 
-            <button
-              className="profile-button logout"
-              onClick={() => dispatch(logout())}
-            >
-              Logout
-            </button>
           </div>
         </>
       )}

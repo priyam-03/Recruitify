@@ -102,6 +102,7 @@ const DashBoard = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
 
+
   const handleShowCreatePost = () => {
     if (!userInfo) {
       navigate("/login");
@@ -130,6 +131,7 @@ const DashBoard = () => {
         <div className={styles.middleColumn}>
           <AllPost />
         </div>
+
 
         <div className={styles.rightColumn}>
           <AllJobForms />
