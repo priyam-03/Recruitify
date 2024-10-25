@@ -1,250 +1,335 @@
 :root {
-    --primary-gradient-1: #2B86C5;
-    --primary-gradient-2: #4A90E2;
-    --primary-gradient-3: #67B8F7;
-    --accent-1: #5B9BF3;
-    --accent-2: #4ECB71;
-    --accent-3: #4A7FE0;
-    --text-color: #2D3436;
-    --text-light: #FFFFFF;
-    --background-1: #8EC5FC;
-    --background-2: #C1E3FC;
-    --form-background: rgba(255, 255, 255, 0.95);
-    --input-background: rgba(255, 255, 255, 0.9);
-    --success: #00B894;
-    --error: #FF7675;
-    --box-shadow-color: rgba(0, 0, 0, 0.1);
-    
-    --space-xs: 0.5rem;
-    --space-sm: 0.75rem;
-    --space-md: 1rem;
-    --space-lg: 1.5rem;
-    --space-xl: 2rem;
-    --space-2xl: 2.5rem;
-    --space-3xl: 3rem;
-    --space-4xl: 4rem;
-  }
+  --primary-gradient-1: #2B86C5;
+  --primary-gradient-2: #4A90E2;
+  --primary-gradient-3: #67B8F7;
+  --accent-1: #5B9BF3;
+  --accent-2: #4ECB71;
+  --accent-3: #4A7FE0;
+  --text-color: #2D3436;
+  --text-light: #FFFFFF;
+  --background-1: #8EC5FC;
+  --background-2: #C1E3FC;
+  --form-background: rgba(255, 255, 255, 0.95);
+  --input-background: rgba(255, 255, 255, 0.9);
+  --success: #00B894;
+  --error: #FF7675;
+  --box-shadow-color: rgba(0, 0, 0, 0.1);
   
-  .updateProfileBody {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    min-height: 100vh;
-    background: linear-gradient(
-      45deg,
-      var(--background-1) 0%,
-      var(--background-2) 100%
-    );
-    background-size: 400% 400%;
-    animation: gradientFlow 15s ease infinite;
-  }
-  
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 2.5rem;
+  --space-3xl: 3rem;
+  --space-4xl: 4rem;
+}
+
+.updateProfileBody {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(
+    45deg,
+    var(--background-1) 0%,
+    var(--background-2) 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientFlow 15s ease infinite;
+}
+
+.updateProfileContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: var(--space-xl);
+  padding-bottom: var(--space-4xl);
+  perspective: 1500px;
+  box-sizing: border-box;
+}
+
+.updateProfileForm {
+  width: 100%;
+  max-width: 460px;
+  padding: var(--space-3xl);
+  margin: 0 auto;
+  background: var(--form-background);
+  border-radius: 30px;
+  box-shadow: 
+    0 20px 40px var(--box-shadow-color),
+    0 0 100px rgba(74, 144, 226, 0.1);
+  backdrop-filter: blur(10px);
+  transform-style: preserve-3d;
+  animation: formFloat 1s ease-out forwards;
+  position: relative;
+  overflow: hidden;
+}
+
+.updateProfileForm::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(
+    90deg,
+    var(--primary-gradient-1),
+    var(--primary-gradient-2),
+    var(--primary-gradient-3)
+  );
+  animation: rainbowMove 3s linear infinite;
+}
+
+.formHeading {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(
+    135deg,
+    var(--primary-gradient-1),
+    var(--primary-gradient-2),
+    var(--primary-gradient-3)
+  );
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: var(--space-2xl);
+  text-align: center;
+  position: relative;
+  animation: headingPop 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+.formGroup {
+  margin-bottom: var(--space-xl);
+  transform-origin: left;
+  animation: slideIn 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  opacity: 0;
+}
+
+.formGroup:nth-child(1) { animation-delay: 0.3s; }
+.formGroup:nth-child(2) { animation-delay: 0.5s; }
+.formGroup:nth-child(3) { animation-delay: 0.7s; }
+
+.formLabel {
+  display: block;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: var(--space-sm);
+  font-size: 1rem;
+}
+
+.formInput {
+  width: 100%;
+  padding: var(--space-md) var(--space-lg);
+  border: 2px solid transparent;
+  border-radius: 16px;
+  background: var(--input-background);
+  color: var(--text-color);
+  font-size: 1.1rem;
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: var(--primary-gradient-2);
+  box-shadow: 
+    0 0 0 4px rgba(74, 144, 226, 0.1),
+    0 0 20px rgba(74, 144, 226, 0.1);
+  transform: translateY(-2px);
+}
+
+.fileInput {
+  composes: formInput;
+  padding: var(--space-sm) var(--space-lg);
+}
+
+.updateButton {
+  width: 100%;
+  padding: var(--space-md);
+  margin-top: var(--space-lg);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-light);
+  background: linear-gradient(
+    135deg,
+    var(--primary-gradient-1),
+    var(--primary-gradient-2),
+    var(--primary-gradient-3)
+  );
+  background-size: 200% 200%;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  animation: buttonPulse 2s infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.updateButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.updateButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.error {
+  color: var(--error);
+  margin-top: var(--space-xs);
+  font-size: 0.9rem;
+  animation: fadeIn 0.3s ease forwards;
+  padding: var(--space-sm);
+  border-radius: 8px;
+  background-color: rgba(255, 118, 117, 0.1);
+}
+
+/* Media Queries */
+@media (max-width: 480px) {
   .updateProfileContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: var(--space-md);
     min-height: 100vh;
-    padding: var(--space-xl);
-    padding-bottom: var(--space-4xl);
-    perspective: 1500px;
+    align-items: flex-start;
+    padding-top: var(--space-xl);
   }
   
   .updateProfileForm {
-    width: 100%;
-    max-width: 460px;
-    padding: var(--space-3xl);
-    margin-bottom: var(--space-2xl);
-    background: var(--form-background);
-    border-radius: 30px;
-    box-shadow: 
-      0 20px 40px var(--box-shadow-color),
-      0 0 100px rgba(74, 144, 226, 0.1);
-    backdrop-filter: blur(10px);
-    transform-style: preserve-3d;
-    animation: formFloat 1s ease-out forwards;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .updateProfileForm::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 5px;
-    background: linear-gradient(
-      90deg,
-      var(--primary-gradient-1),
-      var(--primary-gradient-2),
-      var(--primary-gradient-3)
-    );
-    animation: rainbowMove 3s linear infinite;
+    padding: var(--space-lg);
+    margin: 0 var(--space-md);
+    width: calc(100% - var(--space-md) * 2);
   }
   
   .formHeading {
-    font-size: 2.5rem;
-    font-weight: 800;
-    background: linear-gradient(
-      135deg,
-      var(--primary-gradient-1),
-      var(--primary-gradient-2),
-      var(--primary-gradient-3)
-    );
-    -webkit-background-clip: text;
-    color: transparent;
-    margin-bottom: var(--space-2xl);
-    text-align: center;
-    position: relative;
-    animation: headingPop 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-  }
-  
-  .formGroup {
+    font-size: 1.75rem;
     margin-bottom: var(--space-xl);
-    transform-origin: left;
-    animation: slideIn 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-    opacity: 0;
   }
-  
-  .formGroup:nth-child(1) { animation-delay: 0.3s; }
-  .formGroup:nth-child(2) { animation-delay: 0.5s; }
-  .formGroup:nth-child(3) { animation-delay: 0.7s; }
-  
-  .formLabel {
-    display: block;
-    font-weight: 600;
-    color: var(--text-color);
-    margin-bottom: var(--space-sm);
-    font-size: 1rem;
-  }
-  
-  .formInput {
-    width: 100%;
-    padding: var(--space-md) var(--space-lg);
-    border: 2px solid transparent;
-    border-radius: 16px;
-    background: var(--input-background);
-    color: var(--text-color);
-    font-size: 1.1rem;
-    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-  }
-  
-  .formInput:focus {
-    outline: none;
-    border-color: var(--primary-gradient-2);
-    box-shadow: 
-      0 0 0 4px rgba(74, 144, 226, 0.1),
-      0 0 20px rgba(74, 144, 226, 0.1);
-    transform: translateY(-2px);
-  }
-  
-  .fileInput {
-    composes: formInput;
-    padding: var(--space-sm) var(--space-lg);
-  }
-  
+
   .updateButton {
     width: 100%;
+    margin-bottom: var(--space-lg);
+    font-size: 1rem;
     padding: var(--space-md);
-    margin-top: var(--space-lg);
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--text-light);
-    background: linear-gradient(
-      135deg,
-      var(--primary-gradient-1),
-      var(--primary-gradient-2),
-      var(--primary-gradient-3)
-    );
-    background-size: 200% 200%;
-    border: none;
-    border-radius: 16px;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    animation: buttonPulse 2s infinite;
+  }
+
+  .formInput, .fileInput {
+    font-size: 1rem;
+    padding: var(--space-sm) var(--space-md);
+  }
+}
+
+/* For very small screens */
+@media (max-width: 320px) {
+  .updateProfileContainer {
+    padding: var(--space-sm);
   }
   
+  .updateProfileForm {
+    padding: var(--space-md);
+    margin: 0 var(--space-sm);
+  }
+  
+  .formHeading {
+    font-size: 1.5rem;
+  }
+}
+
+/* For landscape orientation on small screens */
+@media (max-height: 600px) {
+  .updateProfileContainer {
+    min-height: auto;
+    padding: var(--space-md) var(--space-md) var(--space-xl);
+  }
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: #FFFFFF;
+    --background-1: #0F172A;
+    --background-2: #1E293B;
+    --form-background: rgba(30, 41, 59, 0.95);
+    --input-background: rgba(51, 65, 85, 0.9);
+  }
+
+  .updateProfileForm {
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.3),
+      0 0 100px rgba(74, 144, 226, 0.2);
+  }
+
   .error {
-    color: var(--error);
-    margin-top: var(--space-xs);
-    font-size: 0.9rem;
-    animation: fadeIn 0.3s ease forwards;
+    background-color: rgba(255, 118, 117, 0.2);
   }
-  
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --text-color: #FFFFFF;
-      --background-1: #0F172A;
-      --background-2: #1E293B;
-      --form-background: rgba(30, 41, 59, 0.95);
-      --input-background: rgba(51, 65, 85, 0.9);
-    }
+}
+
+/* Animations */
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes formFloat {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) rotateX(-10deg) scale(0.95);
   }
-  
-  @keyframes gradientFlow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotateX(0) scale(1);
   }
-  
-  @keyframes formFloat {
-    0% {
-      opacity: 0;
-      transform: translateY(40px) rotateX(-10deg) scale(0.95);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0) rotateX(0) scale(1);
-    }
+}
+
+@keyframes headingPop {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
   }
-  
-  @keyframes headingPop {
-    0% {
-      transform: scale(0.8);
-      opacity: 0;
-    }
-    100% {
-      transform: scale(1);
-      opacity: 1;
-    }
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
-  
-  @keyframes slideIn {
-    0% {
-      opacity: 0;
-      transform: translateX(-30px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateX(0);
-    }
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
   }
-  
-  @keyframes buttonPulse {
-    0% {
-      background-position: 0% 50%;
-      transform: scale(1);
-    }
-    50% {
-      background-position: 100% 50%;
-      transform: scale(1.02);
-    }
-    100% {
-      background-position: 0% 50%;
-      transform: scale(1);
-    }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
   }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+}
+
+@keyframes buttonPulse {
+  0% {
+    background-position: 0% 50%;
+    transform: scale(1);
   }
-  
-  @keyframes rainbowMove {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 200% 50%; }
+  50% {
+    background-position: 100% 50%;
+    transform: scale(1.02);
   }
+  100% {
+    background-position: 0% 50%;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rainbowMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
