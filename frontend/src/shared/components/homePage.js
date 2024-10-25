@@ -75,7 +75,7 @@ const HomePage = () => {
       <Grid container spacing={4} className={styles.gridContainer}>
         {features.map((feature, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
-            <Card className={styles.featureCard}>
+            <Card  className={styles.featureCard}>
               <CardContent className={styles.featureCardContent}>
                 <Typography
                   variant="h6"
@@ -84,7 +84,7 @@ const HomePage = () => {
                 >
                   {feature.title}
                 </Typography>
-                <Typography variant="body2">{feature.description}</Typography>
+                <Typography className={styles.featureCardDesc}> {feature.description}</Typography>
               </CardContent>
               <ExpandMoreIcon className={styles.expandMoreIcon} />
             </Card>
@@ -122,7 +122,7 @@ const HomePage = () => {
           ))}
         </Grid>
         <footer className={styles.footer}>
-          <Typography variant="body2" color="textSecondary" align="center">
+          <Typography  align="center" color='#c5c5c5'>
             © {new Date().getFullYear()} Recruitify. All rights reserved.
           </Typography>
         </footer>
