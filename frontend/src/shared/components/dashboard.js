@@ -1,128 +1,148 @@
-import React from 'react';
-import { Container, Typography, Grid, Card, CardContent } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import styles from '../../styles/dashboard.module.css';
+import React, { useEffect, useState } from "react";
+import styles from "../../styles/dashboard.module.css";
+import CreatePost from "../../User/createPost"; // Ensure the path is correct
+import { useDispatch, useSelector } from "react-redux";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import WorkIcon from "@mui/icons-material/Work";
+import BusinessIcon from "@mui/icons-material/Business";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import "../../styles/jobForms.css";
+import { useNavigate } from "react-router-dom";
+import { fetchAllJobForms } from "../../store/slices/JobSlices";
+import AllPost from "./AllPosts";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-const Dashboard = () => {
-  const features = [
-    {
-      title: 'Find Your Dream Jobs',
-      description: 'Explore a wide range of job listings tailored to your skills and preferences. Discover opportunities that align with your career goals and aspirations.',
-    },
-    {
-      title: 'Build Your Profile',
-      description: 'Create a compelling profile that showcases your skills, experience, and achievements. Stand out to potential employers with a well-crafted resume and portfolio.',
-    },
-    {
-      title: 'Post Your Progress',
-      description: 'Share your career milestones and achievements with your network. Keep track of your progress and stay motivated as you advance in your professional journey.',
-    },
-    {
-      title: 'Give Interview',
-      description: 'Prepare for interviews with our comprehensive resources and mock interview tools. Gain confidence and ace your interviews with ease.',
-    },
-    {
-      title: 'Grow Your Network',
-      description: 'Connect with industry professionals, peers, and mentors. Expand your network and build valuable relationships that can help you advance in your career.',
-    },
-    {
-      title: 'Directly Chat with Recruiters',
-      description: 'Engage in direct conversations with recruiters and hiring managers. Get instant feedback and stay informed about new job opportunities.',
-    },
-  ];
+const AllJobForms = () => {
+  const dispatch = useDispatch();
+  const allJobForms = useSelector((state) => state.jobs.allJobForms);
+  const isLoading = useSelector((state) => state.jobs.isLoading);
+  const navigate = useNavigate();
+  const { userInfo } = useSelector((state) => state.auth);
 
-  const contributors = [
-    {
-      name: 'Tarik Anowar',
-      role: 'Fullstack Developer',
-      github: 'https://github.com/Tarik-Anowar',
-      image: 'https://scontent.fccu3-1.fna.fbcdn.net/v/t39.30808-6/290496233_808802003881839_8707127559745044958_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=Q7k1lRgpX0YQ7kNvgFViNQR&_nc_ht=scontent.fccu3-1.fna&oh=00_AYA8kOCwqipZzynNKNBMNLPSWH1_zCg6Zci0SLooM_QvUw&oe=66D42ADE'
-    },
-    {
-      name: 'Priyam Saha',
-      role: 'Fullstack Developer',
-      github: 'https://github.com/priyam-03',
-      image: 'https://scontent.fccu3-1.fna.fbcdn.net/v/t39.30808-6/369702882_319467353951605_6058001924302475669_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=vkTpqaeDvUcQ7kNvgG8QCiJ&_nc_ht=scontent.fccu3-1.fna&oh=00_AYB__C2p2HYtp1rw3klGgWOL3BXumtd-3yHeaG5auwITzA&oe=66D41E5F'
-    }
-  ];
+  useEffect(() => {
+    dispatch(fetchAllJobForms());
+  }, [dispatch]);
 
+  if (isLoading) {
+    return <div className="loading-text">Loading...</div>;
+  }
+
+  if (!Array.isArray(allJobForms)) {
+    return <div className="error-message">Failed to load job forms.</div>;
+  }
+
+  const handleFormById = (formId) => {
+    navigate(`/Jobs/${formId}`);
+  };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.intro}>
-        <Typography variant="h4" component="h1" className={styles.heading}>
-          Welcome to Recruitify
-        </Typography>
-        <Typography variant="body1" paragraph className={styles.paragraph}>
-          Recruitify is your ultimate job search companion. Whether you're looking to advance your career or build a strong portfolio, Recruitify has you covered. Our platform is designed to help you find your dream job, build an impressive profile, and connect directly with recruiters. Here’s how we can help you:
-        </Typography>
+    <div className="jobform-page">
+      <h2 className="job-forms-heading">Find Your Dream Job</h2>
+      <div className="jobform-container">
+        {allJobForms.length > 0 ? (
+          allJobForms.map((jobForm, index) => (
+            <div key={index} className="job-form-box">
+              <div className="job-role-container">
+                <div className="job-role">
+                  <WorkIcon fontSize="2rem" />
+                  <span className="job-texts">
+                    {jobForm.jobRole}
+                    {/* {jobForm.requiredSkills &&
+                          jobForm.requiredSkills.length > 0 && (
+                            <>
+                              <span className="job-texts"> | </span>
+                              {jobForm.requiredSkills.map((skill, index) => (
+                                <span key={index} className="job-skill">
+                                  {skill}
+                                  {index !== jobForm.requiredSkills.length - 1 && ", "}
+                                </span>
+                              ))}
+                            </>
+                          )} */}
+                  </span>
+                  <MoreVertIcon className="job-form-dropdown" color="white" />
+                </div>
+              </div>
+              <div
+                className="job-desc"
+                onClick={() => handleFormById(jobForm._id)}
+              >
+                <div className="avatar-section">
+                  <AccountCircleIcon />
+                  <span className="owner-name">
+                    {jobForm.ownerProfile.name}
+                    {jobForm.ownerProfile._id === userInfo.user._id && (
+                      <span> (me)</span>
+                    )}
+                  </span>
+                </div>
+                <div className="job-company">
+                  <BusinessIcon />
+                  <span className="job-dtexts">{jobForm.company}</span>
+                </div>
+                <div className="job-location">
+                  <LocationOnIcon />
+                  <span className="job-dtexts">{jobForm.jobLocation}</span>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="no-jobs-available">No more jobs available...</div>
+        )}
       </div>
+      <div className="job-form-footer">No more jobs...</div>
+    </div>
+  );
+};
 
-      <Grid container spacing={4} className={styles.gridContainer}>
-        {features.map((feature, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
-            <Card className={styles.featureCard}>
-              <CardContent className={styles.featureCardContent}>
-                <Typography variant="h6" component="h2" className={styles.featureTitle}>
-                  {feature.title}
-                </Typography>
-                <Typography variant="body2">
-                  {feature.description}
-                </Typography>
-              </CardContent>
-              <ExpandMoreIcon className={styles.expandMoreIcon} />
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+const DashBoard = () => {
+  const [createPostButtonOn, setCreatePostButtonOn] = useState(false);
+  const { userInfo } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
 
-      <div className={styles.contributors}>
-        <Typography variant="h5" component="h2" className={styles.contributorsHeading}>
-          Meet Our Creators
-        </Typography>
-        <br/>
-        <br/>
-        <Grid container spacing={4} className={styles.gridContainer}>
-          {contributors.map((contributor, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <Card className={styles.contributorCard}>
-                <CardContent className={styles.contributorCardContent}>
-                  <img
-                    src={contributor.image}
-                    alt={contributor.name}
-                    className={styles.contributorImage} // Add CSS class for styling
-                  />
-                  <Typography variant="h6" component="h3" className={styles.contributorName}>
-                    {contributor.name}
-                  </Typography>
-                  <Typography variant="body2" className={styles.contributorRole}>
-                    {contributor.role}
-                  </Typography>
-                  <a
-                    href={contributor.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.githubLink}
-                  >
-                    GitHub Profile
-                  </a>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-        <footer className={styles.footer}>
-          <Typography variant="body2" color="textSecondary" align="center">
-            © {new Date().getFullYear()} Recruitify. All rights reserved.
-          </Typography>
-        </footer>
-      </div>
 
-      <div className={styles.restArea}>
-        HellO Tarik
+  const handleShowCreatePost = () => {
+    if (!userInfo) {
+      navigate("/login");
+      return;
+    }
+    setShowModal(!showModal);
+  };
+
+  return (
+    <div className={styles.HomePageContent}>
+      <div className={styles.container}>
+        <div className={styles.leftColumn}>
+          <img
+            src={`${process.env.REACT_APP_BACKEND_URL}/${userInfo.user.avatar.filePath}`}
+            alt="Profile"
+            className={styles.profilePic}
+          />
+          <button
+            className={styles.createPostBtn}
+            onClick={handleShowCreatePost}
+          >
+            Create Post
+          </button>
+        </div>
+
+        <div className={styles.middleColumn}>
+          <AllPost />
+        </div>
+
+
+        <div className={styles.rightColumn}>
+          <AllJobForms />
+        </div>
+        <CreatePost
+          showModal={showModal}
+          handleShowCreatePost={handleShowCreatePost}
+        />
       </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default DashBoard;
