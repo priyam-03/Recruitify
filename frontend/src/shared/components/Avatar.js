@@ -54,8 +54,7 @@ const Avatar = () => {
         onError={(e) => {
           // Handle image load failure by switching to fallback avatar or user initials
           e.target.onerror = null; // Prevent infinite loop if fallback fails
-          e.target.src =
-            "https://plus.unsplash.com/premium_vector-1721131162397-943dc390c744?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"; // Set fallback avatar image
+          e.target.src = "/ppic.jpg"; // Set fallback avatar image
         }}
       />
     </AvatarPreview>
