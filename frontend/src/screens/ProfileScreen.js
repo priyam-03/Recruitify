@@ -12,7 +12,7 @@ import { fetchResume, uploadResume } from "../store/slices/profileSlices";
 import MyPost from "../User/myPosts";
 
 const ProfileScreen = () => {
-  const [activeSection, setActiveSection] = useState(null);
+  const [activeSection, setActiveSection] = useState("posts");
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
   const [singleFile, setSingleFile] = useState("");
@@ -168,7 +168,6 @@ const ProfileScreen = () => {
                 <span>View Resume</span>
               </div>
             </button>
-
           </div>
         </>
       )}
