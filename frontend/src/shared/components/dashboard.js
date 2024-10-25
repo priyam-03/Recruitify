@@ -116,6 +116,11 @@ const DashBoard = () => {
         <div className={styles.leftColumn}>
           <img
             src={`${process.env.REACT_APP_BACKEND_URL}/${userInfo.user.avatar.filePath}`}
+            onError={(e) => {
+              // Handle image load failure by switching to fallback avatar or user initials
+              e.target.onerror = null; // Prevent infinite loop if fallback fails
+              e.target.src = "/ppic.jpg"; // Set fallback avatar image
+            }}
             alt="Profile"
             className={styles.profilePic}
           />
