@@ -94,22 +94,32 @@ body {
   height: 45px;
 }
 
-.profile-header {
-  margin-bottom: 20px;
-}
-
 .profile-welcome {
   margin: 0;
+  font-size: 22px; /* Adjust as needed */
+  font-weight: bold; /* Adjust as needed */
+  background: linear-gradient(45deg, #007bff, white);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
 
 .profile-image {
   width: 150px;
   height: 150px;
   border-radius: 50%;
+  margin: 2rem 2rem;
 }
 
-.profile-info {
-  margin-bottom: 20px;
+.profile-email { 
+  font-size: 18px; /* Adjust as needed */
+  font-weight: bold; /* Adjust as needed */
+  background: linear-gradient(45deg, blue, white);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
 
 .profile-content {
