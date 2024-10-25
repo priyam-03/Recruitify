@@ -92,6 +92,7 @@ function App() {
                   <Route path="/cluster" element={<Cluster />} />
                   <Route path="/group" element={<Group />} />
                   <Route path="/Jobs/:formId" element={<FormById />} />
+                  <Route path="/user-profile" element={<ProfileScreen/>}/>
                   <Route
                     path="/jobs-applied-by-me"
                     element={<JobsAppliedByMe />}

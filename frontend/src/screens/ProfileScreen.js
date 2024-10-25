@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { logout, profile } from "../features/auth/authActions";
 import "../styles/profile.css";
 import EducationForm from "../User/educations";
 import ExperienceForm from "../User/experience";
@@ -13,7 +12,7 @@ import { fetchResume, uploadResume } from "../store/slices/profileSlices";
 import MyPost from "../User/myPosts";
 
 const ProfileScreen = () => {
-  const [activeSection, setActiveSection] = useState(null);
+  const [activeSection, setActiveSection] = useState("posts");
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
   const [singleFile, setSingleFile] = useState("");
@@ -168,13 +167,6 @@ const ProfileScreen = () => {
                 <VisibilityIcon />
                 <span>View Resume</span>
               </div>
-            </button>
-
-            <button
-              className="profile-button logout"
-              onClick={() => dispatch(logout())}
-            >
-              Logout
             </button>
           </div>
         </>

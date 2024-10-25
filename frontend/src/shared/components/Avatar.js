@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 const AvatarPreview = styled("div")({
   height: "40px",
   width: "40px",
+  cursor:"pointer",
   // backgroundColor: "",
   borderRadius: "20px",
   display: "flex",
@@ -27,7 +28,7 @@ const AvatarImage = styled("img")({
 // Fallback avatar image in case of failure
 const fallbackAvatar = "https://via.placeholder.com/40"; // You can change this to any fallback image URL
 
-const Avatar = () => {
+const Avatar = ({onClick}) => {
   const { userInfo } = useSelector((state) => state.auth);
 
   // Derive avatar source URL
@@ -46,7 +47,7 @@ const Avatar = () => {
   };
 
   return (
-    <AvatarPreview>
+    <AvatarPreview onClick={onClick}>
       {/* Image tag with error handling */}
       <AvatarImage
         src={avatarSrc}
@@ -54,8 +55,7 @@ const Avatar = () => {
         onError={(e) => {
           // Handle image load failure by switching to fallback avatar or user initials
           e.target.onerror = null; // Prevent infinite loop if fallback fails
-          e.target.src =
-            "https://plus.unsplash.com/premium_vector-1721131162397-943dc390c744?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"; // Set fallback avatar image
+          e.target.src = "/ppic.jpg"; // Set fallback avatar image
         }}
       />
     </AvatarPreview>
