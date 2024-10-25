@@ -33,7 +33,7 @@ const RegisterScreen = () => {
       setCustomError("Password mismatch");
       return;
     }
-    
+
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("email", data.email.toLowerCase());
@@ -48,15 +48,27 @@ const RegisterScreen = () => {
 
   return (
     <div className={styles.registerContainer}>
+      <section className={styles.registerWelcome}>
+        <div className={styles.registerWelcomeHeader}>
+          <h1>Job searching</h1>
+          <h1>made easy</h1>
+          <h1>and fun.</h1>
+        </div>
+        <span>Create account in minutes</span>
+      </section>
       <form onSubmit={handleSubmit(submitForm)} className={styles.registerForm}>
         <div className={styles.formWrapper}>
-          {error && <Error>{error}</Error>}
           {customError && <Error>{customError}</Error>}
-          
+
           <div className={styles.formGroup}>
-            <label htmlFor="name" className={styles.label}>
-              First Name
-            </label>
+            {error ? (
+              <Error>{error}</Error>
+            ) : (
+              <label htmlFor="name" className={styles.label}>
+                First Name
+              </label>
+            )}
+
             <input
               type="text"
               id="name"
@@ -66,56 +78,70 @@ const RegisterScreen = () => {
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="email" className={styles.label}>
-              Email
-            </label>
+            {error ? (
+              <Error>{error}</Error>
+            ) : (
+              <label htmlFor="email" className={styles.label}>
+                Email
+              </label>
+            )}
+
             <input
               type="email"
               id="email"
               className={styles.formInput}
-              {...register("email", { 
+              {...register("email", {
                 required: true,
-                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i 
+                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
               })}
             />
             {errors.email && (
-              <span className={styles.error}>Please enter a valid email address</span>
-            )}
-          </div>
-
-          <div className={styles.formGroup}>
-            <label htmlFor="password" className={styles.label}>
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              className={styles.formInput}
-              {...register("password", { required: true, minLength: 6 })}
-            />
-            {errors.password && (
               <span className={styles.error}>
-                Password must be at least 6 characters long
+                Please enter a valid email address
               </span>
             )}
           </div>
+          <section className={styles.formGroupPasswords}>
+            <div className={styles.formGroup}>
+              {errors.password ? (
+                <span className={styles.error}>
+                  Password must be at least 6 characters long
+                </span>
+              ) : (
+                <label htmlFor="password" className={styles.label}>
+                  Password
+                </label>
+              )}
+
+              <input
+                type="password"
+                id="password"
+                className={styles.formInput}
+                {...register("password", { required: true, minLength: 6 })}
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="confirmPassword" className={styles.label}>
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                id="confirmPassword"
+                className={styles.formInput}
+                {...register("confirmPassword", { required: true })}
+              />
+            </div>
+          </section>
 
           <div className={styles.formGroup}>
-            <label htmlFor="confirmPassword" className={styles.label}>
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              className={styles.formInput}
-              {...register("confirmPassword", { required: true })}
-            />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label htmlFor="fileupload" className={styles.label}>
-              Profile Photo
-            </label>
+            {errors.file ? (
+              <span className={styles.error}>{errors.file.message}</span>
+            ) : (
+              <label htmlFor="fileupload" className={styles.label}>
+                Profile Photo
+              </label>
+            )}
             <input
               id="fileupload"
               type="file"
@@ -124,14 +150,11 @@ const RegisterScreen = () => {
               accept="image/*"
               required
             />
-            {errors.file && (
-              <span className={styles.error}>{errors.file.message}</span>
-            )}
           </div>
 
-          <button 
-            type="submit" 
-            className={styles.registerButton} 
+          <button
+            type="submit"
+            className={styles.registerButton}
             disabled={loading}
           >
             {loading ? <Spinner /> : "Register"}
