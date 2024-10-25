@@ -29,13 +29,13 @@
 .heading {
   font-weight: 700;
   font-size: 2.5rem;
-  color: #333;
+  color: #eeeeee;
   margin-bottom: 20px;
 }
 
 .paragraph {
   font-family: 'Poppins', sans-serif;
-  color: #666;
+  color: #a9a9a9;
   font-size: 1.2rem;
   line-height: 1.6;
   max-width: 800px;
@@ -46,13 +46,12 @@
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
+  /* background-color: antiquewhite; */
 }
 
 
 /* Feature Card */
 .featureCard {
-  background-color: white;
-  color: rgb(4, 4, 4);
   width: 100%;
   height: 250px;
   display: flex;
@@ -60,18 +59,24 @@
   justify-content: center;
   align-items: center;
   border-radius: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(97, 97, 97, 0.12)  !important; 
   transition: transform 0.3s, box-shadow 0.3s;
   margin-bottom: 20px;
+  background-color: rgba(255, 255, 255, 0.042)  !important;
+  backdrop-filter: calc(20);
+  color: #fff !important ;
 }
 
 .featureCard:hover {
+  background-color:rgba(238, 238, 238, 0.3);
+  backdrop-filter: calc(10);
   transform: translateY(-10px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* Feature Card Content */
 .featureCardContent {
+  color: #fff !important ;
   text-align: center;
   padding: 20px;
 }
@@ -80,14 +85,17 @@
   font-family: 'Qwitcher Grypen', cursive;
   font-weight: 700;
   font-size: 1.8rem;
-  color: #007bff;
+  color: #93d1e3;
   margin-bottom: 10px;
 }
 
+.featureCardDesc{
+  color: #e2e2e2;
+}
 /* Expand More Icon */
 .expandMoreIcon {
   font-size: 1.5rem;
-  color: #007bff;
+  color: #afd6ff;
   margin-top: 10px;
 }
 
@@ -113,7 +121,7 @@
 .contributorsHeading {
   font-weight: 700;
   font-size: 2rem;
-  color: #333;
+  color: #dbdbdb;
   margin-bottom: 20px;
 }
 
@@ -202,6 +210,7 @@
 }
 .footer{
   min-height: 150px;
+  color: #c5c5c5 ;
 }
 
 
