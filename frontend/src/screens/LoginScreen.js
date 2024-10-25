@@ -12,7 +12,7 @@ const LoginScreen = () => {
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     if (userInfo) {
       navigate("/");
@@ -25,9 +25,14 @@ const LoginScreen = () => {
 
   return (
     <div className={styles.loginBody}>
+      <section className={styles.registerWelcome}>
+        <div className={styles.registerWelcomeHeader}>
+          <h1>Welcome back</h1>
+          <span>Ready to get back into the job market?</span>
+        </div>
+      </section>
       <div className={styles.loginContainer}>
         <form onSubmit={handleSubmit(submitForm)} className={styles.loginForm}>
-          <h2 className={styles.loginHeading}>Login</h2>
           {error && <Error>{error}</Error>}
           <div className={styles.formGroup}>
             <label htmlFor="email" className={styles.formLabel}>
@@ -53,7 +58,11 @@ const LoginScreen = () => {
               id="password"
             />
           </div>
-          <button type="submit" className={styles.loginButton} disabled={loading}>
+          <button
+            type="submit"
+            className={styles.loginButton}
+            disabled={loading}
+          >
             {loading ? <Spinner /> : "Login"}
           </button>
           <Link to="/forgotpassword" className={styles.forgotPassword}>

@@ -1,6 +1,8 @@
 .registerContainer {
   display: flex;
-  height: 100vh;
+  height: fit-content;
+  min-height: 100vh;
+  width: 100vw;
   justify-content: space-around;
   align-items: center;
   /* padding-top: 20px; */
@@ -19,9 +21,15 @@
   height: 60vh;
   /* border: 1px white solid; */
 }
-.registerWelcome h1 {
+.registerWelcomeHeader h1 {
   color: #ffffff;
   font-size: 80px;
+  padding: 0px;
+  margin: 0px;
+}
+.registerWelcomeHeader h2 {
+  color: #ffffff;
+  font-size: 30px;
   padding: 0px;
   margin: 0px;
 }
@@ -32,10 +40,9 @@
   align-items: center;
   height: 70vh;
   padding: 10px;
-  /* border: 1px white solid; */
   margin: 0.75rem;
   background: var(--form-background, rgba(255, 255, 255, 0.95));
-  /* border-radius: 20px; */
+
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 0 100px rgba(75, 144, 226, 0.1);
   backdrop-filter: blur(10px);
 }
@@ -154,9 +161,9 @@
 }
 
 .registerButton {
-  width: 80%;
-  height: 60px;
-  padding: 1rem;
+  width: 50%;
+  height: 40px;
+  margin-bottom: 10px;
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--text-light, #ffffff);
@@ -283,37 +290,56 @@
   }
 }
 
-@media (max-width: 768px) {
-  .registerContainer {
-    padding: 1rem;
-    padding-bottom: 2rem;
-  }
-
-  .registerForm {
-    border: 100px white solid;
-    padding: 1.5rem;
-    margin: 0.75rem;
-    margin-bottom: 1.5rem;
-    border-radius: 24px;
+@media only screen and (max-width: 1200px) {
+  .registerWelcome h1 {
+    color: #ffffff;
+    font-size: 60px;
+    padding: 0px;
+    margin: 0px;
   }
 
   .formWrapper {
     padding-bottom: 1rem;
   }
-}
-
-@media (min-height: 1000px) {
-  .registerContainer {
-    /* border: 1px black white; */
-    padding-bottom: 2.5rem;
+  .registerForm {
+    width: 500px;
   }
 }
 
-@media (max-height: 600px) {
+@media only screen and (max-width: 1000px) {
   .registerContainer {
-    padding: 0.75rem;
-    min-height: auto;
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .registerWelcomeHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .registerWelcome {
+    height: 5vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+  .registerWelcome h1 {
+    color: #ffffff;
+    font-size: 40px;
+    /* padding-left: 10px; */
+    margin: 0px;
+    display: none;
+  }
+  .registerWelcome span {
+    font-size: 40px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .registerContainer {
+    width: 100vw;
+    height: 100vh;
+  }
+  .registerForm {
+    width: 90%;
   }
 }

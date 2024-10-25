@@ -49,12 +49,12 @@ const RegisterScreen = () => {
   return (
     <div className={styles.registerContainer}>
       <section className={styles.registerWelcome}>
-        <div>
+        <div className={styles.registerWelcomeHeader}>
           <h1>Job searching</h1>
           <h1>made easy</h1>
           <h1>and fun.</h1>
         </div>
-        <span>Get started in minutes</span>
+        <span>Create account in minutes</span>
       </section>
       <form onSubmit={handleSubmit(submitForm)} className={styles.registerForm}>
         <div className={styles.formWrapper}>
@@ -94,20 +94,22 @@ const RegisterScreen = () => {
           </div>
           <section className={styles.formGroupPasswords}>
             <div className={styles.formGroup}>
-              <label htmlFor="password" className={styles.label}>
-                Password
-              </label>
+              {errors.password ? (
+                <span className={styles.error}>
+                  Password must be at least 6 characters long
+                </span>
+              ) : (
+                <label htmlFor="password" className={styles.label}>
+                  Password
+                </label>
+              )}
+
               <input
                 type="password"
                 id="password"
                 className={styles.formInput}
                 {...register("password", { required: true, minLength: 6 })}
               />
-              {errors.password && (
-                <span className={styles.error}>
-                  Password must be at least 6 characters long
-                </span>
-              )}
             </div>
 
             <div className={styles.formGroup}>
@@ -131,7 +133,6 @@ const RegisterScreen = () => {
                 Profile Photo
               </label>
             )}
-
             <input
               id="fileupload"
               type="file"
