@@ -58,13 +58,17 @@ const RegisterScreen = () => {
       </section>
       <form onSubmit={handleSubmit(submitForm)} className={styles.registerForm}>
         <div className={styles.formWrapper}>
-          {error && <Error>{error}</Error>}
           {customError && <Error>{customError}</Error>}
 
           <div className={styles.formGroup}>
-            <label htmlFor="name" className={styles.label}>
-              First Name
-            </label>
+            {error ? (
+              <Error>{error}</Error>
+            ) : (
+              <label htmlFor="name" className={styles.label}>
+                First Name
+              </label>
+            )}
+
             <input
               type="text"
               id="name"
@@ -74,9 +78,14 @@ const RegisterScreen = () => {
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="email" className={styles.label}>
-              Email
-            </label>
+            {error ? (
+              <Error>{error}</Error>
+            ) : (
+              <label htmlFor="email" className={styles.label}>
+                Email
+              </label>
+            )}
+
             <input
               type="email"
               id="email"

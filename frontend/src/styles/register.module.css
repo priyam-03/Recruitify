@@ -143,14 +143,13 @@
 
 .error {
   color: var(--error-color, #ff7675);
-  margin-top: 0.5rem;
+  /* margin-top: 0.5rem; */
   font-size: 0.9rem;
-  padding-left: 1rem;
+  /* padding-left: 1rem; */
   opacity: 0;
   animation: errorSlide 0.3s ease forwards;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
 }
 
 .error::before {

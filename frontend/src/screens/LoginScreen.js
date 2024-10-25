@@ -33,11 +33,14 @@ const LoginScreen = () => {
       </section>
       <div className={styles.loginContainer}>
         <form onSubmit={handleSubmit(submitForm)} className={styles.loginForm}>
-          {error && <Error>{error}</Error>}
           <div className={styles.formGroup}>
-            <label htmlFor="email" className={styles.formLabel}>
-              Email
-            </label>
+            {error ? (
+              <Error>{error}</Error>
+            ) : (
+              <label htmlFor="email" className={styles.formLabel}>
+                Email
+              </label>
+            )}
             <input
               type="email"
               className={styles.formInput}
