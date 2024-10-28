@@ -11,7 +11,6 @@ import { fetchMyPosts } from "../store/slices/postSlice";
 import "../styles/posts.css";
 import CreatePost from "./createPost";
 import CommentTextsection from "../shared/components/CommentTextSection";
-import Error from "../shared/components/Error";
 
 const MyPost = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -19,14 +18,12 @@ const MyPost = () => {
   const [showTextSection, setShowTextSection] = useState({});
   const dispatch = useDispatch();
   const myPosts = useSelector((state) => state.posts.myPosts);
-  const errorMessage = useSelector((state) => state.posts.errorMessage);
   const [likes, setLikes] = useState({});
-  const [likeMode, setLikeMode] = useState({});
 
   useEffect(() => {
     dispatch(fetchMyPosts());
   }, [dispatch]);
-  console.log(myPosts);
+
   const handleShowCreatePost = () => {
     setShowModal(!showModal);
   };
@@ -39,29 +36,16 @@ const MyPost = () => {
   };
 
   const handleToggleLike = (postId) => {
-    setLikes((prevState) => {
-      const newLikes = { ...prevState };
-      const isLiked = likeMode[postId];
-
-      if (isLiked) {
-        newLikes[postId] = Math.max(0, (newLikes[postId] || 0) - 1);
-      } else {
-        newLikes[postId] = (newLikes[postId] || 0) + 1;
-      }
-
-      return newLikes;
-    });
-    setLikeMode((prevState) => ({
+    setLikes((prevState) => ({
       ...prevState,
-      [postId]: !prevState[postId],
+      [postId]: (prevState[postId] || 0) + (likes[postId] ? -1 : 1),
     }));
   };
 
   return (
     <div className="posts-page">
       <Button
-        variant="contained"
-        color="primary"
+        className="create-post-button"
         onClick={handleShowCreatePost}
       >
         Create Post
@@ -87,19 +71,14 @@ const MyPost = () => {
               <div className="post-content">
                 <Typography variant="body1">{post.text}</Typography>
               </div>
-              <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
-                <IconButton onClick={() => handleToggleLike(post._id)}>
-                  <ThumbUpIcon
-                    color={likeMode[post._id] ? "primary" : "action"}
-                  />
+              <Box sx={{ display: "flex", alignItems: "center", mt: 1 }} className="post-actions">
+                <IconButton onClick={() => handleToggleLike(post._id)} className="like-button">
+                  <ThumbUpIcon color={likes[post._id] ? "primary" : "action"} />
                 </IconButton>
                 <Typography variant="body2" sx={{ ml: 1 }}>
                   {likes[post._id] || 0}
                 </Typography>
-                <IconButton onClick={() => handleToggleLike(post._id)}>
-                  <ThumbDownIcon />
-                </IconButton>
-                <IconButton onClick={() => handleToggleTextSection(post._id)}>
+                <IconButton onClick={() => handleToggleTextSection(post._id)} className="comment-button">
                   <ChatIcon />
                 </IconButton>
               </Box>
