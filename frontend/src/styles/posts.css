@@ -59,6 +59,7 @@
   font-weight: bold;
   font-size: 18px;
   color: #1e90ff;
+  cursor: context-menu;
   transition: color 0.3s ease, text-shadow 0.3s ease;
   margin-left: 2.5%;
 }
@@ -85,14 +86,13 @@
   min-height: 100px;
   max-height: 500px;
   color: white;
-  position: relative;
   background: rgb(22, 22, 22);
   /* border for the post content */
   padding: 10px;
   border: 3px solid transparent;
   border-radius: 20px;
   background: linear-gradient(to right, rgb(22, 22, 22), rgb(22, 22, 22)),
-    linear-gradient(to bottom right, red, rgb(5, 124, 215));
+    linear-gradient(to bottom right, rgb(255, 123, 0), rgb(5, 124, 215));
   background-clip: padding-box, border-box;
   background-origin: padding-box, border-box;
 }

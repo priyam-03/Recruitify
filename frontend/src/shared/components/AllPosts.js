@@ -12,23 +12,6 @@ import "../../styles/posts.css";
 import CommentTextsection from "./CommentTextSection";
 
 import { Fade } from "react-awesome-reveal";
-const transitions = {
-  entering: {
-    display: "block",
-  },
-  entered: {
-    opacity: 1,
-    display: "block",
-  },
-  exiting: {
-    opacity: 0,
-    display: "block",
-  },
-  exited: {
-    opacity: "0",
-    display: "none",
-  },
-};
 const AllPost = () => {
   const dispatch = useDispatch();
   const allPosts = useSelector((state) => state.posts.allPosts);
@@ -39,12 +22,9 @@ const AllPost = () => {
   //   to Hold likes and dislikes for a post
   const [postLikeList, setPostLikeList] = useState({});
   const [isCommentActive, setIsCommentActive] = useState(false);
-
-  const [transitionState, setTransitionState] = useState(false);
   useEffect(() => {
     dispatch(fetchAllPosts());
   }, [dispatch]);
-  //   useEffect(() => {}, [postLikeList]);
 
   const handleToggleTextSection = (postId) => {
     setIsCommentActive(!isCommentActive);
@@ -78,7 +58,6 @@ const AllPost = () => {
       ...prevState,
       [postId]: !prevState[postId],
     }));
-    console.log(postLikeList);
   };
 
   const { userInfo } = useSelector((state) => state.auth);
