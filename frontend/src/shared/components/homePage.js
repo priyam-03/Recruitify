@@ -5,6 +5,59 @@ import styles from "../../styles/homePage.module.css";
 
 const HomePage = () => {
   const [contributors, setContributors] = useState([]);
+
+  const technologies = [
+    {
+      name: "React",
+      iconUrl:
+        "https://seeklogo.com/images/R/react-logo-7B3CE81517-seeklogo.com.png",
+    },
+    {
+      name: "Node.js",
+      iconUrl:
+        "https://pluspng.com/img-png/nodejs-png-nodejs-icon-png-50-px-1600.png",
+    },
+
+    {
+      name: "Express",
+      iconUrl:
+        "https://ajeetchaulagain.com/static/7cb4af597964b0911fe71cb2f8148d64/87351/express-js.png",
+    },
+    {
+      name: "MongoDB",
+      iconUrl:
+        "https://images.crunchbase.com/image/upload/c_lpad,f_auto,q_auto:eco,dpr_1/erkxwhl1gd48xfhe2yld",
+    },
+    { name: "Material UI", iconUrl: "https://mui.com/static/logo.png" },
+
+    {
+      name: "Python",
+      iconUrl: "https://openastronomy.org/pyastro/images/pyastro_logo.svg",
+    },
+    {
+      name: "Flask",
+      iconUrl:
+        "https://static.javatpoint.com/tutorial/flask/images/flask-tutorial.png",
+    },
+
+    { name: "Vercel", iconUrl: "https://egw2023.eurac.edu/favicon.ico" },
+    {
+      name: "Redis",
+      iconUrl:
+        "https://microstream.one/blog/wp-content/uploads/2023/06/redis_logo-1.png",
+    },
+    {
+      name: "AWS",
+      iconUrl:
+        "https://cdn.iconscout.com/icon/free/png-256/free-aws-3215369-2673787.png",
+    },
+    {
+      name: "Docker",
+      iconUrl:
+        "https://cdn.icon-icons.com/icons2/2699/PNG/512/docker_tile_logo_icon_168248.png",
+    },
+  ];
+
   const features = [
     {
       title: "Find Your Dream Jobs",
@@ -75,7 +128,7 @@ const HomePage = () => {
       <Grid container spacing={4} className={styles.gridContainer}>
         {features.map((feature, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
-            <Card  className={styles.featureCard}>
+            <Card className={styles.featureCard}>
               <CardContent className={styles.featureCardContent}>
                 <Typography
                   variant="h6"
@@ -84,13 +137,31 @@ const HomePage = () => {
                 >
                   {feature.title}
                 </Typography>
-                <Typography className={styles.featureCardDesc}> {feature.description}</Typography>
+                <Typography className={styles.featureCardDesc}>
+                  {" "}
+                  {feature.description}
+                </Typography>
               </CardContent>
               <ExpandMoreIcon className={styles.expandMoreIcon} />
             </Card>
           </Grid>
         ))}
       </Grid>
+      <div className={styles.technologiesSection}>
+        <h1 className={styles.technologiesSectionHeading}>Technologies Used</h1>
+        <div className={styles.gridContainer2}>
+          {technologies.map((tech, index) => (
+            <div className={styles.techCard} key={index}>
+              <img
+                src={tech.iconUrl}
+                alt={tech.name}
+                className={styles.techIcon}
+              />
+              <div className={styles.techName}>{tech.name}</div>
+            </div>
+          ))}
+        </div>
+      </div>
 
       <div className={styles.contributors}>
         <Typography
@@ -122,8 +193,8 @@ const HomePage = () => {
           ))}
         </Grid>
         <footer className={styles.footer}>
-          <Typography  align="center" color='#c5c5c5'>
-            © {new Date().getFullYear()} Recruitify. All rights reserved.
+          <Typography align="center" color="#c5c5c5">
+            © 2024 - {new Date().getFullYear()} Recruitify. All rights reserved.
           </Typography>
         </footer>
       </div>
