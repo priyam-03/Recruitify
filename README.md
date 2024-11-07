@@ -32,7 +32,7 @@ To set up the project locally, follow these steps:
 
    ```bash
    git clone https://github.com/priyam-03/Recruitify.git
-   cd Recruiitfy
+   cd Recruitfy
    ```
 
 2. **Install dependencies**:
