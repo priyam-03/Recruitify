@@ -7,13 +7,13 @@ const JobApplicationFormSchema = new Schema({
     type: String,
     required: [true, "Please Enter Job Role"],
     maxLength: [50, "Job Role exceed 50 characters"],
-    minLength: [5, "Job Role have more than 4 characters"],
+    minLength: [2, "Job Role have less than 5 characters"],
   },
   jobLocation: {
     type: String,
     required: [true, "Please Enter Job Location"],
     maxLength: [100, "Job Location exceed 100 characters"],
-    minLength: [5, "Job Location have more than 4 characters"],
+    minLength: [3, "Job Location have more than 4 characters"],
   },
   jobLocationType: {
     type: String,

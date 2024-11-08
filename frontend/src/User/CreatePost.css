@@ -4,7 +4,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,17 +15,25 @@
 .modal-content {
     background-color: #121212; /* Dark background for the modal */
     border-radius: 10px;
-    padding: 20px;
+    padding: 40px;
     max-width: 500px; /* Width of the modal */
     width: 90%; /* Responsive width */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+    
 }
-
+h3{
+    margin-top: -10px;
+}
+h4{
+    margin-top: -40x;
+    padding-top: -30px;
+    color: #e0e0e07e;
+}
 .close-button {
     cursor: pointer;
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 22px;
+    right: 22px;
     font-size: 24px; /* Adjust size as needed */
     color: #e0e0e0; /* Close button color */
 }

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Error from "../shared/components/Error";
 import Spinner from "../shared/components/Spinner";
 import { registerUser } from "../features/auth/authActions";
-import "../styles/register.css";
+import styles from "../styles/register.module.css";
 
 const RegisterScreen = () => {
   const [customError, setCustomError] = useState(null);
@@ -24,7 +24,7 @@ const RegisterScreen = () => {
     if (userInfo) navigate("/user-profile");
   }, [navigate, userInfo]);
 
-  const SingleFileChange = (e) => {
+  const handleFileChange = (e) => {
     setSingleFile(e.target.files[0]);
   };
 
@@ -33,11 +33,10 @@ const RegisterScreen = () => {
       setCustomError("Password mismatch");
       return;
     }
-    data.email = data.email.toLowerCase();
 
-    var formData = new FormData();
+    const formData = new FormData();
     formData.append("name", data.name);
-    formData.append("email", data.email);
+    formData.append("email", data.email.toLowerCase());
     formData.append("password", data.password);
     formData.append("file", singleFile);
 
@@ -48,60 +47,119 @@ const RegisterScreen = () => {
   };
 
   return (
-    <div className="register-container">
-      <form onSubmit={handleSubmit(submitForm)} className="register-form">
-        {error && <Error>{error}</Error>}
-        {customError && <Error>{customError}</Error>}
-        <div className="form-group">
-          <label htmlFor="name">First Name</label>
-          <input
-            type="text"
-            className="form-input"
-            {...register("name")}
-            required
-          />
+    <div className={styles.registerContainer}>
+      <section className={styles.registerWelcome}>
+        <div className={styles.registerWelcomeHeader}>
+          <h1>Job searching</h1>
+          <h1>made easy</h1>
+          <h1>and fun.</h1>
         </div>
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            className="form-input"
-            {...register("email")}
-            required
-          />
+        <span>Create account in minutes</span>
+      </section>
+      <form onSubmit={handleSubmit(submitForm)} className={styles.registerForm}>
+        <div className={styles.formWrapper}>
+          {customError && <Error>{customError}</Error>}
+
+          <div className={styles.formGroup}>
+            {error ? (
+              <Error>{error}</Error>
+            ) : (
+              <label htmlFor="name" className={styles.label}>
+                First Name
+              </label>
+            )}
+
+            <input
+              type="text"
+              id="name"
+              className={styles.formInput}
+              {...register("name", { required: true })}
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            {error ? (
+              <Error>{error}</Error>
+            ) : (
+              <label htmlFor="email" className={styles.label}>
+                Email
+              </label>
+            )}
+
+            <input
+              type="email"
+              id="email"
+              className={styles.formInput}
+              {...register("email", {
+                required: true,
+                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              })}
+            />
+            {errors.email && (
+              <span className={styles.error}>
+                Please enter a valid email address
+              </span>
+            )}
+          </div>
+          <section className={styles.formGroupPasswords}>
+            <div className={styles.formGroup}>
+              {errors.password ? (
+                <span className={styles.error}>
+                  Password must be at least 6 characters long
+                </span>
+              ) : (
+                <label htmlFor="password" className={styles.label}>
+                  Password
+                </label>
+              )}
+
+              <input
+                type="password"
+                id="password"
+                className={styles.formInput}
+                {...register("password", { required: true, minLength: 6 })}
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="confirmPassword" className={styles.label}>
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                id="confirmPassword"
+                className={styles.formInput}
+                {...register("confirmPassword", { required: true })}
+              />
+            </div>
+          </section>
+
+          <div className={styles.formGroup}>
+            {errors.file ? (
+              <span className={styles.error}>{errors.file.message}</span>
+            ) : (
+              <label htmlFor="fileupload" className={styles.label}>
+                Profile Photo
+              </label>
+            )}
+            <input
+              id="fileupload"
+              type="file"
+              className={styles.formInput}
+              onChange={handleFileChange}
+              accept="image/*"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className={styles.registerButton}
+            disabled={loading}
+          >
+            {loading ? <Spinner /> : "Register"}
+          </button>
         </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            className="form-input"
-            {...register("password")}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            type="password"
-            className="form-input"
-            {...register("confirmPassword")}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="fileupload">Profile Photo</label>
-          <input
-            id="fileupload"
-            type="file"
-            className="form-input"
-            onChange={(e) => SingleFileChange(e)}
-            required
-          />
-        </div>
-        <button type="submit" className="register-button" disabled={loading}>
-          {loading ? <Spinner /> : "Register"}
-        </button>
-        {errors.files && <div className="error">{errors.files.message}</div>}
       </form>
     </div>
   );

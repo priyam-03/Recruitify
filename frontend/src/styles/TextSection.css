@@ -1,54 +1,41 @@
-.text-box {
-    padding: 5px;
-}
-
-.written-text {
-    margin: 2px;
-    width: 100%;
-    color: white;
-    background-color: #1e1d1d;
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 16px;
-    box-sizing: border-box;
-    min-height: 200px;
-    max-height: 200px;
-    min-width: 500px;
-    max-width: 500px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    border-color: #111;
-    resize: none;
+.separator-line {
+    width: 100%; /* Full width */
+    border: none; /* Remove default border */
+    border-top: 1px solid #ccc; /* Add a light gray line */
+    margin: 10px 0; /* Space above and below the line */
 }
 
 .input-bar {
     display: flex;
-    align-items: center;
-    box-sizing: border-box;
-    width: 100%;
-    width: 510px;
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
-.create-post-form input[type="text"] {
-    width: 100%;
+    flex-direction: column;
+    min-width: 500px;
     color: white;
-    background-color: #0c0c0c;
-    padding: 10px;
-    margin-right: 2px;
-    border-radius: 4px;
-    font-size: 16px;
-    box-sizing: border-box;
-    min-height: 20px;
-    max-height: 40px;
-    width: 470px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    border-color: #111;
-    resize: none;
+    width: 100%; /* Make sure the input bar spans full width */
 }
 
-.create-post-form input[type="text"]::placeholder {
-    color: #999;
+.image-wrapper {
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 0, 0, 0.5); /* Red overlay for delete */
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.3s;
+}
+
+.image-wrapper:hover .overlay {
+    opacity: 1; /* Show overlay on hover */
+}
+
+.delete-icon {
+    color: white; /* Change icon color to white for better contrast */
+    cursor: pointer;
 }

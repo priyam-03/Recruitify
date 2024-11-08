@@ -1,0 +1,191 @@
+.posts_page {
+  padding: 20px;
+  background-color: #111;
+  margin-bottom: 5px;
+}
+
+.create-post-button {
+  background-color: #007bff;
+  color: white;
+  margin: 10px 0;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.create-post-button:hover {
+  background-color: #032e5d;
+}
+
+.posts {
+  margin-top: 20px;
+  overflow-y: auto;
+  background-color: #111;
+}
+
+.post {
+  position: relative;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 20px 20px;
+  background-color: rgb(20, 20, 20);
+  box-shadow: 1px 1px 10px rgba(153, 153, 153, 0.5);
+}
+.post_owner {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.post_owner img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  margin-right: 15px;
+  border: 2px solid #444;
+  transition: transform 0.3s ease;
+}
+
+.post_owner img:hover {
+  transform: scale(1.05);
+}
+
+.post_owner .username {
+  font-weight: bold;
+  font-size: 18px;
+  color: #1e90ff;
+  cursor: context-menu;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+  margin-left: 2.5%;
+}
+
+.post_owner .username:hover {
+  color: #ffffff;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.iconButton {
+  color: #ffffff;
+  transition: color 0.3s ease;
+}
+
+.iconButton:hover {
+  color: #4a90e2;
+}
+
+.post_content {
+  text-align: left;
+  margin-bottom: 10px;
+  overflow-y: auto;
+  font-size: 16px;
+  min-height: 100px;
+  max-height: 500px;
+  color: white;
+  background: rgb(22, 22, 22);
+  /* border for the post content */
+  padding: 10px;
+  border: 3px solid transparent;
+  border-radius: 20px;
+  background: linear-gradient(to right, rgb(22, 22, 22), rgb(22, 22, 22)),
+    linear-gradient(to bottom right, rgb(255, 123, 0), rgb(5, 124, 215));
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+}
+.post_actions {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  color: #ffffff;
+}
+
+.post_actions .like_button,
+.post_actions .dislike_button,
+.post_actions .comment_button {
+  color: whitesmoke;
+  margin-right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.5s;
+  border: 2px solid transparent;
+}
+
+.post_actions .like_button:hover,
+.post_actions .dislike_button:hover,
+.post_actions .comment_button:hover {
+  color: #4a90e2;
+  /* border: 2px solid rgb(193, 193, 193); */
+  border: 2px solid #f55318;
+}
+
+.options_button {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  font-size: 1.5em;
+  font-weight: bold;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.options_button:hover {
+  color: #555;
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.685);
+}
+
+.modal_content {
+  background-color: #000000;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(53, 53, 53, 0.2);
+  width: 80%;
+  max-width: 500px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.close_button {
+  color: #fafafa;
+  position: absolute;
+  top: 7px;
+  right: 15px;
+  font-size: 20px;
+  font-weight: 100;
+  cursor: pointer;
+}
+
+.close_button:hover,
+.close_button:focus {
+  color: rgb(123, 3, 3);
+  text-decoration: none;
+}
+
+.post_text {
+  color: rgb(198, 198, 198);
+}
+.active {
+  color: #4a90e2 !important;
+}

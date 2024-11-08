@@ -31,7 +31,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
   var avatar = null;
   if (req.file === undefined) {
-    const user = req.user.id;
+    const user = req.user._id;
     avatar = req.user.avatar;
   } else {
     avatar = {
@@ -46,7 +46,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
     email: req.body.email,
     avatar,
   };
-  const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+  const user = await User.findByIdAndUpdate(req.user._id, newUserData, {
     new: true,
     runValidators: true,
     useFindAndModify: false,
@@ -177,13 +177,13 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
 
 // Get User Detail
 exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findById(req.user.id);
+  const user = await User.findById(req.user._id);
   sendToken(user, 200, res);
 });
 
 // update User password
 exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findById(req.user.id).select("+password");
+  const user = await User.findById(req.user._id).select("+password");
 
   const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
 
@@ -255,7 +255,7 @@ exports.addCluster = catchAsyncErrors(async (req, res, next) => {
     });
     const newCluster = { friendlist: req.body.newCluster, name: req.body.name };
     console.log(newCluster);
-    user = await User.findById(req.user.id);
+    user = await User.findById(req.user._id);
     user.clusters.push(newCluster);
     await user.save();
     res.status(200).json({

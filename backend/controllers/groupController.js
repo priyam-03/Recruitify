@@ -7,7 +7,7 @@ exports.addGroup = catchAsyncErrors(async (req, res, next) => {
       return new ObjectId(c);
     });
     var participants = req.body.newCluster;
-    participants.push(req.user.id);
+    participants.push(req.user._id);
     const conversation = new Conversation({
       type: "GROUP",
       name: req.body.name,
@@ -25,7 +25,7 @@ exports.addGroup = catchAsyncErrors(async (req, res, next) => {
 exports.getGroup = catchAsyncErrors(async (req, res, next) => {
   try {
     const group = await Conversation.find({
-      participants: { $in: [req.user.id] },
+      participants: { $in: [req.user._id] },
       type: "GROUP",
     });
 

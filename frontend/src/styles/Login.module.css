@@ -1,0 +1,303 @@
+:root {
+  --primary-gradient-1: #2b86c5;
+  --primary-gradient-2: #4a90e2;
+  --primary-gradient-3: #67b8f7;
+  --accent-1: #5b9bf3;
+  --accent-2: #4ecb71;
+  --accent-3: #4a7fe0;
+  --text-color: #2d3436;
+  --text-light: #ffffff;
+  --background-1: #8ec5fc;
+  --background-2: #c1e3fc;
+  --form-background: rgba(255, 255, 255, 0.95);
+  --input-background: rgba(255, 255, 255, 0.9);
+  --success: #00b894;
+  --error: #ff7675;
+  --box-shadow-color: rgba(0, 0, 0, 0.1);
+
+  /* Spacing system */
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 2.5rem;
+  --space-3xl: 3rem;
+  --space-4xl: 4rem;
+}
+
+/* All other styles should be modules */
+.loginBody {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  height: 99vh;
+  background: linear-gradient(
+    45deg,
+    var(--background-1) 0%,
+    var(--background-2) 100%
+  );
+  background-size: 400% 400%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.loginContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  width: 40vw;
+  margin-bottom: 50px;
+}
+
+.loginForm {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 20px 40px var(--box-shadow-color),
+    0 0 100px rgba(74, 144, 226, 0.1);
+  /* backdrop-filter: blur(10px); */
+}
+
+.loginHeading {
+  font-size: 2.5rem;
+  font-weight: 800;
+  -webkit-background-clip: text;
+  color: transparent;
+  /* margin-bottom: var(--space-2xl); */
+  text-align: center;
+  position: relative;
+  animation: headingPop 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+.registerWelcomeHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.registerWelcome h1 {
+  color: #ffffff;
+  font-size: 50px;
+  padding: 0px;
+  margin: 0px;
+}
+.registerWelcome span {
+  color: #ffffff;
+  /* font-size: 30px; */
+  padding: 0px;
+  margin: 0px;
+}
+.formGroup {
+  transform-origin: left;
+  animation: slideIn 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  opacity: 0;
+  height: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.formGroup:nth-child(1) {
+  animation-delay: 0.3s;
+}
+.formGroup:nth-child(2) {
+  animation-delay: 0.5s;
+}
+.formGroup:nth-child(3) {
+  animation-delay: 0.7s;
+}
+
+.formLabel {
+  display: block;
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: linear-gradient(
+    90deg,
+    var(--primary-gradient-2, #4a90e2),
+    var(--primary-gradient-3, #67b8f7)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.formGroup:hover .formLabel {
+  transform: translateY(-2px);
+}
+
+.formInput {
+  width: 95%;
+  height: 40px;
+  padding-left: 3%;
+  border: 2px solid transparent;
+  background: var(--input-background);
+  color: var(--text-color);
+  font-size: 1.1rem;
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: var(--primary-gradient-2);
+  box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.1),
+    0 0 20px rgba(74, 144, 226, 0.1);
+  transform: translateY(-2px);
+}
+
+.loginButton {
+  width: 50%;
+  height: 40px;
+  margin-bottom: 10px;
+  align-self: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-light);
+  background: linear-gradient(
+    135deg,
+    var(--primary-gradient-1),
+    var(--primary-gradient-2),
+    var(--primary-gradient-3)
+  );
+  background-size: 200% 200%;
+  border: none;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+.forgotPassword {
+  display: block;
+  text-align: center;
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.forgotPassword:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}
+
+.signupLink {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--text-color);
+  animation: fadeUp 0.6s ease forwards;
+  animation-delay: 1s;
+  opacity: 0;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: #ffffff;
+    --background-1: #0f172a;
+    --background-2: #1e293b;
+    --form-background: rgba(30, 41, 59, 0.95);
+    --input-background: rgba(51, 65, 85, 0.9);
+  }
+
+  .loginform {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
+      0 0 100px rgba(74, 144, 226, 0.2);
+  }
+
+  .forminput {
+    color: #ffffff;
+  }
+}
+
+/* Animations */
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes formFloat {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) rotateX(-10deg) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotateX(0) scale(1);
+  }
+}
+
+@keyframes headingPop {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes buttonPulse {
+  0% {
+    background-position: 0% 50%;
+    transform: scale(1);
+  }
+  50% {
+    background-position: 100% 50%;
+    transform: scale(1.02);
+  }
+  100% {
+    background-position: 0% 50%;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rainbowMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .loginContainer {
+    width: 80vw;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .loginContainer {
+    width: 90vw;
+  }
+}

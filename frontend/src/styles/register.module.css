@@ -1,0 +1,342 @@
+.registerContainer {
+  display: flex;
+  height: fit-content;
+  min-height: 100vh;
+  width: 100vw;
+  justify-content: space-around;
+  align-items: center;
+  /* padding-top: 20px; */
+  /* margin-bottom: 20px; */
+  background: linear-gradient(
+    45deg,
+    var(--background-1, #8ec5fc) 0%,
+    var(--background-2, #c1e3fc) 100%
+  );
+  background-size: 400% 400%;
+}
+.registerWelcome {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  height: 60vh;
+  /* border: 1px white solid; */
+}
+.registerWelcomeHeader h1 {
+  color: #ffffff;
+  font-size: 80px;
+  padding: 0px;
+  margin: 0px;
+}
+.registerWelcomeHeader h2 {
+  color: #ffffff;
+  font-size: 30px;
+  padding: 0px;
+  margin: 0px;
+}
+.registerForm {
+  width: 40vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70vh;
+  padding: 10px;
+  margin-bottom: 20px;
+  background: var(--form-background, rgba(255, 255, 255, 0.95));
+
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 0 100px rgba(75, 144, 226, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.registerForm::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background-size: 200% 100%;
+}
+
+.formWrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
+  height: 100%;
+}
+
+.formGroup {
+  width: 95%;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  animation: slideIn 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  opacity: 0;
+}
+.formGroupPasswords {
+  /* height: 100%; */
+  width: 94%;
+  /* padding: 0px;
+  margin: 0px; */
+  display: flex;
+  justify-content: space-between;
+  /* border: 1px white solid; */
+}
+.formGroupPasswords .formGroup {
+  width: 48%;
+
+  /* border: 1px beige solid; */
+}
+.formGroup:nth-child(1) {
+  animation-delay: 0.2s;
+}
+.formGroup:nth-child(2) {
+  animation-delay: 0.3s;
+}
+.formGroup:nth-child(3) {
+  animation-delay: 0.4s;
+}
+.formGroup:nth-child(4) {
+  animation-delay: 0.5s;
+}
+.formGroup:nth-child(5) {
+  animation-delay: 0.6s;
+}
+
+.label {
+  /* border: 1px white solid; */
+  display: block;
+  font-weight: 600;
+  font-size: 1rem;
+  transform: translateY(0);
+  transition: all 0.3s ease;
+  background: linear-gradient(
+    90deg,
+    var(--primary-gradient-2, #4a90e2),
+    var(--primary-gradient-3, #67b8f7)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.formInput {
+  width: 95%;
+  height: 40px;
+  padding-left: 3%;
+  border: 2px solid transparent;
+  background: var(--input-background, rgba(255, 255, 255, 0.9));
+  color: var(--text-color, #2d3436);
+  font-size: 1.1rem;
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: var(--primary-gradient-2, #4a90e2);
+  box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.1),
+    0 0 20px rgba(74, 144, 226, 0.1);
+  transform: translateY(-2px);
+}
+
+.error {
+  color: var(--error-color, #ff7675);
+  /* margin-top: 0.5rem; */
+  font-size: 0.9rem;
+  /* padding-left: 1rem; */
+  opacity: 0;
+  animation: errorSlide 0.3s ease forwards;
+  display: flex;
+  align-items: center;
+}
+
+.error::before {
+  content: "⚠️";
+  font-size: 0.9rem;
+}
+
+.registerButton {
+  width: 50%;
+  height: 40px;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-light, #ffffff);
+  background: linear-gradient(
+    135deg,
+    var(--primary-gradient-1, #2b86c5),
+    var(--primary-gradient-2, #4a90e2),
+    var(--primary-gradient-3, #67b8f7)
+  );
+  background-size: 200% 200%;
+  border: none;
+  /* border-radius: 16px; */
+  cursor: pointer;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.registerButton:disabled {
+  background: linear-gradient(135deg, #a8a8a8, #c0c0c0);
+  cursor: not-allowed;
+  animation: none;
+  transform: none;
+}
+
+.registerButton::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transform: rotate(45deg);
+  transition: 0.8s;
+  opacity: 0;
+}
+
+.registerButton:not(:disabled):hover::after {
+  opacity: 1;
+  transform: rotate(45deg) translateX(100%);
+}
+
+.registerButton:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(74, 144, 226, 0.3);
+}
+
+.formGroup:hover .label {
+  transform: translateY(-2px);
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes rainbowMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+@keyframes formFloat {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) rotateX(-10deg) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotateX(0) scale(1);
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes errorSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes buttonPulse {
+  0% {
+    background-position: 0% 50%;
+    transform: scale(1);
+  }
+  50% {
+    background-position: 100% 50%;
+    transform: scale(1.02);
+  }
+  100% {
+    background-position: 0% 50%;
+    transform: scale(1);
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .registerWelcome h1 {
+    color: #ffffff;
+    font-size: 60px;
+    padding: 0px;
+    margin: 0px;
+  }
+
+  .formWrapper {
+    padding-bottom: 1rem;
+  }
+  .registerForm {
+    width: 500px;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .registerContainer {
+    display: flex;
+    flex-direction: column;
+  }
+  .registerWelcomeHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .registerWelcome {
+    height: 5vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+  .registerWelcome h1 {
+    color: #ffffff;
+    font-size: 40px;
+    /* padding-left: 10px; */
+    margin: 0px;
+    display: none;
+  }
+  .registerWelcome span {
+    font-size: 40px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .registerContainer {
+    width: 100vw;
+    height: 100vh;
+  }
+  .registerForm {
+    width: 90%;
+  }
+}

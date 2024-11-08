@@ -94,18 +94,24 @@ export const updateProfile = createAsyncThunk(
   "user/updateprofile",
   async ({ name, email, password, file }, { rejectWithValue }) => {
     try {
-      const success = await axios.put(
-        `/api/v1/me/update`,
-        { name, email, password, file },
-        { withCredentials: true },
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("email", email);
+      if (password) {
+        formData.append("password", password); // Only append password if provided
+      }
+      if (file) {
+        formData.append("file", file); // Append file only if provided
+      }
+
+      const success = await axios.put(`/api/v1/me/update`, formData, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       console.log(success);
-      return success;
+      return success; // Return the response data instead of the entire response
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
@@ -115,6 +121,7 @@ export const updateProfile = createAsyncThunk(
     }
   }
 );
+
 export const passwordUpdate = createAsyncThunk(
   "user/passwordupdate",
   async (

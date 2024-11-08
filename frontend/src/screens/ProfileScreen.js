@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { logout, profile } from "../features/auth/authActions";
 import "../styles/profile.css";
 import EducationForm from "../User/educations";
 import ExperienceForm from "../User/experience";
@@ -13,7 +12,7 @@ import { fetchResume, uploadResume } from "../store/slices/profileSlices";
 import MyPost from "../User/myPosts";
 
 const ProfileScreen = () => {
-  const [activeSection, setActiveSection] = useState(null);
+  const [activeSection, setActiveSection] = useState("posts");
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
   const [singleFile, setSingleFile] = useState("");
@@ -120,8 +119,17 @@ const ProfileScreen = () => {
               </h2>
               <img
                 className="profile-image"
-                src={`http://localhost:4000/${userInfo.user.avatar.filePath}`}
+                src={
+                  userInfo.user.avatar.filePath === ""
+                    ? "https://plus.unsplash.com/premium_vector-1721131162397-943dc390c744?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    : `${process.env.REACT_APP_BACKEND_URL}/${userInfo.user.avatar.filePath}`
+                }
                 alt="Profile"
+                onError={(e) => {
+                  // Handle image load failure by switching to fallback avatar or user initials
+                  e.target.onerror = null; // Prevent infinite loop if fallback fails
+                  e.target.src = "/ppic.jpg"; // Set fallback avatar image
+                }}
               />
             </div>
             <div className="profile-info">
@@ -164,13 +172,6 @@ const ProfileScreen = () => {
                 <VisibilityIcon />
                 <span>View Resume</span>
               </div>
-            </button>
-
-            <button
-              className="profile-button logout"
-              onClick={() => dispatch(logout())}
-            >
-              Logout
             </button>
           </div>
         </>
