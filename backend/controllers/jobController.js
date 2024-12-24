@@ -3,7 +3,8 @@ const JobApplicationForm = require("../models/jobForms");
 const Userauth = require("../models/userModel.js");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors.js");
 const { compare } = require("bcryptjs");
-
+const fetchJobsBySkills = require('../graph_database/fetch_jobs.js'); 
+const createJobSkillRelation = require('../graph_database/create_job_skill.js');
 exports.createJobForms = catchAsyncErrors(async (req, res) => {
   try {
     const userId = req.user._id;
@@ -67,6 +68,7 @@ exports.createJobForms = catchAsyncErrors(async (req, res) => {
 
     const newJobForm = new JobApplicationForm(formDetails);
     const jobForm = await newJobForm.save();
+    createJobSkillRelation(jobForm);
     res.status(200).json(jobForm);
   } catch (error) {
     console.error(error);
@@ -106,9 +108,18 @@ exports.fetchMyJobForms = catchAsyncErrors(async (req, res) => {
   }
 });
 
+
 exports.fetchAllJobForms = catchAsyncErrors(async (req, res) => {
   try {
-    const jobForms = await JobApplicationForm.find()
+    const userId = req.user._id;
+
+    const jobIds = await fetchJobsBySkills(userId);
+
+    if (!jobIds || jobIds.length === 0) {
+      return res.status(404).json({ error: "No jobs found for the user's skills" });
+    }
+
+    const jobForms = await JobApplicationForm.find({ _id: { $in: jobIds } })
       .select("_id jobRole jobLocation company requiredSkills")
       .populate({
         path: "ownerProfile",
@@ -123,12 +134,14 @@ exports.fetchAllJobForms = catchAsyncErrors(async (req, res) => {
     if (!jobForms || jobForms.length === 0) {
       return res.status(404).json({ error: "Jobs not found" });
     }
+
     res.status(200).json(jobForms);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
 
 exports.fetchJobById = catchAsyncErrors(async (req, res) => {
   try {

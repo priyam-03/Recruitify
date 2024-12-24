@@ -12,6 +12,7 @@ import { persistReducer, persistStore } from "redux-persist";
 import { combineReducers } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 import { customStorage } from "./customStorage";
+import skillsReducer from "./slices/skillSlices";
 const persistConfig = {
   key: "root",
   storage: customStorage, // Use the custom storage with expiration logic
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   posts: postReducer,
   jobs: jobReducer,
   profile: profileReducer,
+  skills: skillsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -132,11 +132,9 @@ const userSchema = new mongoose.Schema(
     ],
     skills: [
       {
-        skill_name: {
-          type: String,
-          maxLength: [100, "Skill name cannot exceed 100 characters"],
-          required: true,
-          unique: true,
+        skillId:{
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
         },
         level: {
           type: Number,

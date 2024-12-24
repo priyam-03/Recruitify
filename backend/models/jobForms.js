@@ -28,9 +28,9 @@ const JobApplicationFormSchema = new Schema({
   },
   requiredSkills: [
     {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: false,
-    },
+    }
   ],
   totalDuration: {
     value: { type: Number },
