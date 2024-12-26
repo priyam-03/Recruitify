@@ -138,6 +138,10 @@ exports.fetchJobById = catchAsyncErrors(async (req, res) => {
       .populate({
         path: "applicantProfiles.userId",
         select: "_id name avatar",
+      })
+      .populate({
+        path: "requiredSkills",
+        select: "_id skill",
       });
     res.status(200).json(formData);
   } catch (error) {
