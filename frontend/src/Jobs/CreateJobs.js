@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { createJobForms } from "../store/slices/JobSlices";
 import "../styles/createJobForms.css";
 import AddIcon from "@mui/icons-material/Add";
+import { useSelector } from "react-redux";
+import { fetchAllSkills } from "../store/slices/skillSlices";
+import FreeSolo from "../shared/components/FreeSolo";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 
 const CreateJob = () => {
@@ -12,9 +15,21 @@ const CreateJob = () => {
   const salaryMode = ["per-hour", "per-day", "per-month", "per-annum"];
   const locationMode = ["on-site", "remote"];
 
+  const skillsList = useSelector((state) => state.skills.skillsList ?? []); // Get skills list
+  const skillsDictionary = skillsList.reduce((acc, skill) => {
+    acc[skill._id] = skill.skill; // Mapping skillId to skill name
+    return acc;
+  }, {});
+
+  useEffect(() => {
+    dispatch(fetchAllSkills());
+  }, [dispatch])
+  const intitialSkill = { _id: 1, skill: '' }
   const [showPreview, setShowPreview] = useState(false);
   const [requiredSkills, setRequiredSkills] = useState([]);
-  const [requiredSkill, setRequiredSkill] = useState("");
+  const [selectedSkills, setSelectedSkills] = useState([]);
+  const [selectedSkill, setSelectedSkill] = useState(intitialSkill);
+
   const [jobApplication, setJobApplication] = useState({
     jobRole: "",
     jobLocation: "",
@@ -27,7 +42,51 @@ const CreateJob = () => {
     jobDescription: "",
   });
 
-  // Handle input changes
+  const handleAddSkill = () => {
+    const foundSkill = skillsList.find((skill) => skill.skill === selectedSkill.skill);
+
+    if (!foundSkill) {
+      alert("Please select a valid skill from the list.");
+      return;
+    }
+
+    if (selectedSkills.find((skill) => skill._id === foundSkill._id)) {
+      alert("This skill is already added.");
+      return;
+    }
+    setRequiredSkills((prevSkills) => [...prevSkills, foundSkill._id]);
+    setSelectedSkills((prevSkills) => [...prevSkills, foundSkill]);
+    setSelectedSkill(intitialSkill);
+
+  };
+
+  const removeSkill = (skillId) => {
+    setRequiredSkills((prevSkills) =>
+      prevSkills.filter((skill) => skill._id !== skillId)
+    );
+    setSelectedSkills((prevSkills) =>
+      prevSkills.filter((skill) => skill._id !== skillId)
+    );
+  };
+
+
+
+  const handleChange = ({ name, value }) => {
+    setSelectedSkill((prevInfo) => ({
+      ...prevInfo,
+      [name]: value,
+    }));
+
+    if (name === "skill") {
+      const chosenSkill = skillsList.find((skill) => skill.skill === value);
+      setSelectedSkill((prevInfo) => ({
+        ...prevInfo,
+        skillId: chosenSkill ? chosenSkill._id : '',
+      }));
+    }
+  };
+
+
   const handleJobChange = ({ target: { name, value } }) => {
     setJobApplication((prev) => ({ ...prev, [name]: value }));
   };
@@ -39,35 +98,16 @@ const CreateJob = () => {
     }));
   };
 
-  const handleRequiredSkillChange = (event) =>
-    setRequiredSkill(event.target.value);
-
-  const handleAddSkill = () => {
-    if (requiredSkill.trim()) {
-      setRequiredSkills((prev) => [...prev, requiredSkill.trim()]);
-      setJobApplication((prev) => ({
-        ...prev,
-        requiredSkills: [...prev.requiredSkills, requiredSkill.trim()],
-      }));
-      setRequiredSkill("");
-    }
-  };
-
-  const removeSkill = (index) => {
-    setRequiredSkills((prev) => prev.filter((_, i) => i !== index));
-    setJobApplication((prev) => ({
-      ...prev,
-      requiredSkills: prev.requiredSkills.filter((_, i) => i !== index),
-    }));
-  };
 
   const handleSubmit = () => {
+    jobApplication.requiredSkills = requiredSkills;
     if (
       !jobApplication.jobRole ||
       !jobApplication.jobDescription ||
       !jobApplication.company ||
       !jobApplication.jobLocation ||
-      !jobApplication.jobLocationType
+      !jobApplication.jobLocationType ||
+      !jobApplication.requiredSkills.length > 0
     ) {
       alert("Please fill out all required fields.");
       return;
@@ -85,8 +125,16 @@ const CreateJob = () => {
       jobDescription: "",
     });
     setRequiredSkills([]);
+    setSelectedSkills([]);
+    setSelectedSkill(intitialSkill);
     setShowPreview(false);
   };
+
+
+
+  if (!skillsList || skillsList.length === 0) {
+    return <div>Loading skills...</div>;
+  }
 
   return (
     <div className="create-form-container">
@@ -153,34 +201,26 @@ const CreateJob = () => {
 
             {/* Skills */}
             <div className="create-skills-form-control">
-              <label className="create-form-label">
-                Choose Required Skills
-              </label>
-              <div className="create-requiredskills-flex">
-                <input
-                  type="text"
-                  value={requiredSkill}
-                  onChange={handleRequiredSkillChange}
-                  className="create-role-loc-form"
-                  onKeyDown={(e) => e.key === "Enter" && handleAddSkill()}
-                />
-                <AddIcon
-                  onClick={handleAddSkill}
-                  className="create-add-skill-button"
-                />
-              </div>
+              <FreeSolo
+                options={skillsList.map((skill) => skill.skill)} // Display skill names in FreeSolo
+                label={'Choose Required Skills'}
+                value={selectedSkill.skill}
+                handleChange={handleChange}
+                name="skill"
+              />
+              <AddIcon onClick={handleAddSkill} />
             </div>
 
             {requiredSkills.length > 0 && (
               <div className="create-form-selectedSkills">
-                {requiredSkills.map((skill, index) => (
-                  <div key={index} className="create-form-selected-skill">
+                {selectedSkills.map((skill, index) => (
+                  <div key={skill._id} className="create-form-selected-skill">
                     <span className="create-form-selected-skill-text">
-                      {skill}
+                      {skill.skill}
                     </span>
                     <RemoveCircleOutlineIcon
                       className="create-remove-skill"
-                      onClick={() => removeSkill(index)}
+                      onClick={() => removeSkill(skill._id)}
                     />
                   </div>
                 ))}
@@ -308,7 +348,6 @@ const CreateJob = () => {
             </div>
           </>
         ) : (
-          // Preview Section
           <div className="create-preview-container">
             <h2 className="create-preview-heading">Preview Job</h2>
 
@@ -316,14 +355,15 @@ const CreateJob = () => {
             <div className="create-preview-field">
               <span className="create-preview-value">
                 {jobApplication.jobRole} ({jobApplication.company}) |{" "}
-                {requiredSkills.map((skill, index) => (
-                  <span key={index}>
-                    {skill}
+                {requiredSkills.map((skillId, index) => (
+                  <span key={skillId}>
+                    {skillsDictionary[skillId]}
                     {index !== requiredSkills.length - 1 && ", "}
                   </span>
                 ))}
               </span>
             </div>
+
 
             {/* Location Preview */}
             {jobApplication.jobLocation && jobApplication.jobLocationType && (

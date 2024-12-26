@@ -8,7 +8,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { fetchMyJobForms, fetchAllJobForms } from "../store/slices/JobSlices";
 import { useNavigate } from "react-router-dom";
 import "../styles/jobForms.css";
-
+import { fetchAllSkills } from "../store/slices/skillSlices";
 const JobForms = ({ type }) => {
   const dispatch = useDispatch();
   const myJobForms = useSelector((state) => state.jobs.myJobForms);
@@ -17,7 +17,16 @@ const JobForms = ({ type }) => {
   const errorMessage = useSelector((state) => state.jobs.errorMessage);
   const { userInfo } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-
+ 
+  const skillsList = useSelector((state) => state.skills.skillsList ?? []); // Get skills list
+  const skillsDictionary = skillsList.reduce((acc, skill) => {
+    acc[skill._id] = skill.skill; // Mapping skillId to skill name
+    return acc;
+  }, {});
+  useEffect(()=>{
+    dispatch(fetchAllSkills());
+  },[dispatch])
+  
   useEffect(() => {
     if (type === "my") {
       dispatch(fetchMyJobForms());
@@ -62,7 +71,7 @@ const JobForms = ({ type }) => {
                               <span className="job-texts"> | </span>
                               {jobForm.requiredSkills.map((skill, index) => (
                                 <span key={index} className="job-skill">
-                                  {skill}
+                                  {skillsDictionary[skill]}
                                   {index !== jobForm.requiredSkills.length - 1 && ", "}
                                 </span>
                               ))}

@@ -132,11 +132,9 @@ const userSchema = new mongoose.Schema(
     ],
     skills: [
       {
-        skill_name: {
-          type: String,
-          maxLength: [100, "Skill name cannot exceed 100 characters"],
+        skillId: {
+          type: mongoose.Schema.Types.ObjectId,
           required: true,
-          unique: true,
         },
         level: {
           type: Number,
@@ -161,6 +159,20 @@ const userSchema = new mongoose.Schema(
     resume: {
       type: String,
     },
+    jobBySkills: [{
+      type: mongoose.Schema.Types.ObjectId, ref: "JobApplicationForm"
+    }],
+    recommendationBySkillFetchedAt: {
+      type: Date,
+      default: Date.now,
+    },
+    jobRecommendations: [
+      {
+        _id: false,
+        id: { type: mongoose.Schema.Types.ObjectId, ref: 'JobApplicationForm' },
+        timestamp: { type: Date, default: Date.now },
+      },
+],
     createdAt: {
       type: Date,
       default: Date.now,
@@ -170,6 +182,7 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+const MAX_RECOMMENDATIONS = 10;
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
@@ -183,6 +196,17 @@ userSchema.methods.getJWTToken = function () {
     expiresIn: process.env.JWT_EXPIRE,
   });
 };
+
+userSchema.pre("save",async function (next) {
+  if (this.jobRecommendations && this.jobRecommendations.length > 0) {
+    this.jobRecommendations.sort((a, b) => b.timestamp - a.timestamp);
+    if (this.jobRecommendations.length > MAX_RECOMMENDATIONS) {
+      this.jobRecommendations = this.jobRecommendations.slice(0, MAX_RECOMMENDATIONS);
+    }
+  }
+  next();
+});
+
 
 userSchema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);

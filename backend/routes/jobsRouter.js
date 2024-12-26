@@ -8,6 +8,7 @@ const {
   fetchJobById,
   fetchAllJobForms,
   shortlist,
+  viewSimilarJobs,
 } = require("../controllers/jobController");
 
 router.route("/createJobForm").post(isAuthenticatedUser, createJobForms);
@@ -16,5 +17,5 @@ router.route("/fetchAllJobForms").get(isAuthenticatedUser, fetchAllJobForms);
 router.route("/fetchJobById/:id").get(isAuthenticatedUser, fetchJobById);
 router.route("/applyForJob").put(isAuthenticatedUser, applyForJob);
 router.route("/shortlist").get(isAuthenticatedUser, shortlist);
-
+router.route("/viewSimilarJobs").post(isAuthenticatedUser, viewSimilarJobs);
 module.exports = router;
