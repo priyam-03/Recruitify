@@ -28,7 +28,8 @@ const JobApplicationFormSchema = new Schema({
   },
   requiredSkills: [
     {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: "Skill",
       required: false,
     },
   ],

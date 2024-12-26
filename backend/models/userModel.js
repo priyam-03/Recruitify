@@ -133,8 +133,8 @@ const userSchema = new mongoose.Schema(
     skills: [
       {
         skill_name: {
-          type: String,
-          maxLength: [100, "Skill name cannot exceed 100 characters"],
+          type: Schema.Types.ObjectId,
+          ref: "Skill",
           required: true,
           unique: true,
         },
