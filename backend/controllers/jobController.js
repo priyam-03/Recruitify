@@ -155,6 +155,10 @@ exports.fetchAllJobForms = catchAsyncErrors(async (req, res) => {
     const jobForms = await JobApplicationForm.find()
       .select("_id jobRole jobLocation company requiredSkills")
       .populate({
+        path:"requiredSkills"
+      }
+      )
+      .populate({
         path: "ownerProfile",
         select: "_id name avatar.filePath",
       })
@@ -182,8 +186,12 @@ exports.fetchJobById = catchAsyncErrors(async (req, res) => {
     const formData = await JobApplicationForm.findById(id)
       .populate("ownerProfile")
       .populate({
-        path: "applicantProfiles.userId",
-        select: "_id name avatar",
+      path: "applicantProfiles.userId",
+      select: "_id name avatar",
+      })
+      .populate({
+      path: "requiredSkills",
+     // select: "_id skill",
       });
     res.status(200).json(formData);
   } catch (error) {
@@ -311,6 +319,7 @@ exports.jobAppliedByMe = catchAsyncErrors(async (req, res) => {
 });
 
 const axios = require("axios");
+const path = require("path");
 
 exports.shortlist = catchAsyncErrors(async (req, res) => {
   try {

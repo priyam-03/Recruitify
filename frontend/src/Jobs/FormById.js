@@ -182,7 +182,7 @@ const FormById = () => {
               <div className={styles.skillsContainer} ref={skillsContainerRef}>
                 {jobForm.requiredSkills.map((skill, index) => (
                   <div key={index} className={styles.jobSkill}>
-                    {skillsDictionary[skill]}
+                    {skill.name}
                   </div>
                 ))}
               </div>

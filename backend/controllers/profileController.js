@@ -124,7 +124,10 @@ exports.addSkill = async (req, res) => {
         .json({ error: "either the skill id or, the level is empty" });
     }
 
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).populate({
+      path: "skills.skillId",
+      model: "Skill"
+    });
 
     if (!user) {
       return res.status(400).json({ error: "User not found" });
@@ -140,7 +143,7 @@ exports.addSkill = async (req, res) => {
     await user.save();
 
     createUserSkillRelation(userId,skillId,level);
-    res.status(200).json(skillId);
+    res.status(200).json(user.skills);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
@@ -150,7 +153,10 @@ exports.addSkill = async (req, res) => {
 exports.fetchSkills = async (req, res) => {
   try {
     const userId = req.user._id;
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).populate({
+      path: "skills.skillId",
+      model: "Skill"
+    });
 
     if (!user) {
       return res.status(400).json({ error: "User not found" });

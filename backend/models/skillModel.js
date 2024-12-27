@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const skillsSchema = new mongoose.Schema({
-  skill: {
+  name: {
     type: String,
     required: true,
     trim: true,

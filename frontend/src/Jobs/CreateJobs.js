@@ -16,15 +16,12 @@ const CreateJob = () => {
   const locationMode = ["on-site", "remote"];
 
   const skillsList = useSelector((state) => state.skills.skillsList ?? []); // Get skills list
-  const skillsDictionary = skillsList.reduce((acc, skill) => {
-    acc[skill._id] = skill.skill; // Mapping skillId to skill name
-    return acc;
-  }, {});
+  
 
   useEffect(() => {
     dispatch(fetchAllSkills());
   }, [dispatch])
-  const intitialSkill = { _id: 1, skill: '' }
+  const intitialSkill = { _id: 1, name: '' }
   const [showPreview, setShowPreview] = useState(false);
   const [requiredSkills, setRequiredSkills] = useState([]);
   const [selectedSkills, setSelectedSkills] = useState([]);
@@ -43,7 +40,7 @@ const CreateJob = () => {
   });
 
   const handleAddSkill = () => {
-    const foundSkill = skillsList.find((skill) => skill.skill === selectedSkill.skill);
+    const foundSkill = skillsList.find((skill) => skill.name === selectedSkill.name);
 
     if (!foundSkill) {
       alert("Please select a valid skill from the list.");
@@ -78,7 +75,7 @@ const CreateJob = () => {
     }));
 
     if (name === "skill") {
-      const chosenSkill = skillsList.find((skill) => skill.skill === value);
+      const chosenSkill = skillsList.find((skill) => skill.name === value);
       setSelectedSkill((prevInfo) => ({
         ...prevInfo,
         skillId: chosenSkill ? chosenSkill._id : '',
@@ -202,9 +199,9 @@ const CreateJob = () => {
             {/* Skills */}
             <div className="create-skills-form-control">
               <FreeSolo
-                options={skillsList.map((skill) => skill.skill)} // Display skill names in FreeSolo
+                options={skillsList.map((skill) => skill.name)} // Display skill names in FreeSolo
                 label={'Choose Required Skills'}
-                value={selectedSkill.skill}
+                value={selectedSkill.name}
                 handleChange={handleChange}
                 name="skill"
               />
@@ -216,7 +213,7 @@ const CreateJob = () => {
                 {selectedSkills.map((skill, index) => (
                   <div key={skill._id} className="create-form-selected-skill">
                     <span className="create-form-selected-skill-text">
-                      {skill.skill}
+                      {skill.name}
                     </span>
                     <RemoveCircleOutlineIcon
                       className="create-remove-skill"
@@ -355,9 +352,9 @@ const CreateJob = () => {
             <div className="create-preview-field">
               <span className="create-preview-value">
                 {jobApplication.jobRole} ({jobApplication.company}) |{" "}
-                {requiredSkills.map((skillId, index) => (
-                  <span key={skillId}>
-                    {skillsDictionary[skillId]}
+                {selectedSkills.map((skill, index) => (
+                  <span key={skill._id}>
+                    {skill.name}
                     {index !== requiredSkills.length - 1 && ", "}
                   </span>
                 ))}
