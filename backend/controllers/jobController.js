@@ -3,10 +3,10 @@ const JobApplicationForm = require("../models/jobForms");
 const Userauth = require("../models/userModel.js");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors.js");
 const { compare } = require("bcryptjs");
-const fetchJobsBySkills = require('../graph_database/fetch_jobs.js');
-const createJobSkillRelation = require('../graph_database/create_job_skill.js');
-const addJobDataToVDB = require('../vector_database/addJobData.js');
-const { index } = require('../vector_database/connectVectorDB.js');
+const fetchJobsBySkills = require("../graph_database/fetch_jobs.js");
+const createJobSkillRelation = require("../graph_database/create_job_skill.js");
+const addJobDataToVDB = require("../vector_database/addJobData.js");
+const { index } = require("../vector_database/connectVectorDB.js");
 exports.createJobForms = catchAsyncErrors(async (req, res) => {
   try {
     const userId = req.user._id;
@@ -95,6 +95,10 @@ exports.fetchMyJobForms = catchAsyncErrors(async (req, res) => {
         path: "applicantProfiles.userId",
         select: "_id name avatar.filePath",
       })
+      .populate({
+        path: "requiredSkills",
+        // select: "_id skill",
+      })
       .sort({ timestamp: -1 });
 
     if (!jobForms || jobForms.length === 0) {
@@ -116,11 +120,11 @@ exports.fetchAllJobForms = catchAsyncErrors(async (req, res) => {
     const userId = req.user._id;
 
     const userAuth = await Userauth.findById(userId);
-    
 
     let recommendationStale = true;
     if (userAuth.recommendationBySkillFetchedAt) {
-      recommendationStale = new Date() - userAuth.recommendationBySkillFetchedAt > 24*3600*1000;
+      recommendationStale =
+        new Date() - userAuth.recommendationBySkillFetchedAt > 24 * 3600 * 1000;
     }
 
     if (recommendationStale) {
@@ -149,11 +153,16 @@ exports.fetchAllJobForms = catchAsyncErrors(async (req, res) => {
     const allJobIds = Array.from(allJobIdsSet);
 
     if (!allJobIds || allJobIds.length === 0) {
-      return res.status(404).json({ error: "No jobs found for the user's skills" });
+      return res
+        .status(404)
+        .json({ error: "No jobs found for the user's skills" });
     }
 
     const jobForms = await JobApplicationForm.find()
       .select("_id jobRole jobLocation company requiredSkills")
+      .populate({
+        path: "requiredSkills",
+      })
       .populate({
         path: "ownerProfile",
         select: "_id name avatar.filePath",
@@ -175,7 +184,6 @@ exports.fetchAllJobForms = catchAsyncErrors(async (req, res) => {
   }
 });
 
-
 exports.fetchJobById = catchAsyncErrors(async (req, res) => {
   try {
     const id = req.params.id;
@@ -187,7 +195,7 @@ exports.fetchJobById = catchAsyncErrors(async (req, res) => {
       })
       .populate({
         path: "requiredSkills",
-        select: "_id skill",
+        // select: "_id skill",
       });
     res.status(200).json(formData);
   } catch (error) {
@@ -197,11 +205,11 @@ exports.fetchJobById = catchAsyncErrors(async (req, res) => {
 
 exports.viewSimilarJobs = catchAsyncErrors(async (req, res) => {
   const makeLower = (text) => {
-    if (!text) return '';
+    if (!text) return "";
     return text
-      .split(' ')
+      .split(" ")
       .map((word) => word.toLowerCase())
-      .join(' ');
+      .join(" ");
   };
   try {
     const userId = req.user._id;
@@ -213,20 +221,25 @@ exports.viewSimilarJobs = catchAsyncErrors(async (req, res) => {
     if (!userAuth) {
       return res.status(404).json({ error: "User not found" });
     }
-    const jobFrom = await JobApplicationForm.findById(formId).select('_id jobRole jobDescription');
+    const jobFrom = await JobApplicationForm.findById(formId).select(
+      "_id jobRole jobDescription"
+    );
     if (!jobFrom) {
       return res.status(404).json({ error: "Job application not found" });
     }
-    const queryText = makeLower(jobFrom.jobRole) + " " + makeLower(jobFrom.jobDescription)
+    const queryText =
+      makeLower(jobFrom.jobRole) + " " + makeLower(jobFrom.jobDescription);
     const fetchedJobIds = await index.query({
       data: queryText,
       topK: 2,
       includeVectors: false,
-      includeMetadata: false
+      includeMetadata: false,
     });
     if (!fetchedJobIds || !Array.isArray(fetchedJobIds)) {
-      console.log(fetchedJobIds)
-      throw new Error("Invalid response format: 'result' is undefined or not an array");
+      console.log(fetchedJobIds);
+      throw new Error(
+        "Invalid response format: 'result' is undefined or not an array"
+      );
     }
 
     const jobIds = fetchedJobIds.map((job) => {
@@ -251,14 +264,14 @@ exports.viewSimilarJobs = catchAsyncErrors(async (req, res) => {
       }
     }
     await userAuth.save();
-   
+
     console.log("successfully fetched recomended jobs");
     return res.status(201).json({ message: "Successful.." });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
-})
+});
 
 exports.applyForJob = catchAsyncErrors(async (req, res) => {
   try {
@@ -315,6 +328,7 @@ exports.jobAppliedByMe = catchAsyncErrors(async (req, res) => {
 });
 
 const axios = require("axios");
+const path = require("path");
 
 exports.shortlist = catchAsyncErrors(async (req, res) => {
   try {

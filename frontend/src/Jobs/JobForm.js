@@ -18,15 +18,7 @@ const JobForms = ({ type }) => {
   const { userInfo } = useSelector((state) => state.auth);
   const navigate = useNavigate();
  
-  const skillsList = useSelector((state) => state.skills.skillsList ?? []); // Get skills list
-  const skillsDictionary = skillsList.reduce((acc, skill) => {
-    acc[skill._id] = skill.skill; // Mapping skillId to skill name
-    return acc;
-  }, {});
-  useEffect(()=>{
-    dispatch(fetchAllSkills());
-  },[dispatch])
-  
+
   useEffect(() => {
     if (type === "my") {
       dispatch(fetchMyJobForms());
@@ -71,7 +63,7 @@ const JobForms = ({ type }) => {
                               <span className="job-texts"> | </span>
                               {jobForm.requiredSkills.map((skill, index) => (
                                 <span key={index} className="job-skill">
-                                  {skillsDictionary[skill]}
+                                  {skill.name}
                                   {index !== jobForm.requiredSkills.length - 1 && ", "}
                                 </span>
                               ))}

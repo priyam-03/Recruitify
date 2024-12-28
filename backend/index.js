@@ -14,7 +14,7 @@ require("dotenv").config({ path: "./secret.env" });
 const connectDatabase = require("./database/database");
 const { redisConnection } = require("./socketHandlers/pubSub");
 const User = require("./models/userModel");
-const Skill = require("./models/skill");
+const Skill = require("./models/skillModel");
 // GraphQL imports
 const typeDefs = require("./graphql/typeDefs");
 const resolvers = require("./graphql/resolvers");

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const User = require("../models/userModel");
 const { uploadToS3, getFile, deleteFile } = require("../utils/fileupload");
-const createUserSkillRelation = require('../graph_database/create_user_skill.js');
+const createUserSkillRelation = require("../graph_database/create_user_skill.js");
 exports.addEducation = async (req, res) => {
   try {
     const userId = req.user._id;
@@ -124,7 +124,10 @@ exports.addSkill = async (req, res) => {
         .json({ error: "either the skill id or, the level is empty" });
     }
 
-    const user = await User.findById(userId);
+    let user = await User.findById(userId).populate({
+      path: "skills.skillId",
+      model: "Skill",
+    });
 
     if (!user) {
       return res.status(400).json({ error: "User not found" });
@@ -138,9 +141,12 @@ exports.addSkill = async (req, res) => {
     user.skills.push(skillInfo);
 
     await user.save();
-
-    createUserSkillRelation(userId,skillId,level);
-    res.status(200).json(skillId);
+    user = await User.findById(userId).populate({
+      path: "skills.skillId",
+      model: "Skill",
+    });
+    createUserSkillRelation(userId, skillId, level);
+    res.status(200).json(user.skills);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
@@ -150,7 +156,10 @@ exports.addSkill = async (req, res) => {
 exports.fetchSkills = async (req, res) => {
   try {
     const userId = req.user._id;
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).populate({
+      path: "skills.skillId",
+      // model: "Skill"
+    });
 
     if (!user) {
       return res.status(400).json({ error: "User not found" });

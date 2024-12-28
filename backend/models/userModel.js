@@ -3,6 +3,7 @@ const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+const Skill = require("./skillModel");
 const Schema = mongoose.Schema;
 
 const yearValidator = {
@@ -132,10 +133,8 @@ const userSchema = new mongoose.Schema(
     ],
     skills: [
       {
-        skillId: {
-          type: mongoose.Schema.Types.ObjectId,
-          required: true,
-        },
+        _id: false,
+        skillId: { type: mongoose.Schema.Types.ObjectId, ref: Skill, required: true },
         level: {
           type: Number,
           enum: [1, 2, 3, 4, 5],
