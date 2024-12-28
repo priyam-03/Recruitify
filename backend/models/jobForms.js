@@ -28,8 +28,7 @@ const JobApplicationFormSchema = new Schema({
   },
   requiredSkills: [
     {
-      type: Schema.Types.ObjectId,
-      ref: "Skill",
+      type: mongoose.Schema.Types.ObjectId,
       required: false,
     },
   ],

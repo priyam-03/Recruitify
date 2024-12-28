@@ -5,6 +5,7 @@ import {
   applyForJob,
   fetchJobById,
   fetchShortlistedApplicants,
+  viewSimilarJobs,
 } from "../store/slices/JobSlices";
 import WorkIcon from "@mui/icons-material/Work";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
@@ -13,6 +14,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import styles from "../styles/formById.module.css";
 import { useNavigate } from "react-router-dom";
 import ShortlistModal from "../shared/components/shortlistModal.js";
+import { fetchAllSkills } from "../store/slices/skillSlices.js";
 
 const FormById = () => {
   const { formId } = useParams();
@@ -23,6 +25,15 @@ const FormById = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
+
+  const skillsList = useSelector((state) => state.skills.skillsList ?? []); // Get skills list
+  const skillsDictionary = skillsList.reduce((acc, skill) => {
+    acc[skill._id] = skill.skill;
+    return acc;
+  }, {});
+  useEffect(() => {
+    dispatch(fetchAllSkills());
+  }, [dispatch]);
 
   const skillsContainerRef = useRef(null);
 
@@ -81,6 +92,10 @@ const FormById = () => {
         setApplicants(response.payload.applicantProfiles);
       });
     });
+  };
+
+  const handleViewMoreJobs = () => {
+    dispatch(viewSimilarJobs(formId));
   };
 
   return (
@@ -164,7 +179,7 @@ const FormById = () => {
               <div className={styles.skillsContainer} ref={skillsContainerRef}>
                 {jobForm.requiredSkills.map((skill, index) => (
                   <div key={index} className={styles.jobSkill}>
-                    {skill.skill}
+                    {skillsDictionary[skill]}
                   </div>
                 ))}
               </div>
@@ -247,6 +262,11 @@ const FormById = () => {
               onClose={() => setIsModalOpen(false)}
               onSubmit={shortlistApplication}
             />
+          )}
+          {jobForm.ownerProfile._id !== userInfo.user._id && (
+            <button onClick={handleViewMoreJobs} id="change-btn">
+              view similar jobs
+            </button>
           )}
         </div>
       </div>

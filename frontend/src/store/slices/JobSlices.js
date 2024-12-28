@@ -107,15 +107,44 @@ export const applyForJob = createAsyncThunk(
 );
 export const fetchShortlistedApplicants = createAsyncThunk(
   "jobs/fetchShortlistedApplicants",
-  async ({ formId, noOfApplicants }) => {
-    const response = await axios.get(
-      `/api/jobs/shortlist?formId=${formId}&noOfApplicants=${noOfApplicants}`,
-      { withCredentials: true },
-      config
-    );
-    return response.data;
+  async ({ formId, noOfApplicants },{ rejectWithValue, dispatch }) => {
+    try {
+      const response = await axios.get(
+        `/api/jobs/shortlist?formId=${formId}&noOfApplicants=${noOfApplicants}`,
+        { withCredentials: true },
+        config
+      );
+      return response.data;
+    } catch (exception) {
+      console.log(exception);
+      dispatch(
+        openAlertMessage(exception.response?.data?.error || exception.message)
+      );
+      return rejectWithValue(exception.response?.data || exception.message);
+    }
   }
 );
+
+export const viewSimilarJobs = createAsyncThunk(
+  "jobs/viewSimilarJobs",
+  async (formId , { rejectWithValue, dispatch }) => {
+    try {
+      const response = await axios.post(
+        `/api/jobs/viewSimilarJobs`,
+        { formId: formId },
+        { withCredentials: true, ...config }
+      );
+      dispatch(response.message);
+      return response.data;
+    } catch (exception) {
+      dispatch(
+        openAlertMessage(exception.response?.data?.error || exception.message)
+      );
+      return rejectWithValue(exception.response?.data || exception.message);
+    }
+  }
+);
+
 
 const JobSlice = createSlice({
   name: "jobs",
@@ -188,6 +217,18 @@ const JobSlice = createSlice({
         state.message = "Successfully Applied..";
       })
       .addCase(applyForJob.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.errorMessage = action.payload.error;
+      })
+      .addCase(viewSimilarJobs.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(viewSimilarJobs.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.message = "Successfully Applied..";
+      })
+      .addCase(viewSimilarJobs.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.errorMessage = action.payload.error;
