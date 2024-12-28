@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Userauth = require("./userModel.js");
+const Skill = require("./skillModel.js");
 
 const JobApplicationFormSchema = new Schema({
   jobRole: {
@@ -30,6 +31,7 @@ const JobApplicationFormSchema = new Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       required: false,
+      ref : Skill
     }
   ],
   totalDuration: {

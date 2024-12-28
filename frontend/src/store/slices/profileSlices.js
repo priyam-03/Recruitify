@@ -210,7 +210,7 @@ const JobSlice = createSlice({
       })
       .addCase(addSkill.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.skills.push(action.payload);
+        state.skills=action.payload;
       })
       .addCase(addSkill.rejected, (state, action) => {
         state.isLoading = false;

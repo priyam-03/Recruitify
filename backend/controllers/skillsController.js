@@ -2,7 +2,7 @@ const Skill = require('../models/skillModel.js');  // Assuming Skill model is de
 
 exports.fetchAllSkills = async (req, res) => {
   try {
-    const skills = await Skill.find().select('_id skill');  // Fetch all skills from MongoDB
+    const skills = await Skill.find();  // Fetch all skills from MongoDB
 
     if (!skills || skills.length === 0) {
       return res.status(404).json({ error: "No skills found" });

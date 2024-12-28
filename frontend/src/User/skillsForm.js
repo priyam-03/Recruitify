@@ -19,16 +19,8 @@ const SkillForm = () => {
 
   useEffect(() => {
     dispatch(fetchAllSkills());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(fetchSkills());
   }, [dispatch]);
-
-  const skillsDictionary = skillsList.reduce((acc, skill) => {
-    acc[skill._id] = skill.skill;
-    return acc;
-  }, {});
 
   const handleChange = ({ name, value }) => {
     setSkillInfo((prevInfo) => ({
@@ -37,7 +29,7 @@ const SkillForm = () => {
     }));
 
     if (name === 'skill') {
-      const selectedSkill = skillsList.find((skill) => skill.skill === value);
+      const selectedSkill = skillsList.find((skill) => skill.name === value);
       setSkillInfo((prevInfo) => ({
         ...prevInfo,
         skillId: selectedSkill ? selectedSkill._id : '',
@@ -58,7 +50,7 @@ const SkillForm = () => {
     const skillData = { skillId: skillInfo.skillId, level: skillInfo.level };
 
     // Dispatch addSkill and fetchSkills after it's added
-    await dispatch(addSkill(skillData));
+    dispatch(addSkill(skillData));
     dispatch(fetchSkills());
 
     setSkillInfo({ skill: '', level: 1, skillId: '' });
@@ -82,7 +74,7 @@ const SkillForm = () => {
           <div className={styles.formControl}>
             <div className={styles.formFlex}>
               <FreeSolo
-                options={skillsList.map((skill) => skill.skill)}
+                options={skillsList.map((skill) => skill.name)}
                 label={'Skill'}
                 value={skillInfo.skill}
                 name="skill"
@@ -120,10 +112,10 @@ const SkillForm = () => {
           </div>
           <div className={styles.skillList}>
             {skills.length > 0 &&
-              skills.map((skill) => (
-                <div key={skill.skillId} className={styles.skillItem}>
+              skills.map((skill,index) => (
+                <div key={index} className={styles.skillItem}>
                   <div className={styles.skillName}>
-                    {skillsDictionary[skill.skillId] || 'Unknown Skill'}
+                    {skill.skillId.name || 'Unknown Skill'}
                   </div>
                   <div className={styles.space}></div>
                   <Slider
