@@ -4,7 +4,7 @@ const { index } = require('./connectVectorDB.js');
 const connectDatabase = require('../database/database.js');
 
 const makeLower = (text) => {
-    if (!text) return ''; // Handle null or undefined text
+    if (!text) return ''; 
     return text
         .split(' ')
         .map((word) => word.toLowerCase())
@@ -68,5 +68,4 @@ const addJobDataToVDB = async(jobId) =>{
 
 module.exports = addJobDataToVDB;
 
-// add_batch_data_to_vdb();
 

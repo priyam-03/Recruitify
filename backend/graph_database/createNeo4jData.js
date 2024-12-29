@@ -120,7 +120,7 @@ const deleteSkillsFromAllUsers = async () => {
 const assignRandomSkillsToUsers = async () => {
     try {
         connectDatabase();
-        const allSkills = await Skill.find().select('_id skill');
+        const allSkills = await Skill.find().select('_id name');
         if (allSkills.length === 0) {
             console.log("No skills found in the Skills collection.");
             return;
@@ -134,9 +134,9 @@ const assignRandomSkillsToUsers = async () => {
 
             while (randomSkills.length < 5) {
                 const randomSkill = allSkills[Math.floor(Math.random() * allSkills.length)];
-                if (!selectedSkills.includes(randomSkill.skill)) {
+                if (!selectedSkills.includes(randomSkill.name)) {
                     randomSkills.push(randomSkill);
-                    selectedSkills.push(randomSkill.skill);
+                    selectedSkills.push(randomSkill.name);
                 }
             }
 

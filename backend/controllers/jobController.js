@@ -124,7 +124,7 @@ exports.fetchAllJobForms = catchAsyncErrors(async (req, res) => {
     let recommendationStale = true;
     if (userAuth.recommendationBySkillFetchedAt) {
       recommendationStale =
-        new Date() - userAuth.recommendationBySkillFetchedAt > 24 * 3600 * 1000;
+        new Date() - userAuth.recommendationBySkillFetchedAt > 60*1000;
     }
 
     if (recommendationStale) {
@@ -159,6 +159,7 @@ exports.fetchAllJobForms = catchAsyncErrors(async (req, res) => {
     }
 
     const jobForms = await JobApplicationForm.find()
+      .where('_id').in(allJobIds)
       .select("_id jobRole jobLocation company requiredSkills")
       .populate({
         path: "requiredSkills",
