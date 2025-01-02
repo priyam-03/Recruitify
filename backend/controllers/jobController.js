@@ -114,17 +114,27 @@ exports.fetchMyJobForms = catchAsyncErrors(async (req, res) => {
       .json({ error: "Internal server error", message: error.message });
   }
 });
-
 exports.fetchAllJobForms = catchAsyncErrors(async (req, res) => {
   try {
     const userId = req.user._id;
 
     const userAuth = await Userauth.findById(userId);
 
+    let allJobIdsSet = new Set();
+
+    if (userAuth.jobBySkills.length + userAuth.jobRecommendations.length < 5) {
+      const fetchRandomJobs = await JobApplicationForm.find();
+      if (!fetchRandomJobs || fetchRandomJobs.length === 0) {
+        return res.status(404).json({ error: "No jobs found" });
+      }
+      const randomJobs = fetchRandomJobs.sort(() => 0.5 - Math.random()).slice(0, 5);
+      randomJobs.forEach(job => allJobIdsSet.add(job._id));
+    }
+
     let recommendationStale = true;
     if (userAuth.recommendationBySkillFetchedAt) {
       recommendationStale =
-        new Date() - userAuth.recommendationBySkillFetchedAt > 60*1000;
+        new Date() - userAuth.recommendationBySkillFetchedAt > 24 * 3600 * 1000;
     }
 
     if (recommendationStale) {
@@ -140,8 +150,6 @@ exports.fetchAllJobForms = catchAsyncErrors(async (req, res) => {
     } else {
       console.log("Recommendation is still fresh, no need to fetch jobs.");
     }
-
-    const allJobIdsSet = new Set();
 
     for (const jobId of userAuth.jobBySkills) {
       allJobIdsSet.add(jobId);
