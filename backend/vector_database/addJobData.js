@@ -4,7 +4,7 @@ const { index } = require('./connectVectorDB.js');
 const connectDatabase = require('../database/database.js');
 
 const makeLower = (text) => {
-    if (!text) return ''; 
+    if (!text) return '';
     return text
         .split(' ')
         .map((word) => word.toLowerCase())
@@ -19,29 +19,41 @@ const add_batch_data_to_vdb = async () => {
             console.log("No jobs found.");
             return;
         }
-        
-        let modifiedJobs = jobs.map((job) => ({
-            id: job._id.toString(),
-            description:makeLower(job.jobRole) + " " + makeLower(job.jobDescription)
-        }));
 
-        for(let job of modifiedJobs){
-            await index.upsert({
-                id: job.id,
-                data: job.description
-              });
+        for (let job of jobs) {
+            const queryText = makeLower(job.jobRole) + " " + makeLower(job.jobDescription);
+            const fetchedJobIds = await index.query({
+                data: queryText,
+                topK: 5,
+                includeVectors: false,
+                includeMetadata: false,
+            });
+
+            if (!fetchedJobIds || !Array.isArray(fetchedJobIds)) {
+                console.log(fetchedJobIds);
+                throw new Error(
+                    "Invalid response format: 'result' is undefined or not an array"
+                );
+            }
+
+            const similarJobids = fetchedJobIds.map((job) => {
+                if (!job.id) throw new Error("Missing 'id' field in one of the results");
+                return mongoose.Types.ObjectId(job.id);
+            });
+            job.similarJobs = similarJobids;
+            await job.save();
         }
         console.log("batch job successfully added to the vector database.");
 
     } catch (error) {
         console.error("Error while adding data to vector DB:", error);
     }
-    finally{
+    finally {
         mongoose.connection.close();
     }
 };
 
-const addJobDataToVDB = async(jobId) =>{
+const addJobDataToVDB = async (jobId) => {
     try {
         const job = await JobApplicationForm.findById(jobId).select('_id jobRole jobDescription');
         if (!job || job.length === 0) {
@@ -49,9 +61,29 @@ const addJobDataToVDB = async(jobId) =>{
             return;
         }
 
+        const queryText = makeLower(job.jobRole) + " " + makeLower(job.jobDescription);
+        const fetchedJobIds = await index.query({
+            data: queryText,
+            topK: 5,
+            includeVectors: false,
+            includeMetadata: false,
+        });
+
+        if (!fetchedJobIds || !Array.isArray(fetchedJobIds)) {
+            console.log(fetchedJobIds);
+            throw new Error(
+                "Invalid response format: 'result' is undefined or not an array"
+            );
+        }
+
+        const similarJobids = fetchedJobIds.map((job) => {
+            if (!job.id) throw new Error("Missing 'id' field in one of the results");
+            return mongoose.Types.ObjectId(job.id);
+        });
+
         const modifiedJob = {
             id: job._id.toString(),
-            description: makeLower(job.jobRole) + " " + makeLower(job.jobDescription),
+            description: queryText,
         };
 
         await index.upsert({
@@ -60,6 +92,7 @@ const addJobDataToVDB = async(jobId) =>{
         });
 
         console.log("Job successfully added to the vector database.");
+        return similarJobids;
 
     } catch (error) {
         console.error("Error while adding data to vector DB:", error);
