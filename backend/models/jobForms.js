@@ -18,7 +18,7 @@ const JobApplicationFormSchema = new Schema({
   },
   jobLocationType: {
     type: String,
-    enum: ["on-site", "remote"],
+    enum: ["On-site", "Remote"],
     required: false,
   },
   company: {
