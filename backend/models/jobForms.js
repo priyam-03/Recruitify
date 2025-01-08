@@ -4,29 +4,34 @@ const Userauth = require("./userModel.js");
 const Skill = require("./skillModel.js");
 
 const JobApplicationFormSchema = new Schema({
+
   jobRole: {
     type: String,
     required: [true, "Please Enter Job Role"],
     maxLength: [50, "Job Role exceed 50 characters"],
     minLength: [2, "Job Role have less than 5 characters"],
   },
+
   jobLocation: {
     type: String,
     required: [true, "Please Enter Job Location"],
     maxLength: [100, "Job Location exceed 100 characters"],
     minLength: [3, "Job Location have more than 4 characters"],
   },
+
   jobLocationType: {
     type: String,
     enum: ["On-site", "Remote"],
     required: false,
   },
+
   company: {
     type: String,
     required: [true, "Please Enter Company Name"],
     maxLength: [50, "Company Name exceed 50 characters"],
     minLength: [2, "Company Name have more than  1 characters"],
   },
+
   requiredSkills: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -75,6 +80,14 @@ const JobApplicationFormSchema = new Schema({
     },
   ],
 
+  similarJobs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+      ref: "JobApplicationForm",
+    },
+  ],
+
   timestamp: { type: Date, default: Date.now },
   updated: { type: Date },
 });
@@ -83,7 +96,6 @@ JobApplicationFormSchema.pre("save", function (next) {
   let isError = false;
   let errStr = "";
 
-  // Checking totalDuration
   if (
     this.totalDuration &&
     this.totalDuration.value &&
@@ -93,14 +105,12 @@ JobApplicationFormSchema.pre("save", function (next) {
     isError = true;
   }
 
-  // Checking workingHours
   if (this.workingHours && this.workingHours.value && !this.workingHours.mode) {
     if (isError) errStr += ", ";
     errStr += "Working-hours-mode (as working hour is mentioned)";
     isError = true;
   }
 
-  // Checking salary
   if (
     this.salary &&
     this.salary.value &&
