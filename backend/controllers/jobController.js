@@ -10,7 +10,7 @@ const { index } = require("../vector_database/connectVectorDB.js");
 exports.createJobForms = catchAsyncErrors(async (req, res) => {
   try {
     const userId = req.user._id;
-    const { content } = req.body;
+    const content = req.body.content || {};
 
     const formDetails = {
       ownerProfile: userId,
@@ -70,8 +70,10 @@ exports.createJobForms = catchAsyncErrors(async (req, res) => {
 
     const newJobForm = new JobApplicationForm(formDetails);
     const jobForm = await newJobForm.save();
-    createJobSkillRelation(jobForm);
-    await addJobDataToVDB(jobForm._id);
+    await createJobSkillRelation(jobForm);
+    const similarJobids = await addJobDataToVDB(jobForm._id);
+    jobForm.similarJobs = similarJobids;
+    await jobForm.save();
     res.status(200).json(jobForm);
   } catch (error) {
     console.error(error);
@@ -205,7 +207,12 @@ exports.fetchJobById = catchAsyncErrors(async (req, res) => {
       .populate({
         path: "requiredSkills",
         // select: "_id skill",
-      });
+      })
+      .populate({
+        path: "similarJobs",
+        select: "_id jobRole company",
+        model: "JobApplicationForm"
+      })
     res.status(200).json(formData);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
