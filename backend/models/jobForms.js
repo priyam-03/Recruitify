@@ -4,7 +4,6 @@ const Userauth = require("./userModel.js");
 const Skill = require("./skillModel.js");
 
 const JobApplicationFormSchema = new Schema({
-
   jobRole: {
     type: String,
     required: [true, "Please Enter Job Role"],
@@ -21,7 +20,7 @@ const JobApplicationFormSchema = new Schema({
 
   jobLocationType: {
     type: String,
-    enum: ["On-site", "Remote"],
+    enum: ["On-Site", "Remote"],
     required: false,
   },
 
