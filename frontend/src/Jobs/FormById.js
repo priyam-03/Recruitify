@@ -5,6 +5,7 @@ import {
   applyForJob,
   fetchJobById,
   fetchShortlistedApplicants,
+  viewSimilarJobs,
 } from "../store/slices/JobSlices";
 import WorkIcon from "@mui/icons-material/Work";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
@@ -13,6 +14,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import styles from "../styles/formById.module.css";
 import { useNavigate } from "react-router-dom";
 import ShortlistModal from "../shared/components/shortlistModal.js";
+import { fetchAllSkills } from "../store/slices/skillSlices.js";
 
 const FormById = () => {
   const { formId } = useParams();
@@ -23,6 +25,15 @@ const FormById = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
+
+  const skillsList = useSelector((state) => state.skills.skillsList ?? []); // Get skills list
+  const skillsDictionary = skillsList.reduce((acc, skill) => {
+    acc[skill._id] = skill.skill;
+    return acc;
+  }, {});
+  useEffect(() => {
+    dispatch(fetchAllSkills());
+  }, [dispatch]);
 
   const skillsContainerRef = useRef(null);
 
@@ -83,18 +94,21 @@ const FormById = () => {
     });
   };
 
+  const handleViewMoreJobs = () => {
+    dispatch(viewSimilarJobs(formId));
+  };
+
   return (
     <div className={styles.formbyidPage} id="job-container">
       <div className={styles.avatarSection} id="job-details">
         <img
           className={styles.avatar}
-          src={avatarUrl?avatarUrl:"/ppic.jpg"}
-
+          src={avatarUrl ? avatarUrl : "/ppic.jpg"}
           alt={jobForm.ownerProfile.name}
         />
         <span className={styles.ownerName}>{jobForm.ownerProfile.name}</span>
 
-        <div className={styles.ownerEmail} >
+        <div className={styles.ownerEmail}>
           Email:
           <span className={styles.ownerEmailText}>
             {" "}
@@ -103,60 +117,58 @@ const FormById = () => {
         </div>
       </div>
       <div className={styles.jobDescSection}>
-
         <div className={styles.jobRole}>
-          
-            <span className={styles.jobTexts}> 
-              <WorkIcon />
-              
+          <span className={styles.jobTexts}>
+            <WorkIcon /> {jobForm.jobRole}{" "}
+            {jobForm.company && <text>({jobForm.company})</text>}
+          </span>
 
-              {" "}{jobForm.jobRole}{" "}
-              {jobForm.company && <text>({jobForm.company})</text>}
-            </span>
+          {jobForm.ownerProfile._id === userInfo.user._id && (
+            <div className={styles.interviewSection}>
+              <button onClick={() => navigate("/interview")}>
+                Take Interview
+              </button>
+            </div>
+          )}
 
-            {jobForm.ownerProfile._id === userInfo.user._id &&
-              <div className={styles.interviewSection}>
-                <button onClick={() => navigate("/interview")}>Take Interview</button>
-              </div>
-            }
-
-            {jobForm.ownerProfile._id !== userInfo.user._id &&
+          {jobForm.ownerProfile._id !== userInfo.user._id && (
             <button className={styles.applyButton} onClick={handleApplyForJob}>
               Apply
-            </button>}
+            </button>
+          )}
         </div>
 
         <div className={styles.jobBody}>
-       
           <div className={styles.jobMislanious}>
-              <ul>
+            <ul>
+              <li className={styles.jobTexts}>
+                <span>
+                  {jobForm.jobLocation}{" "}
+                  {jobForm.jobLocationType && (
+                    <text>({jobForm.jobLocationType})</text>
+                  )}
+                </span>
+              </li>
+              {jobForm.totalDurations && (
                 <li className={styles.jobTexts}>
-                  <span>
-                    {jobForm.jobLocation}{" "}
-                    {jobForm.jobLocationType && (
-                      <text>({jobForm.jobLocationType})</text>
-                    )}
-                  </span>
+                  Total Duration: {jobForm.totalDuration}{" "}
+                  {jobForm.totalDuration}
                 </li>
-                {jobForm.totalDurations && (
-                  <li className={styles.jobTexts}>
-                    Total Duration: {jobForm.totalDuration} {jobForm.totalDuration}
-                  </li>
-                )}
-                {jobForm.workingHours && (
-                  <li className={styles.jobTexts}>
-                    Working Hours: {jobForm.workingHours.value}{" "}
-                    {jobForm.workingHours.mode}
-                  </li>
-                )}
-                {jobForm.salary && (
-                  <li className={styles.jobTexts}>
-                    Salary: {jobForm.salary.value} {jobForm.salary.currency}{" "}
-                    {jobForm.salary.mode}
-                  </li>
-                )}
-              </ul>
-            </div>
+              )}
+              {jobForm.workingHours && (
+                <li className={styles.jobTexts}>
+                  Working Hours: {jobForm.workingHours.value}{" "}
+                  {jobForm.workingHours.mode}
+                </li>
+              )}
+              {jobForm.salary && (
+                <li className={styles.jobTexts}>
+                  Salary: {jobForm.salary.value} {jobForm.salary.currency}{" "}
+                  {jobForm.salary.mode}
+                </li>
+              )}
+            </ul>
+          </div>
 
           {jobForm.requiredSkills.length > 0 && (
             <div className={styles.jobSkills}>
@@ -167,7 +179,7 @@ const FormById = () => {
               <div className={styles.skillsContainer} ref={skillsContainerRef}>
                 {jobForm.requiredSkills.map((skill, index) => (
                   <div key={index} className={styles.jobSkill}>
-                    {skill}
+                    {skill.name}
                   </div>
                 ))}
               </div>
@@ -178,16 +190,15 @@ const FormById = () => {
             </div>
           )}
 
-        <div className={styles.jobDescription} id="job-description">
+          <div className={styles.jobDescription} id="job-description">
             <text className={styles.jobDescHeading}>Job Description: </text>
             <textarea className={styles.jobDescTexts} readOnly>
               {jobForm.jobDescription}
             </textarea>
+          </div>
         </div>
-      </div>          
-    </div>
-       
-       
+      </div>
+
       {/* <div className={styles.applicantsSection}>
         <h2>Applicants</h2>
         {applicants.length > 0 ? (
@@ -208,14 +219,11 @@ const FormById = () => {
           <div>No application for the Job yet</div>
         )} */}
 
-
-
-  <div className={styles.applicantsSection}>
-  <h2>Applicants</h2>
-    <div className={styles.upperscrollable} >
-   
-        {applicants.length > 0 ? (
-              applicants.map((applicant, index) => (
+      <div className={styles.applicantsSection}>
+        <h2>Applicants</h2>
+        <div className={styles.upperscrollable}>
+          {applicants.length > 0 ? (
+            applicants.map((applicant, index) => (
               <div key={index} className={styles.applicantAvatarSection}>
                 <img
                   className={styles.applicantAvatar}
@@ -231,34 +239,37 @@ const FormById = () => {
           ) : (
             <div className={styles.noappl}>No application for the Job yet</div>
           )}
-    </div>
-    <div  className={styles.lowerfixed}>
-
-    {jobForm.ownerProfile._id === userInfo.user._id &&<div className={styles.shortlistSection}>
-          {/* <input
+        </div>
+        <div className={styles.lowerfixed}>
+          {jobForm.ownerProfile._id === userInfo.user._id && (
+            <div className={styles.shortlistSection}>
+              {/* <input
             type="number"
             id="noOfApplicants"
             value={noOfApplicants}
             onChange={(e) => setNoOfApplicants(e.target.value)}
             placeholder="Enter number of applicants to shortlist"
           /> */}
-          
-            
-            <button onClick={() => setIsModalOpen(true)} id="change-btn">
-              Shortlist
+
+              <button onClick={() => setIsModalOpen(true)} id="change-btn">
+                Shortlist
+              </button>
+            </div>
+          )}
+          {jobForm.ownerProfile._id === userInfo.user._id && (
+            <ShortlistModal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              onSubmit={shortlistApplication}
+            />
+          )}
+          {jobForm.ownerProfile._id !== userInfo.user._id && (
+            <button onClick={handleViewMoreJobs} id="change-btn">
+              view similar jobs
             </button>
-        </div>}
-        {jobForm.ownerProfile._id === userInfo.user._id &&
-          <ShortlistModal
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-            onSubmit={shortlistApplication}
-          />
-          }
-
-    </div>
-  </div>
-
+          )}
+        </div>
+      </div>
     </div>
   );
 };

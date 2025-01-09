@@ -7,49 +7,34 @@ import FreeSolo from '../shared/components/FreeSolo';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import IconButton from '@mui/material/IconButton';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-
-const skillsList = [
-  "Reactjs", "Nodejs", "JavaScript", "HTML", "CSS", "Python", "Java", "C++",
-  "C#", "Ruby", "PHP", "Swift", "Kotlin", "TypeScript", "SQL", "NoSQL",
-  "MongoDB", "PostgreSQL", "MySQL", "SQLite", "Django", "Flask", "Spring",
-  "Express.js", "Laravel", "Angular", "Vue.js", "Svelte", "Gatsby", "Next.js",
-  "Nuxt.js", "GraphQL", "RESTful APIs", "AWS", "Azure", "Google Cloud",
-  "Docker", "Kubernetes", "Terraform", "Ansible", "Git", "GitHub", "GitLab",
-  "Bitbucket", "Jenkins", "CI/CD", "Webpack", "Babel", "Sass", "Less",
-  "Bootstrap", "Tailwind CSS", "Material-UI", "Ant Design", "Chakra UI",
-  "Redux", "MobX", "Recoil", "RxJS", "Jest", "Mocha", "Chai", "Enzyme",
-  "Cypress", "Puppeteer", "Playwright", "Selenium", "Photoshop", "Illustrator",
-  "Figma", "Sketch", "InDesign", "XD", "Blender", "Unity", "Unreal Engine",
-  "MATLAB", "AutoCAD", "SolidWorks", "Excel", "Word", "PowerPoint", "Outlook",
-  "Slack", "Trello", "JIRA", "Asana", "Notion", "Confluence", "Salesforce",
-  "SAP", "Tableau", "Power BI", "QlikView", "R", "SPSS", "Stata", "Hadoop",
-  "Spark", "Kafka", "Elasticsearch", "Logstash", "Kibana", "TensorFlow",
-  "Keras", "PyTorch", "Scikit-learn", "Pandas", "NumPy", "SciPy"
-];
+import { fetchAllSkills } from '../store/slices/skillSlices';
 
 const SkillForm = () => {
+  const [active, setActive] = useState(false);
+  const [skillInfo, setSkillInfo] = useState({ skill: '', level: 1, skillId: '' });
+
   const dispatch = useDispatch();
   const skills = useSelector((state) => state.profile.skills);
+  const skillsList = useSelector((state) => state.skills.skillsList ?? []);
 
   useEffect(() => {
-
+    dispatch(fetchAllSkills());
     dispatch(fetchSkills());
   }, [dispatch]);
 
-  const initialSkill = {
-    skill_name: '',
-    level: 1,
-  };
-
-  const [skillInfo, setSkillInfo] = useState({ ...initialSkill });
-  const [active, setActive] = useState(false);
-
-  const handleChange = ({ name, value, checked }) => {
-    console.log(`handleChange called with name: ${name}, value: ${value}`);
+  const handleChange = ({ name, value }) => {
     setSkillInfo((prevInfo) => ({
       ...prevInfo,
       [name]: value,
     }));
+
+    if (name === 'skill') {
+      const selectedSkill = skillsList.find((skill) => skill.name === value);
+      setSkillInfo((prevInfo) => ({
+        ...prevInfo,
+        skillId: selectedSkill ? selectedSkill._id : '',
+      }));
+    }
   };
 
   const handleSliderChange = (event, newValue) => {
@@ -59,13 +44,27 @@ const SkillForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Submitting skillInfo:', skillInfo);
-    dispatch(addSkill(skillInfo));
-    setSkillInfo({ ...initialSkill });
+
+    const skillData = { skillId: skillInfo.skillId, level: skillInfo.level };
+
+    // Dispatch addSkill and fetchSkills after it's added
+    dispatch(addSkill(skillData));
+    dispatch(fetchSkills());
+
+    setSkillInfo({ skill: '', level: 1, skillId: '' });
     setActive(false);
   };
+
+  const handleCancel = () => {
+    setActive(false);
+    setSkillInfo({ skill: '', level: 1, skillId: '' });
+  };
+
+  if (!skillsList || skillsList.length === 0) {
+    return <div>Loading skills...</div>;
+  }
 
   return (
     <div className={styles.container}>
@@ -75,10 +74,10 @@ const SkillForm = () => {
           <div className={styles.formControl}>
             <div className={styles.formFlex}>
               <FreeSolo
-                options={skillsList}
+                options={skillsList.map((skill) => skill.name)}
                 label={'Skill'}
-                value={skillInfo.skill_name}
-                name="skill_name"
+                value={skillInfo.skill}
+                name="skill"
                 handleChange={handleChange}
               />
             </div>
@@ -97,10 +96,10 @@ const SkillForm = () => {
             />
           </div>
           <div className={styles.flexContainer}>
-            <button type="button" className={styles.button} onClick={() => setActive(!active)}>
+            <button type="button" className={styles.button} onClick={handleCancel}>
               Cancel
             </button>
-            <button type="submit" className={styles.button} onClick={handleSubmit}>
+            <button type="submit" className={styles.button}>
               Apply Changes
             </button>
           </div>
@@ -109,34 +108,34 @@ const SkillForm = () => {
         <div className={styles.addSkill}>
           <div className={styles.addSkillButton}>
             <AddCircleOutlineIcon className={styles.addCircleOutlineIcon} onClick={() => setActive(true)} />
-
             <span className={styles.addSkillText}>Add new Skill</span>
           </div>
           <div className={styles.skillList}>
-            {skills.length > 0 && skills.map((skill) => (
-              <div key={skill._id} className={styles.skillItem}>
-                <div className={styles.skillName}>{skill.skill_name}</div>
-                <div className={styles.space}></div>
-                <Slider
-                  className={styles.skillLevelSlider}
-                  value={skill.level}
-                  aria-labelledby="skill-level-slider"
-                  step={1}
-                  marks
-                  min={0}
-                  max={5}
-                  valueLabelDisplay="auto"
-                  disabled
-                />
-                <IconButton aria-label="Example" className={styles.iconButton}>
-                  <MoreHorizIcon className={styles.morevert} />
-                </IconButton>
-              </div>
-            ))}
+            {skills.length > 0 &&
+              skills.map((skill,index) => (
+                <div key={index} className={styles.skillItem}>
+                  <div className={styles.skillName}>
+                    {skill.skillId.name || 'Unknown Skill'}
+                  </div>
+                  <div className={styles.space}></div>
+                  <Slider
+                    className={styles.skillLevelSlider}
+                    value={skill.level}
+                    aria-labelledby="skill-level-slider"
+                    step={1}
+                    marks
+                    min={0}
+                    max={5}
+                    valueLabelDisplay="auto"
+                    disabled
+                  />
+                  <IconButton aria-label="Example" className={styles.iconButton}>
+                    <MoreHorizIcon className={styles.morevert} />
+                  </IconButton>
+                </div>
+              ))}
           </div>
-
         </div>
-
       )}
     </div>
   );

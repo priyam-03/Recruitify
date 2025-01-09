@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const User = require("../models/userModel");
 const { uploadToS3, getFile, deleteFile } = require("../utils/fileupload");
+const createUserSkillRelation = require("../graph_database/create_user_skill.js");
 exports.addEducation = async (req, res) => {
   try {
     const userId = req.user._id;
@@ -115,29 +116,36 @@ exports.addSkill = async (req, res) => {
   try {
     const userId = req.user._id;
     const content = req.body;
-    const { skill_name, level } = content;
+    const { skillId, level } = content;
 
-    if (!skill_name || !level) {
+    if (!skillId || !level) {
       return res
         .status(400)
-        .json({ error: "either the name or, the level is empty" });
+        .json({ error: "either the skill id or, the level is empty" });
     }
 
-    const user = await User.findById(userId);
+    let user = await User.findById(userId).populate({
+      path: "skills.skillId",
+      model: "Skill",
+    });
 
     if (!user) {
       return res.status(400).json({ error: "User not found" });
     }
 
     const skillInfo = {
-      skill_name: skill_name,
+      skillId: skillId,
       level: level,
     };
 
     user.skills.push(skillInfo);
 
     await user.save();
-
+    user = await User.findById(userId).populate({
+      path: "skills.skillId",
+      model: "Skill",
+    });
+    createUserSkillRelation(userId, skillId, level);
     res.status(200).json(user.skills);
   } catch (error) {
     console.error(error);
@@ -148,7 +156,10 @@ exports.addSkill = async (req, res) => {
 exports.fetchSkills = async (req, res) => {
   try {
     const userId = req.user._id;
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).populate({
+      path: "skills.skillId",
+      // model: "Skill"
+    });
 
     if (!user) {
       return res.status(400).json({ error: "User not found" });

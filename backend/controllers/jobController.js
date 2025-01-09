@@ -3,11 +3,14 @@ const JobApplicationForm = require("../models/jobForms");
 const Userauth = require("../models/userModel.js");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors.js");
 const { compare } = require("bcryptjs");
-
+const fetchJobsBySkills = require("../graph_database/fetch_jobs.js");
+const createJobSkillRelation = require("../graph_database/create_job_skill.js");
+const addJobDataToVDB = require("../vector_database/addJobData.js");
+const { index } = require("../vector_database/connectVectorDB.js");
 exports.createJobForms = catchAsyncErrors(async (req, res) => {
   try {
     const userId = req.user._id;
-    const { content } = req.body;
+    const content = req.body.content || {};
 
     const formDetails = {
       ownerProfile: userId,
@@ -67,6 +70,10 @@ exports.createJobForms = catchAsyncErrors(async (req, res) => {
 
     const newJobForm = new JobApplicationForm(formDetails);
     const jobForm = await newJobForm.save();
+    await createJobSkillRelation(jobForm);
+    const similarJobids = await addJobDataToVDB(jobForm._id);
+    jobForm.similarJobs = similarJobids;
+    await jobForm.save();
     res.status(200).json(jobForm);
   } catch (error) {
     console.error(error);
@@ -90,6 +97,10 @@ exports.fetchMyJobForms = catchAsyncErrors(async (req, res) => {
         path: "applicantProfiles.userId",
         select: "_id name avatar.filePath",
       })
+      .populate({
+        path: "requiredSkills",
+        // select: "_id skill",
+      })
       .sort({ timestamp: -1 });
 
     if (!jobForms || jobForms.length === 0) {
@@ -105,11 +116,64 @@ exports.fetchMyJobForms = catchAsyncErrors(async (req, res) => {
       .json({ error: "Internal server error", message: error.message });
   }
 });
-
 exports.fetchAllJobForms = catchAsyncErrors(async (req, res) => {
   try {
+    const userId = req.user._id;
+
+    const userAuth = await Userauth.findById(userId);
+
+    let allJobIdsSet = new Set();
+
+    if (userAuth.jobBySkills.length + userAuth.jobRecommendations.length < 5) {
+      const fetchRandomJobs = await JobApplicationForm.find();
+      if (!fetchRandomJobs || fetchRandomJobs.length === 0) {
+        return res.status(404).json({ error: "No jobs found" });
+      }
+      const randomJobs = fetchRandomJobs.sort(() => 0.5 - Math.random()).slice(0, 5);
+      randomJobs.forEach(job => allJobIdsSet.add(job._id));
+    }
+
+    let recommendationStale = true;
+    if (userAuth.recommendationBySkillFetchedAt) {
+      recommendationStale =
+        new Date() - userAuth.recommendationBySkillFetchedAt > 24 * 3600 * 1000;
+    }
+
+    if (recommendationStale) {
+      try {
+        const matchedJobIds = await fetchJobsBySkills(userId);
+        userAuth.jobBySkills = matchedJobIds;
+        userAuth.recommendationBySkillFetchedAt = new Date();
+        await userAuth.save();
+        console.log("Fetched jobs from Neo4j");
+      } catch (error) {
+        console.error("Error fetching jobs:", error);
+      }
+    } else {
+      console.log("Recommendation is still fresh, no need to fetch jobs.");
+    }
+
+    for (const jobId of userAuth.jobBySkills) {
+      allJobIdsSet.add(jobId);
+    }
+    for (const rec of userAuth.jobRecommendations) {
+      allJobIdsSet.add(rec.id);
+    }
+
+    const allJobIds = Array.from(allJobIdsSet);
+
+    if (!allJobIds || allJobIds.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No jobs found for the user's skills" });
+    }
+
     const jobForms = await JobApplicationForm.find()
+      .where('_id').in(allJobIds)
       .select("_id jobRole jobLocation company requiredSkills")
+      .populate({
+        path: "requiredSkills",
+      })
       .populate({
         path: "ownerProfile",
         select: "_id name avatar.filePath",
@@ -118,11 +182,12 @@ exports.fetchAllJobForms = catchAsyncErrors(async (req, res) => {
         path: "applicantProfiles.userId",
         select: "_id name avatar.filePath",
       })
-      .sort({ timestamp: -1 });
+      .sort({ timestamp: 1 });
 
     if (!jobForms || jobForms.length === 0) {
       return res.status(404).json({ error: "Jobs not found" });
     }
+
     res.status(200).json(jobForms);
   } catch (error) {
     console.error(error);
@@ -138,9 +203,88 @@ exports.fetchJobById = catchAsyncErrors(async (req, res) => {
       .populate({
         path: "applicantProfiles.userId",
         select: "_id name avatar",
-      });
+      })
+      .populate({
+        path: "requiredSkills",
+        // select: "_id skill",
+      })
+      .populate({
+        path: "similarJobs",
+        select: "_id jobRole company",
+        model: "JobApplicationForm"
+      })
     res.status(200).json(formData);
   } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+exports.viewSimilarJobs = catchAsyncErrors(async (req, res) => {
+  const makeLower = (text) => {
+    if (!text) return "";
+    return text
+      .split(" ")
+      .map((word) => word.toLowerCase())
+      .join(" ");
+  };
+  try {
+    const userId = req.user._id;
+    const { formId } = req.body;
+    if (!formId) {
+      return res.status(400).json({ error: "formId is required" });
+    }
+    const userAuth = await Userauth.findById(userId);
+    if (!userAuth) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    const jobFrom = await JobApplicationForm.findById(formId).select(
+      "_id jobRole jobDescription"
+    );
+    if (!jobFrom) {
+      return res.status(404).json({ error: "Job application not found" });
+    }
+    const queryText =
+      makeLower(jobFrom.jobRole) + " " + makeLower(jobFrom.jobDescription);
+    const fetchedJobIds = await index.query({
+      data: queryText,
+      topK: 2,
+      includeVectors: false,
+      includeMetadata: false,
+    });
+    if (!fetchedJobIds || !Array.isArray(fetchedJobIds)) {
+      console.log(fetchedJobIds);
+      throw new Error(
+        "Invalid response format: 'result' is undefined or not an array"
+      );
+    }
+
+    const jobIds = fetchedJobIds.map((job) => {
+      if (!job.id) throw new Error("Missing 'id' field in one of the results");
+      return mongoose.Types.ObjectId(job.id);
+    });
+    for (const jobId of jobIds) {
+      if (jobId.toString() === formId.toString()) continue;
+      console.log(`Fetched recommended jobId: ${jobId}`);
+      if (!Array.isArray(userAuth.jobRecommendations)) {
+        userAuth.jobRecommendations = [];
+      }
+
+      const existingIndex = userAuth.jobRecommendations.findIndex(
+        (job) => job.id.toString() === jobId.toString()
+      );
+
+      if (existingIndex !== -1) {
+        userAuth.jobRecommendations[existingIndex].timestamp = new Date();
+      } else {
+        userAuth.jobRecommendations.push({ id: jobId, timestamp: new Date() });
+      }
+    }
+    await userAuth.save();
+
+    console.log("successfully fetched recomended jobs");
+    return res.status(201).json({ message: "Successful.." });
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
@@ -200,6 +344,7 @@ exports.jobAppliedByMe = catchAsyncErrors(async (req, res) => {
 });
 
 const axios = require("axios");
+const path = require("path");
 
 exports.shortlist = catchAsyncErrors(async (req, res) => {
   try {

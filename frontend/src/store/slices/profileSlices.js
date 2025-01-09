@@ -85,6 +85,7 @@ export const addSkill = createAsyncThunk(
   }
 );
 
+
 export const fetchSkills = createAsyncThunk(
   "profile/fetchSkills",
   async (_, { rejectWithValue }) => {
@@ -209,7 +210,7 @@ const JobSlice = createSlice({
       })
       .addCase(addSkill.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.skills = action.payload;
+        state.skills=action.payload;
       })
       .addCase(addSkill.rejected, (state, action) => {
         state.isLoading = false;

@@ -13,7 +13,8 @@ const dotenv = require("dotenv");
 require("dotenv").config({ path: "./secret.env" });
 const connectDatabase = require("./database/database");
 const { redisConnection } = require("./socketHandlers/pubSub");
-
+const User = require("./models/userModel");
+const Skill = require("./models/skillModel");
 // GraphQL imports
 const typeDefs = require("./graphql/typeDefs");
 const resolvers = require("./graphql/resolvers");
@@ -44,6 +45,7 @@ const friendInvitationRoutes = require("./routes/friendInvitationRoutes");
 const posts = require("./routes/postRouter");
 const jobs = require("./routes/jobsRouter");
 const profile = require("./routes/profileRouter");
+const skills = require("./routes/skillsRouter");
 
 app.use("/api/v1", user);
 app.use("/api/v1", group);
@@ -51,6 +53,7 @@ app.use("/api/friend-invitation", friendInvitationRoutes);
 app.use("/api/posts", posts);
 app.use("/api/jobs", jobs);
 app.use("/api/profile", profile);
+app.use("/api/skills", skills);
 
 // Static files (optional)
 // app.use(express.static(path.join(__dirname, "./frontend/build")));

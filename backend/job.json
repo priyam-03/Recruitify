@@ -1,0 +1,182 @@
+[
+  {
+    "jobRole": "Full Stack Developer",
+    "jobLocation": "New York",
+    "jobLocationType": "on-site",
+    "company": "Tech Innovators Inc.",
+    "requiredSkills": [
+      "67432553013b4c68b78163cb",
+      "67432553013b4c68b78163d7",
+      "67432553013b4c68b78163db",
+      "67432553013b4c68b78163dc"
+    ],
+    "totalDuration": {
+      "value": 12,
+      "mode": "month"
+    },
+    "workingHours": {
+      "value": 40,
+      "mode": "hour"
+    },
+    "salary": {
+      "value": 85000,
+      "currency": "dollar",
+      "mode": "per-annum"
+    },
+    "jobDescription": "Join our fast-paced team as a Full Stack Developer to design, develop, and deploy scalable web applications. You will work closely with front-end developers and back-end engineers to deliver robust solutions. Responsibilities include creating interactive user interfaces using Vue.js, managing databases with SQL, and building APIs with Node.js. The ideal candidate should have strong problem-solving skills, a solid understanding of web technologies, and the ability to work collaboratively. Familiarity with modern DevOps tools and agile methodologies is a plus.",
+    "ownerProfile": "666be15738ae801a8756bd41",
+    "applicantProfiles": [],
+    "timestamp": "2024-11-24T12:00:00Z",
+    "updated": "2024-11-24T12:00:00Z"
+  },
+  {
+    "jobRole": "Data Scientist",
+    "jobLocation": "San Francisco",
+    "jobLocationType": "remote",
+    "company": "AI Futures LLC",
+    "requiredSkills": [
+      "67432553013b4c68b78163f7",
+      "67432553013b4c68b78163f9",
+      "67432553013b4c68b7816400",
+      "67432553013b4c68b78163ff"
+    ],
+    "totalDuration": {
+      "value": 2,
+      "mode": "year"
+    },
+    "workingHours": {
+      "value": 35,
+      "mode": "hour"
+    },
+    "salary": {
+      "value": 120000,
+      "currency": "dollar",
+      "mode": "per-annum"
+    },
+    "jobDescription": "We are looking for a skilled Data Scientist to analyze large datasets and extract meaningful insights to drive business decisions. Your responsibilities will include developing predictive models, building machine learning algorithms, and collaborating with cross-functional teams to implement data-driven solutions. Expertise in Python, Pandas, and Scikit-learn is required. Familiarity with big data tools like Hadoop or Spark is a bonus. The role demands a high level of analytical thinking, attention to detail, and excellent communication skills. Join us to shape the future of AI-driven technologies.",
+    "ownerProfile": "666be15738ae801a8756bd41",
+    "applicantProfiles": [],
+    "timestamp": "2024-11-24T12:00:00Z",
+    "updated": "2024-11-24T12:00:00Z"
+  },
+  {
+    "jobRole": "Cybersecurity Specialist",
+    "jobLocation": "Austin, Texas",
+    "jobLocationType": "on-site",
+    "company": "SecureTech Solutions",
+    "requiredSkills": [
+      "67432553013b4c68b7816407",
+      "67432553013b4c68b7816408",
+      "67432553013b4c68b781640a",
+      "67432553013b4c68b78163e3"
+    ],
+    "totalDuration": {
+      "value": 6,
+      "mode": "month"
+    },
+    "workingHours": {
+      "value": 45,
+      "mode": "hour"
+    },
+    "salary": {
+      "value": 7000,
+      "currency": "dollar",
+      "mode": "per-month"
+    },
+    "jobDescription": "As a Cybersecurity Specialist, you will play a key role in safeguarding our systems and data. Your tasks will involve conducting vulnerability assessments, performing penetration testing, and implementing robust security protocols. Hands-on experience with penetration testing tools and systems design is essential. Knowledge of Express.js and web application security is preferred. The candidate should possess excellent problem-solving abilities and stay up-to-date with the latest cybersecurity trends and threats. Be part of a team that ensures the safety and resilience of our digital infrastructure.",
+    "ownerProfile": "666be15738ae801a8756bd41",
+    "applicantProfiles": [],
+    "timestamp": "2024-11-24T12:00:00Z",
+    "updated": "2024-11-24T12:00:00Z"
+  },
+  {
+    "jobRole": "Frontend Engineer",
+    "jobLocation": "Los Angeles",
+    "jobLocationType": "remote",
+    "company": "PixelPerfect Solutions",
+    "requiredSkills": [
+      "67432553013b4c68b78163d9",
+      "67432553013b4c68b78163d6",
+      "67432553013b4c68b78163d5",
+      "67432553013b4c68b78163d4"
+    ],
+    "totalDuration": {
+      "value": 18,
+      "mode": "month"
+    },
+    "workingHours": {
+      "value": 40,
+      "mode": "hour"
+    },
+    "salary": {
+      "value": 75000,
+      "currency": "dollar",
+      "mode": "per-annum"
+    },
+    "jobDescription": "We are seeking a talented Frontend Engineer to join our team and deliver pixel-perfect web interfaces. You will be responsible for translating UI/UX designs into fully functional web components using React.js, CSS, and TypeScript. Collaboration with backend developers and designers is essential to ensure seamless integration. The ideal candidate should have an eye for detail, experience with responsive design, and proficiency in modern frontend tools and frameworks. Familiarity with REST APIs and Git is a plus. Join us to create engaging and user-friendly web experiences.",
+    "ownerProfile": "666be15738ae801a8756bd41",
+    "applicantProfiles": [],
+    "timestamp": "2024-11-24T12:00:00Z",
+    "updated": "2024-11-24T12:00:00Z"
+  },
+  {
+    "jobRole": "Backend Developer",
+    "jobLocation": "Seattle",
+    "jobLocationType": "on-site",
+    "company": "Cloud Nexus",
+    "requiredSkills": [
+      "67432553013b4c68b78163e3",
+      "67432553013b4c68b78163e7",
+      "67432553013b4c68b78163cb",
+      "67432553013b4c68b78163f3"
+    ],
+    "totalDuration": {
+      "value": 1,
+      "mode": "year"
+    },
+    "workingHours": {
+      "value": 45,
+      "mode": "hour"
+    },
+    "salary": {
+      "value": 90000,
+      "currency": "dollar",
+      "mode": "per-annum"
+    },
+    "jobDescription": "As a Backend Developer at Cloud Nexus, you will design and implement scalable server-side applications using Express.js and REST APIs. Your role will involve creating and maintaining microservices, ensuring high performance and security. The ideal candidate should have hands-on experience with database integration, understanding of cloud computing, and the ability to work in agile environments. Proficiency in JavaScript and familiarity with containerization tools like Docker is preferred. Be a part of our innovative team and contribute to building world-class backend systems.",
+    "ownerProfile": "666be15738ae801a8756bd41",
+    "applicantProfiles": [],
+    "timestamp": "2024-11-24T12:00:00Z",
+    "updated": "2024-11-24T12:00:00Z"
+  },
+  {
+    "jobRole": "DevOps Engineer",
+    "jobLocation": "Chicago",
+    "jobLocationType": "on-site",
+    "company": "ScaleOps",
+    "requiredSkills": [
+      "67432553013b4c68b78163e9",
+      "67432553013b4c68b78163ea",
+      "67432553013b4c68b78163eb",
+      "67432553013b4c68b78163ee"
+    ],
+    "totalDuration": {
+      "value": 6,
+      "mode": "month"
+    },
+    "workingHours": {
+      "value": 40,
+      "mode": "hour"
+    },
+    "salary": {
+      "value": 10000,
+      "currency": "dollar",
+      "mode": "per-month"
+    },
+    "jobDescription": "ScaleOps is hiring a DevOps Engineer to streamline and optimize our development workflows and deployment pipelines. You will manage CI/CD pipelines, configure infrastructure using Docker and Kubernetes, and maintain cloud services on AWS. The role requires experience in automating system operations, monitoring performance, and ensuring system reliability. Proficiency in scripting and familiarity with Jenkins is essential. If you are passionate about improving deployment efficiency and scalability, join our team to contribute to robust and cutting-edge operations.",
+    "ownerProfile": "666be15738ae801a8756bd41",
+    "applicantProfiles": [],
+    "timestamp": "2024-11-24T12:00:00Z",
+    "updated": "2024-11-24T12:00:00Z"
+  }
+]
