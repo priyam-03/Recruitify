@@ -145,7 +145,7 @@ exports.addSkill = async (req, res) => {
       path: "skills.skillId",
       model: "Skill",
     });
-    createUserSkillRelation(userId, skillId, level);
+    await createUserSkillRelation(userId, skillId, level);
     res.status(200).json(user.skills);
   } catch (error) {
     console.error(error);

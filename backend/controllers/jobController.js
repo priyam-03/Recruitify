@@ -124,13 +124,14 @@ exports.fetchAllJobForms = catchAsyncErrors(async (req, res) => {
 
     let allJobIdsSet = new Set();
 
+    let randomJobs = [];
     if (userAuth.jobBySkills.length + userAuth.jobRecommendations.length < 5) {
       const fetchRandomJobs = await JobApplicationForm.find();
       if (!fetchRandomJobs || fetchRandomJobs.length === 0) {
         return res.status(404).json({ error: "No jobs found" });
       }
-      const randomJobs = fetchRandomJobs.sort(() => 0.5 - Math.random()).slice(0, 5);
-      randomJobs.forEach(job => allJobIdsSet.add(job._id));
+      randomJobs = fetchRandomJobs.sort(() => 0.5 - Math.random()).slice(0, 5);
+      randomJobs.forEach((job) => allJobIdsSet.add(job._id));
     }
 
     let recommendationStale = true;
@@ -153,12 +154,8 @@ exports.fetchAllJobForms = catchAsyncErrors(async (req, res) => {
       console.log("Recommendation is still fresh, no need to fetch jobs.");
     }
 
-    for (const jobId of userAuth.jobBySkills) {
-      allJobIdsSet.add(jobId);
-    }
-    for (const rec of userAuth.jobRecommendations) {
-      allJobIdsSet.add(rec.id);
-    }
+    userAuth.jobBySkills.map((jobId) => allJobIdsSet.add(jobId));
+    userAuth.jobRecommendations.map((rec) => allJobIdsSet.add(rec.id));
 
     const allJobIds = Array.from(allJobIdsSet);
 
@@ -168,8 +165,9 @@ exports.fetchAllJobForms = catchAsyncErrors(async (req, res) => {
         .json({ error: "No jobs found for the user's skills" });
     }
 
-    const jobForms = await JobApplicationForm.find()
-      .where('_id').in(allJobIds)
+    let jobForms = await JobApplicationForm.find()
+      .where("_id")
+      .in(allJobIds)
       .select("_id jobRole jobLocation company requiredSkills")
       .populate({
         path: "requiredSkills",
@@ -188,7 +186,20 @@ exports.fetchAllJobForms = catchAsyncErrors(async (req, res) => {
       return res.status(404).json({ error: "Jobs not found" });
     }
 
-    res.status(200).json(jobForms);
+    //filter random jobs from job forms
+    const nonRandomJobForms = jobForms.filter((job) => {
+      return randomJobs.some((randomJob) => !randomJob._id.equals(job._id));
+    });
+    // now take all jobs those are not in nonRandomJobForms
+    const RandomJobForms = jobForms.filter((job) => {
+      return !nonRandomJobForms.some(
+        (nonRandomJob) => !nonRandomJob._id.equals(job._id)
+      );
+    });
+
+    const finalJobForms = [...nonRandomJobForms, ...RandomJobForms];
+
+    res.status(200).json(finalJobForms);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
@@ -211,8 +222,8 @@ exports.fetchJobById = catchAsyncErrors(async (req, res) => {
       .populate({
         path: "similarJobs",
         select: "_id jobRole company",
-        model: "JobApplicationForm"
-      })
+        model: "JobApplicationForm",
+      });
     res.status(200).json(formData);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
