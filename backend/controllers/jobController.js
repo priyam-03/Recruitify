@@ -431,3 +431,35 @@ exports.shortlist = catchAsyncErrors(async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+exports.handlePdfUpload = (req, res) => {
+  if (!req.files || req.files.length === 0) {
+    return res.status(400).json({ message: "No PDF files uploaded." });
+  }
+
+  const uploadedFileNames = req.files.map((file) => file.filename);
+  // You can add further processing here (e.g. parsing PDFs)
+
+  return res.status(200).json({
+    message: `Uploaded ${uploadedFileNames.length} PDF file(s) successfully.`,
+    files: uploadedFileNames,
+  });
+};
+
+exports.chatWithAi = catchAsyncErrors(async (req, res) => {
+  const question = req.body.query;
+
+  if (!question) {
+    return res.status(400).json({ error: "Query is required" });
+  }
+
+  // Dummy response for now
+  const response = {
+    text: "This is a dummy response",
+  };
+
+  res.status(200).json({
+    question,
+    response,
+  });
+});

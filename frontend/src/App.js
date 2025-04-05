@@ -26,6 +26,7 @@ import Logo from "./shared/components/logo";
 import JobsAppliedByMe from "./screens/JobsAppliedByMe";
 import ShortlistedApplicants from "./Jobs/ShortlistedApplicants";
 import Interview from "./Interview/Interview";
+import CreateJobAi from "./Jobs/CreateJobsAi";
 function App() {
   const [showLogo, setShowLogo] = useState(false);
   useEffect(() => {
@@ -78,6 +79,7 @@ function App() {
                   element={<ResetPassword />}
                 />
                 <Route element={<ProtectedRoute />}>
+                  <Route path="/create-job-ai" element={<CreateJobAi />} />
                   <Route path="/user-profile" element={<ProfileScreen />} />
                   <Route
                     path="/updatePassword"
@@ -88,11 +90,12 @@ function App() {
                     element={<UpdateProfileScreen />}
                   />
                   <Route path="/Jobs" element={<JobApplicationPage />} />
+
                   <Route path="/chat" element={<Dashboard />} />
                   <Route path="/cluster" element={<Cluster />} />
                   <Route path="/group" element={<Group />} />
                   <Route path="/Jobs/:formId" element={<FormById />} />
-                  <Route path="/user-profile" element={<ProfileScreen/>}/>
+                  <Route path="/user-profile" element={<ProfileScreen />} />
                   <Route
                     path="/jobs-applied-by-me"
                     element={<JobsAppliedByMe />}

@@ -17,7 +17,6 @@ const HomePage = () => {
       iconUrl:
         "https://pluspng.com/img-png/nodejs-png-nodejs-icon-png-50-px-1600.png",
     },
-
     {
       name: "Express",
       iconUrl:
@@ -29,7 +28,6 @@ const HomePage = () => {
         "https://images.crunchbase.com/image/upload/c_lpad,f_auto,q_auto:eco,dpr_1/erkxwhl1gd48xfhe2yld",
     },
     { name: "Material UI", iconUrl: "https://mui.com/static/logo.png" },
-
     {
       name: "Python",
       iconUrl: "https://openastronomy.org/pyastro/images/pyastro_logo.svg",
@@ -39,7 +37,6 @@ const HomePage = () => {
       iconUrl:
         "https://static.javatpoint.com/tutorial/flask/images/flask-tutorial.png",
     },
-
     { name: "Vercel", iconUrl: "https://egw2023.eurac.edu/favicon.ico" },
     {
       name: "Redis",
@@ -55,6 +52,30 @@ const HomePage = () => {
       name: "Docker",
       iconUrl:
         "https://cdn.icon-icons.com/icons2/2699/PNG/512/docker_tile_logo_icon_168248.png",
+    },
+    {
+      name: "WebSocket",
+      iconUrl:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/WebSocket-logo.svg/1200px-WebSocket-logo.svg.png",
+    },
+    {
+      name: "WebRTC",
+      iconUrl:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/WebRTC.png/1200px-WebRTC.png",
+    },
+    {
+      name: "GraphQL",
+      iconUrl:
+        "https://upload.wikimedia.org/wikipedia/commons/1/17/GraphQL_Logo.svg",
+    },
+    {
+      name: "Graph Database",
+      iconUrl:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Neo4j-logo.png/1200px-Neo4j-logo.png",
+    },
+    {
+      name: "Vector Database",
+      iconUrl: "https://vector-database.io/static/media/logo.6c8b8e2e.svg",
     },
   ];
 

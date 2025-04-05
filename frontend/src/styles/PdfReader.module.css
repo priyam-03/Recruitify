@@ -1,0 +1,122 @@
+/* Styles for the PDF reader component */
+.layout {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: #333; /* Dark background */
+    border-radius: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+  }
+  
+  .custumFileInput {
+    display: inline-block;
+    padding: 10px 16px;
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid #fff; /* White border to match global style */
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .custumFileInput:hover {
+    background-color: #fff; /* White background on hover */
+    color: #333; /* Dark text on hover */
+  }
+  
+  .layout2 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0 15px;
+    flex: 1;
+  }
+  
+  .pdf {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 12px;
+    border-radius: 6px;
+    margin: 5px 0;
+    max-width: 250px;
+  }
+  
+  .pdf h3 {
+    font-size: 14px;
+    margin: 0;
+    font-weight: 500;
+    color: #fff; /* White text */
+  }
+  
+  .pdf a img {
+    width: 16px;
+    height: 16px;
+    margin-left: 10px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    filter: invert(1); /* Invert colors for light icons on dark background */
+  }
+  
+  .pdf a img:hover {
+    opacity: 1;
+  }
+  
+  .uploadedPDF {
+    background-color: #444; /* Dark background for uploaded PDFs */
+    border: 1px solid #555;
+  }
+  
+  .submittedPDF {
+    background-color: #28a745; /* Green background for submitted PDFs */
+    border: 1px solid #1e7e34;
+  }
+  
+  .submit {
+    padding: 10px 20px;
+    background-color: transparent;
+    color: #555; /* Darker text for disabled state */
+    border: 2px solid #555; /* Darker border for disabled state */
+    border-radius: 6px;
+    cursor: not-allowed;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .submit.active {
+    background-color: transparent;
+    border: 2px solid #28a745; /* Green border for active state */
+    color: #28a745; /* Green text for active state */
+    cursor: pointer;
+  }
+  
+  .submit.active:hover {
+    background-color: #28a745; /* Green background on hover */
+    color: #fff; /* White text on hover */
+  }
+  
+  @media (max-width: 768px) {
+    .layout {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .layout2 {
+      margin: 10px 0;
+      width: 100%;
+    }
+    
+    .pdf {
+      width: 100%;
+      max-width: 100%;
+    }
+    
+    .submit {
+      width: 100%;
+      margin-top: 10px;
+    }
+  }
