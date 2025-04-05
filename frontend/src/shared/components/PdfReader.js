@@ -46,6 +46,7 @@ function PdfReader({ pdfprocessed }) {
         pdfprocessed(data.message);
         setIsReadyToSubmit(false);
         setSubmittedFiles([...selectedFile]);
+        setSelectedFile([]); // Clear the selected files after upload
       })
       .catch((error) => console.log("Error in file uploading: ", error));
   };
